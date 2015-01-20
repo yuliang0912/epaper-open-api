@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CiWong.OpenAPI.Core", "CiWong.OpenAPI.Core\CiWong.OpenAPI.Core.csproj", "{9222BF76-85E3-4FF7-BA97-DDCFD1A10A1F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CiWong.OpenAPI", "CiWong.OpenAPI", "{3AD6C3B3-37E8-4309-BCFC-609A7DCA145E}"
