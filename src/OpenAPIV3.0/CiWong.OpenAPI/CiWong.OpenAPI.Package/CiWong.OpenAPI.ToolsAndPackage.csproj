@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\ToolsController.cs" />
-    <Compile Include="PackageAreaRegistration.cs" />
+    <Compile Include="ToolsAndPackageAreaRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
