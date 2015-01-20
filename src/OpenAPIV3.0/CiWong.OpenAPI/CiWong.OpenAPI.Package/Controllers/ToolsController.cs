@@ -19,25 +19,25 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
         /// <param name="versionId">资源版本ID(此处传父资源parentVersionId),必选</param>
 	    /// <returns></returns>
 	    [HttpGet]
-        public object followread_word_details(long versionId)
+        public void followread_word_details(long versionId)
 	    {
 	        var moduleId = new Guid("a7527f97-14e6-44ef-bf73-3039033f128e");
 	        var words = ResourceServices.Instance.GetByVersionIds(moduleId, new[] {versionId});
-
-            //return new
-            //{
-            //    wId,
-            //    words,
-            //    wordFile,
-            //    wordType,
-            //    words,
-            //    symbol,
-            //    syllable,
-            //    pretations,
-            //    sentences,
-            //    sentFile,
-            //    wordPic
-            //};
+	        return ;
+	        //return new
+	        //{
+	        //    wId,
+	        //    words,
+	        //    wordFile,
+	        //    wordType,
+	        //    words,
+	        //    symbol,
+	        //    syllable,
+	        //    pretations,
+	        //    sentences,
+	        //    sentFile,
+	        //    wordPic
+	        //};
 
 	    }
 	}
