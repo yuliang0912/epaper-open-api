@@ -142,7 +142,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\ConnectionStrings.config" />
+    <Content Include="Config\ConnectionStrings.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\61.pubxml" />
