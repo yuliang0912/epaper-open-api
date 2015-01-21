@@ -37,7 +37,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
                         .OfType<long>();
 
                 var wordList= ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Word, wordVersionList.ToArray());
-                if (result.IsSucceed)
+                if (wordList.IsSucceed)
                 {
                     var words = wordList.Data.Where(t => t != null).OfType<WordContract>();
                     return words.Select(x => new
@@ -50,7 +50,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
                         syllable = x.Syllable,
                         pretations = x.Pretations,
                         sentences = x.Sentences,
-                        sentFile = x,
+                        sentFile = x.AudioUrl,
                         wordPic = x.PictureUrl
                     });
                 }
