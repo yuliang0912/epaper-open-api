@@ -6,24 +6,21 @@ using System.Web;
 using Newtonsoft.Json;
 using CiWong.OpenAPI.Core;
 using System.Web.Http;
+using System.Threading;
 
 namespace CiWong.OpenAPI.Web.Controllers
 {
+	[BasicAuthentication]
 	public class HomeController : ApiController
 	{
-		[HttpGet,BasicAuthentication]
+		[HttpGet]
 		public TestClass test1()
 		{
-			var a = 0;
-
-			var b = 10 / a;
-
 			string content = "{\"userId\":155014,\"classId\":\"456451816546546456\",\"regTime\":1256227200}";
 
 			var tt = JSONHelper.Decode<TestClass>(content);
 
-			//throw new testException("canshucuowu");
-
+			var tuser = Thread.CurrentPrincipal.Identity.Name;
 
 			var ss = new TestClass() { ClassId = 456451816546546456, UserId = 155014, RegTime = new DateTime(2009, 10, 23), Sex = sexEnum.b };
 
