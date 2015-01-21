@@ -73,7 +73,7 @@ namespace CiWong.OpenAPI.Core
 						}
 						else
 						{
-							result = new ApiResult<object>() { Data = value };
+							result = new ApiResult<object>() { Data = value, Message = "success" };
 						}
 						serializer.Serialize(jsonTextWriter, result);
 					}
