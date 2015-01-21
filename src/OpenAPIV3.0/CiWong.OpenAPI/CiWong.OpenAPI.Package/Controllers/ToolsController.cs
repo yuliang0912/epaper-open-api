@@ -71,7 +71,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
             var result = ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowRead, versionId);
             if (!result.IsSucceed)
             {
-                throw new ApiException(RetEum.ApplicationError, 2, "内部代码异常");
+                throw new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
             }
             var data = (SyncFollowReadContract)result.Data.FirstOrDefault();
             if (data == null)
@@ -84,21 +84,28 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
                     .Where(t => t != null)
                     .OfType<long>();
 
-            var phraseList = ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Phrase,
+            var textList = ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowReadText,
                 versionList.ToArray());
-
-            if (!phraseList.IsSucceed)
+            if (!textList.IsSucceed)
             {
-                throw new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
+                throw new ApiException(RetEum.ApplicationError, 2, "内部代码异常");
             }
-            var phrases = phraseList.Data.Where(t => t != null).OfType<PhraseContract>();
-            return phrases.Select(x => new
+
+            var texts = textList.Data.Where(t => t != null).OfType<SyncFollowReadTextContract>();
+            return texts.Select(x => new
             {
-                content = x.Content ?? "",
-                audioUrl = x.AudioUrl ?? "",
+                content = x.Sections.Any() && x.Sections.First().Sentences.Any()
+                    ? x.Sections.First().Sentences.First().Content
+                    : "",
+                audioUrl =
+                    x.Sections.Any() && x.Sections.First().Sentences.Any()
+                        ? x.Sections.First().Sentences.First().AudioUrl
+                        : "",
                 versionId = x.VersionId,
                 resourceModuleId = x.ModuleId,
-                name = x.Name ?? ""
+                name = x.Sections.Any() && x.Sections.First().Sentences.Any()
+                    ? x.Sections.First().Sentences.First().Content
+                    : ""
             });
         }
 	}
