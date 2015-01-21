@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CiWong.OpenAPI.Core", "CiWong.OpenAPI.Core\CiWong.OpenAPI.Core.csproj", "{9222BF76-85E3-4FF7-BA97-DDCFD1A10A1F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CiWong.OpenAPI", "CiWong.OpenAPI", "{3AD6C3B3-37E8-4309-BCFC-609A7DCA145E}"
@@ -18,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CiWong.OpenAPI.Web", "CiWong.OpenAPI.Web\CiWong.OpenAPI.Web.csproj", "{5FF50A44-3873-4B2D-AB5B-9E3A40019909}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CiWong.OpenAPI.ToolsAndPackage", "CiWong.OpenAPI\CiWong.OpenAPI.Package\CiWong.OpenAPI.ToolsAndPackage.csproj", "{7C2D3430-34E7-4DDC-B2E6-787FD7EB9B1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CiWong.OpenAPI.Store", "CiWong.OpenAPI\CiWong.OpenAPI.Store\CiWong.OpenAPI.Store.csproj", "{5B741D58-F2C0-4846-A01C-479749A3D6C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,10 @@ Global
 		{7C2D3430-34E7-4DDC-B2E6-787FD7EB9B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C2D3430-34E7-4DDC-B2E6-787FD7EB9B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C2D3430-34E7-4DDC-B2E6-787FD7EB9B1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B741D58-F2C0-4846-A01C-479749A3D6C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B741D58-F2C0-4846-A01C-479749A3D6C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B741D58-F2C0-4846-A01C-479749A3D6C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B741D58-F2C0-4846-A01C-479749A3D6C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +56,6 @@ Global
 		{4FABBC09-A67E-4C18-BA5F-0BE702D51010} = {3AD6C3B3-37E8-4309-BCFC-609A7DCA145E}
 		{931B8AB8-998C-4ABE-858A-03C829799C0E} = {3AD6C3B3-37E8-4309-BCFC-609A7DCA145E}
 		{7C2D3430-34E7-4DDC-B2E6-787FD7EB9B1E} = {8BF865C8-4A96-40ED-9A40-EAFA6734046C}
+		{5B741D58-F2C0-4846-A01C-479749A3D6C8} = {4FABBC09-A67E-4C18-BA5F-0BE702D51010}
 	EndGlobalSection
 EndGlobal
