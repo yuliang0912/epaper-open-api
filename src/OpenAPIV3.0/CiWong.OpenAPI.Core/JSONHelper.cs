@@ -22,7 +22,7 @@ namespace CiWong.OpenAPI.Core
 
 				Settings.Converters.Add(new BigintConverter());
 				Settings.Converters.Add(new DateTimeConverter());
-
+				
 				Settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
 
 				Settings.ContractResolver = new CamelCasePropertyNamesContractResolver();

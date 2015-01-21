@@ -34,6 +34,8 @@ namespace CiWong.OpenAPI.Web.Controllers
 	{
 		public int UserId { get; set; }
 
+		public string UserName { get; set; }
+
 		public long ClassId { get; set; }
 			
 		public DateTime RegTime { get; set; }
