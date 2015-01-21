@@ -34,34 +34,35 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 						.Select(t => t.VersionId)
 						.Where(t => t != null)
 						.OfType<long>();
-
-				var wordList = ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Word, wordVersionList.ToArray());
-				if (wordList.IsSucceed)
-				{
-					var words = wordList.Data.Where(t => t != null).OfType<WordContract>();
-					return words.Select(x => new
-					{
-						wId = x.Id,
-						words = x.Name,
-						wordFile = x.AudioUrl,
-						wordType = x.IsExpand,
-						symbol = x.Symbol,
-						syllable = x.Syllable,
-						pretations = x.Pretations,
-						sentences = x.Sentences,
-						sentFile = x.AudioUrl,
-						wordPic = x.PictureUrl
-					});
-				}
-				else
-				{
-					throw new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
-				}
-			}
-			else
-			{
-				throw new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
-			}
-		}
-	}
+ 		    }
+           	}
+                var wordList= ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Word, wordVersionList.ToArray());
+                if (wordList.IsSucceed)
+                {
+                    var words = wordList.Data.Where(t => t != null).OfType<WordContract>();
+                    return words.Select(x => new
+                    {
+                        wId =x.Id,
+                        words = x.Name,
+                        wordFile = x.AudioUrl,
+                        wordType = x.IsExpand,
+                        symbol = x.Symbol,
+                        syllable = x.Syllable,
+                        pretations = x.Pretations,
+                        sentences = x.Sentences,
+                        sentFile = x.AudioUrl,
+                        wordPic = x.PictureUrl
+                    });
+                }
+                else
+                {
+                    throw new ApiException(RetEum.ApplicationError, 2, "内部代码异常");
+                }
+            }
+            else
+            {
+                throw new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
+            }
+        }
+    }
 }
