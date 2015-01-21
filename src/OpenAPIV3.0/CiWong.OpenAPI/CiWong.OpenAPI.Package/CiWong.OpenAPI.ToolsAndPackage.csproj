@@ -42,6 +42,9 @@
     <Reference Include="CiWong.Tools.Workshop.DataContracts">
       <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Workshop.DataContracts.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\..\libs\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
