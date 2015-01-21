@@ -47,16 +47,16 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			var words = wordList.Data.Where(t => t != null).OfType<WordContract>();
 			return words.Select(x => new
 			{
-				wId = x.Id,
-				words = x.Name ?? "",
-				wordFile = x.AudioUrl ?? "",
-				wordType = x.IsExpand == true ? 1 : 0,
-				symbol = x.Symbol ?? "",
-				syllable = x.Syllable ?? "",
-				pretations = x.Pretations ?? "",
-				sentences = x.Sentences.Any() ? x.Sentences.First().Text : "",
-				sentFile = x.Sentences.Any() ? x.Sentences.First().AudioUrl : "",
-				wordPic = x.PictureUrl ?? ""
+				wId = x.Id ?? 0,
+				words = x.Name ?? string.Empty,
+				wordFile = x.AudioUrl ?? string.Empty,
+				wordType = x.IsExpand.HasValue ? x.IsExpand.Value ? 1 : 0 : 0,
+				symbol = x.Symbol ?? string.Empty,
+				syllable = x.Syllable ?? string.Empty,
+				pretations = x.Pretations ?? string.Empty,
+				sentences = x.Sentences.Any() ? x.Sentences.First().Text ?? string.Empty : string.Empty,
+				sentFile = x.Sentences.Any() ? x.Sentences.First().AudioUrl ?? string.Empty : string.Empty,
+				wordPic = x.PictureUrl ?? string.Empty
 			});
 		}
 
