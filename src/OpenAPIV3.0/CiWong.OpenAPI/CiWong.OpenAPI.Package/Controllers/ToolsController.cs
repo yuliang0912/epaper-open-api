@@ -56,7 +56,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
                 }
                 else
                 {
-                    throw new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
+                    throw new ApiException(RetEum.ApplicationError, 2, "内部代码异常");
                 }
             }
             else

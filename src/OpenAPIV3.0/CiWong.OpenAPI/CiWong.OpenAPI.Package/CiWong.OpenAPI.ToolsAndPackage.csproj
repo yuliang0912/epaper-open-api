@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CiWong.Helper">
+      <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Infrastructure">
+      <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Tools.Workshop">
       <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Workshop.dll</HintPath>
     </Reference>
