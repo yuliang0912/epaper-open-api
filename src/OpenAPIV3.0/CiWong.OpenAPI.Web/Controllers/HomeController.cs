@@ -26,7 +26,7 @@ namespace CiWong.OpenAPI.Web.Controllers
 
 			var scon = JSONHelper.Encode<TestClass>(ss);
 
-			return new TestClass() { ClassId = 456451816546546456, UserId = 155014, RegTime = new DateTime(2009, 10, 23), Sex = sexEnum.b };
+			return new TestClass() { ClassId = 456451816546546456, UserId = 155014, RegTime = new DateTime(2009, 10, 23), Sex = sexEnum.b, IsMe = true };
 		}
 	}
 
@@ -37,10 +37,12 @@ namespace CiWong.OpenAPI.Web.Controllers
 		public string UserName { get; set; }
 
 		public long ClassId { get; set; }
-			
+
 		public DateTime RegTime { get; set; }
 
 		public sexEnum Sex { get; set; }
+
+		public bool? IsMe { get; set; }
 	}
 
 	public enum sexEnum
