@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Integration.WebApi;
 using Autofac.Integration.Mvc;
 using CiWong.OpenAPI.Core;
 using CiWong.OpenAPI.Core.Filter;
@@ -25,15 +26,14 @@ namespace CiWong.OpenAPI.Web.App_Start
 		public static void RegisterIOC()
 		{
 			var builder = new ContainerBuilder();
+			builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+			builder.RegisterControllers(Assembly.GetExecutingAssembly());//注册mvc容器的实现
 
-			builder.RegisterModule(new AutofacWebTypesModule());
-
-			builder.RegisterControllers(Assembly.GetExecutingAssembly());
-			builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
-			builder.RegisterModelBinderProvider();
-			builder.RegisterFilterProvider();
-
-			DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
+			builder.RegisterModule(new CiWong.OpenAPI.BookCase.BookCaseModuleu());
+			
+			var container = builder.Build();
+			GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+			DependencyResolver.SetResolver(new AutofacDependencyResolver(container));//注册MVC容器
 		}
 
 

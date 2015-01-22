@@ -39,6 +39,12 @@
     <Reference Include="CiWong.Resource.BookRoom.DataContracts">
       <HintPath>..\..\..\..\libs\BookCase\CiWong.Resource.BookRoom.DataContracts.dll</HintPath>
     </Reference>
+    <Reference Include="CiWong.Tools.Package">
+      <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Package.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Tools.Package.DataContracts">
+      <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Package.DataContracts.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -60,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookCaseModule.cs" />
     <Compile Include="Controllers\BookCaseController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BookCaseAreaRegistration.cs" />
