@@ -1,7 +1,11 @@
-﻿using CiWong.OpenAPI.Core;
+﻿using Autofac;
+using Autofac.Integration.Mvc;
+using CiWong.OpenAPI.Core;
 using CiWong.OpenAPI.Core.Filter;
+using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
+using System.Web.Mvc;
 
 namespace CiWong.OpenAPI.Web.App_Start
 {
@@ -14,6 +18,24 @@ namespace CiWong.OpenAPI.Web.App_Start
 		{
 			GlobalConfiguration.Configuration.Filters.Add(new ApiExceptionAttribute());
 		}
+
+		/// <summary>
+		/// 注册依赖注入
+		/// </summary>
+		public static void RegisterIOC()
+		{
+			var builder = new ContainerBuilder();
+
+			builder.RegisterModule(new AutofacWebTypesModule());
+
+			builder.RegisterControllers(Assembly.GetExecutingAssembly());
+			builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
+			builder.RegisterModelBinderProvider();
+			builder.RegisterFilterProvider();
+
+			DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
+		}
+
 
 		/// <summary>
 		/// 注册API路由

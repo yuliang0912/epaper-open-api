@@ -20,6 +20,7 @@ namespace CiWong.OpenAPI.Web
 			AreaRegistration.RegisterAllAreas();
 			ApplicationConfig.RegisterFilters();
 			ApplicationConfig.RegisterRoute();
+			ApplicationConfig.RegisterIOC();
 			ApplicationConfig.RegisterJsonFormatter();
 		}
 	}
