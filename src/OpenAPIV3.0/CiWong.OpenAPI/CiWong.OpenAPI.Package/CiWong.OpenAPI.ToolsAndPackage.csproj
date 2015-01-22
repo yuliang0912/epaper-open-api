@@ -36,6 +36,12 @@
     <Reference Include="CiWong.Infrastructure">
       <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="CiWong.Tools.Package">
+      <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Package.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Tools.Package.DataContracts">
+      <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Package.DataContracts.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Tools.Workshop">
       <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Workshop.dll</HintPath>
     </Reference>

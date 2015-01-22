@@ -163,8 +163,12 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
                 throw new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
             }
 
-            var texts = result.Data.Where(t => t != null).OfType<ListeningAndSpeakingContract>();
-            return texts.Select(x => new
+            var x = result.Data.Where(t => t != null).OfType<ListeningAndSpeakingContract>().FirstOrDefault();
+            if (x == null)
+            {
+                throw new ApiException(RetEum.ApplicationError, 1, "未找到资源");
+            }
+            return new
             {
                 totalScore = x.TotalScore,
                 limitTime = x.LimitTime,
@@ -200,7 +204,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
                     }),
                     questions = t.Questions.Select(m => QuestionFunc(m))
                 })
-            });
+            };
         }
     }
 }
