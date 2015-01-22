@@ -1,5 +1,8 @@
 ﻿using CiWong.OpenAPI.Core;
+using CiWong.Resource.BookRoom.Repository;
 using CiWong.Resource.BookRoom.Service;
+using CiWong.Tools.Package;
+using CiWong.Tools.Package.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,22 +16,39 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 	[BasicAuthentication]
 	public class BookCaseController : ApiController
 	{
-		private PackagePermissionService packagePermissionService;
-
-		public BookCaseController(PackagePermissionService packagePermissionService)
-		{
-			this.packagePermissionService = packagePermissionService;
-		}
-
 		[HttpGet]
 		public int is_can(long packageId, long versionId)
 		{
+			var resource = new PackageService().GetTaskResultForApi(packageId, null, null)
+							.SelectMany(t => t.ResultContents)
+							.FirstOrDefault(t => t.ResourceVersionId == versionId);
 
-			return 1;
+			if (null == resource)
+			{
+				throw new ApiArgumentException("参数versionId错误，未找到指定资源");
+			}
+
+			if (resource.IsFree)
+			{
+				return 4;
+			}
 
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			var packagePermission = packagePermissionService.GetEntity(packageId, userId);
+			var packagePermission = new PackagePermissionRepository().GetEntity(packageId, userId);
+
+			if (null == packagePermission)
+			{
+				return 2;
+			}
+			else if (packagePermission.ExpirationDate > DateTime.Now)
+			{
+				return 1;
+			}
+			else
+			{
+				return 3;
+			}
 		}
 	}
 }
