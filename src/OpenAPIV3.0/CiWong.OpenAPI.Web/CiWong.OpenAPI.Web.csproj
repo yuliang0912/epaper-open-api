@@ -136,9 +136,21 @@
       <Project>{9222bf76-85e3-4ff7-ba97-ddcfd1a10a1f}</Project>
       <Name>CiWong.OpenAPI.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.BookCase\CiWong.OpenAPI.BookCase.csproj">
+      <Project>{de405df4-26a4-4949-a703-5d4cd81ba5d2}</Project>
+      <Name>CiWong.OpenAPI.BookCase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.Package\CiWong.OpenAPI.ToolsAndPackage.csproj">
       <Project>{7c2d3430-34e7-4ddc-b2e6-787fd7eb9b1e}</Project>
       <Name>CiWong.OpenAPI.ToolsAndPackage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.Store\CiWong.OpenAPI.Store.csproj">
+      <Project>{5b741d58-f2c0-4846-a01c-479749a3d6c8}</Project>
+      <Name>CiWong.OpenAPI.Store</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.YiShang\CiWong.OpenAPI.YiShang.csproj">
+      <Project>{5d29d243-7960-4a62-b7d1-7e2051f5e0c7}</Project>
+      <Name>CiWong.OpenAPI.YiShang</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@ using CiWong.OpenAPI.Core.Extensions;
 using Newtonsoft.Json.Serialization;
 
 namespace CiWong.OpenAPI.Core
-{  
+{
 	/// <summary>
 	/// JSON帮助类
 	/// </summary>
@@ -22,7 +22,8 @@ namespace CiWong.OpenAPI.Core
 
 				Settings.Converters.Add(new BigintConverter());
 				Settings.Converters.Add(new DateTimeConverter());
-				
+				Settings.Converters.Add(new BooleanConverter());
+
 				Settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
 
 				Settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -188,6 +189,49 @@ namespace CiWong.OpenAPI.Core
 			else
 			{
 				throw new Exception("Expected DateTime value");
+			}
+		}
+	}
+	#endregion
+
+	#region Bool值自动转换int
+	public class BooleanConverter : JsonConverter
+	{
+		public override bool CanConvert(Type objectType)
+		{
+			return objectType == typeof(System.Boolean) || objectType == typeof(bool?);
+		}
+
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			if (reader.TokenType == JsonToken.Null)
+			{
+				return 0;
+			}
+			else
+			{
+				var convertible = reader.Value as IConvertible;
+				if (convertible == null || string.IsNullOrWhiteSpace(convertible.ToString()))
+				{
+					return 0;
+				}
+				return convertible.ToBoolean(CultureInfo.InvariantCulture);
+			}
+		}
+
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+			if (value == null)
+			{
+				writer.WriteValue(0);
+			}
+			else if (value is Boolean)
+			{
+				writer.WriteValue(Convert.ToBoolean(value) ? 1 : 0);
+			}
+			else
+			{
+				throw new Exception("Expected Bigint value");
 			}
 		}
 	}
