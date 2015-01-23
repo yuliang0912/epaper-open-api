@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http.Formatting;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
@@ -65,7 +66,10 @@ namespace CiWong.OpenAPI.Core
 						else if (value != null && value is HttpError)
 						{
 							var exception = (HttpError)value;
-							result = new ApiResult() { Ret = RetEum.HttpError, ErrorCode = 1, Message = exception.Message };
+
+							string message = string.Join(",", exception.Select(t => string.Concat(t.Key, ":", t.Value)));
+
+							result = new ApiResult() { Ret = RetEum.HttpError, ErrorCode = 1, Message = message };
 						}
 						else if (value != null && value is ApiResult)
 						{
