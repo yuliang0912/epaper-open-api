@@ -34,10 +34,10 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
             return data.Parts.Where(t => t.ModuleId == ResourceModuleOptions.Word)
                 .SelectMany(t => t.List).Select(t => new
                 {
-                    id = t.Id,
-                    versionId = t.VersionId,
-                    name = t.Name,
-                    resourceModuleId = t.ModuleId
+                    id = t.Id ?? 0,
+                    versionId = t.VersionId ?? 0,
+                    name = t.Name ?? string.Empty,
+                    resourceModuleId = t.ModuleId ?? Guid.Empty
                 });
         }
 
