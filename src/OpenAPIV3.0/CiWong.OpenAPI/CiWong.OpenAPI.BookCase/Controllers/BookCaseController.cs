@@ -1,14 +1,9 @@
 ﻿using CiWong.OpenAPI.Core;
 using CiWong.Resource.BookRoom.Repository;
-using CiWong.Resource.BookRoom.Service;
-using CiWong.Tools.Package;
 using CiWong.Tools.Package.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace CiWong.OpenAPI.BookCase.Controllers

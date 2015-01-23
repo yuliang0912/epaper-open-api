@@ -103,51 +103,50 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
             });
         }
 
-        private object QuestionFunc(QuestionContract m)
-        {
-            return new
-            {
-                type = m.Type,
-                versionId = m.VersionId ?? 0,
-                moduleId = m.ModuleId ?? Guid.Empty,
-                trunk = new
-                {
-                    body = m.Trunk != null ? m.Trunk.Body ?? string.Empty : string.Empty,
-                    attachments = m.Trunk != null
-                        ? m.Trunk.Attachments.Select(p => new
-                        {
-                            id = p.Id,
-                            name = p.Name ?? string.Empty,
-                            url = p.Url ?? string.Empty,
-                            fileType = p.FileType,
-                            position = (int) p.Position
-                        })
-                        : Enumerable.Empty<object>()
-                },
-                options = m.Options.Select(o => new
-                {
-                    id = o.Id,
-                    isAnswer = o.IsAnswer ? 1 : 0,
-                    value = o.Value.Select(u => new
-                    {
-                        body = u.Body ?? string.Empty,
-                        attachments = u.Attachments != null
-                            ? u.Attachments.Select(p => new
-                            {
-                                id = p.Id,
-                                name = p.Name ?? string.Empty,
-                                url = p.Url ?? string.Empty,
-                                fileType = p.FileType,
-                                position = (int) p.Position
-                            })
-                            : Enumerable.Empty<object>()
-
-                    })
-                }),
-                children =
-                    m.Children != null ? m.Children.Select(t => QuestionFunc(t)) : Enumerable.Empty<QuestionContract>()
-            };
-        }
+		private object QuestionFunc(QuestionContract m)
+		{
+			return new
+			{
+				type = m.Type,
+				versionId = m.VersionId ?? 0,
+				moduleId = m.ModuleId ?? Guid.Empty,
+				trunk = new
+				{
+					body = m.Trunk != null ? m.Trunk.Body ?? string.Empty : string.Empty,
+					attachments = m.Trunk != null
+						? m.Trunk.Attachments.Select(p => new
+						{
+							id = p.Id,
+							name = p.Name ?? string.Empty,
+							url = p.Url ?? string.Empty,
+							fileType = p.FileType,
+							position = (int)p.Position
+						})
+						: Enumerable.Empty<object>()
+				},
+				options = m.Options.Select(o => new
+				{
+					id = o.Id,
+					isAnswer = o.IsAnswer ? 1 : 0,
+					value = o.Value.Select(u => new
+					{
+						body = u.Body ?? string.Empty,
+						attachments = u.Attachments != null
+							? u.Attachments.Select(p => new
+							{
+								id = p.Id,
+								name = p.Name ?? string.Empty,
+								url = p.Url ?? string.Empty,
+								fileType = p.FileType,
+								position = (int)p.Position
+							})
+							: Enumerable.Empty<object>()
+					})
+				}),
+				children =
+					m.Children != null ? m.Children.Select(t => QuestionFunc(t)) : Enumerable.Empty<QuestionContract>()
+			};
+		}
 
         /// <summary>
         /// 获取模考资源
