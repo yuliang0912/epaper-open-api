@@ -30,7 +30,7 @@ namespace CiWong.OpenAPI.Core
 			}
 		}
 
-		public static JsonSerializerSettings Settings
+		internal static JsonSerializerSettings Settings
 		{
 			get { return JsonSerializerHolder.Settings; }
 		}
