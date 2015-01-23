@@ -14,6 +14,34 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
     public class ToolsController : ApiController
     {
         /// <summary>
+        /// 根据同步跟读ID获取课后单词列表
+        /// </summary>
+        /// <param name="versionId">资源版本ID(此处传父资源parentVersionId),必选</param>
+        /// <returns></returns>
+        [HttpGet]
+        public object followread_words(long versionId)
+        {
+            var result = ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowRead, versionId);
+            if (!result.IsSucceed)
+            {
+                throw new ApiException(RetEum.ApplicationError, 2, "内部代码异常");
+            }
+            var data = (SyncFollowReadContract) result.Data.FirstOrDefault();
+            if (data == null)
+            {
+                throw new ApiArgumentException("参数versionId错误，未找到指定资源");
+            }
+            return data.Parts.Where(t => t.ModuleId == ResourceModuleOptions.Word)
+                .SelectMany(t => t.List).Select(t => new
+                {
+                    id = t.Id,
+                    versionId = t.VersionId,
+                    name = t.Name,
+                    resourceModuleId = t.ModuleId
+                });
+        }
+
+        /// <summary>
         /// 根据同步跟读ID获取课后单词表资源
         /// </summary>
         /// <param name="versionId">同步跟读资源版本ID,必选</param>
@@ -206,5 +234,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
                 })
             };
         }
+
+       
     }
 }

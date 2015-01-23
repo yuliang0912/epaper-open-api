@@ -188,7 +188,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
                 })
             });
 
-            return jsonData; //new CiWongOpenAPIResult(jsonData);
+            return jsonData; 
 
 	    }
 	}
