@@ -14,16 +14,14 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 		[HttpGet]
 		public int is_can(long packageId, long versionId)
 		{
-			var resource = new PackageService().GetTaskResultForApi(packageId, null, null)
-							.SelectMany(t => t.ResultContents)
-							.FirstOrDefault(t => t.ResourceVersionId == versionId);
+			var resource = new PackageService().GetTaskResultContentsForApi(packageId, versionId);
 
-			if (null == resource)
+			if (null == resource||!resource.Any())
 			{
 				throw new ApiArgumentException("参数versionId错误，未找到指定资源");
 			}
 
-			if (resource.IsFree)
+			if (resource.Any(t => t.IsFree))
 			{
 				return 4;
 			}

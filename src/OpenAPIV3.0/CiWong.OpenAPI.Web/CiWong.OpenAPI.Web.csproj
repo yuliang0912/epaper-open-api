@@ -50,6 +50,9 @@
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\..\..\libs\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\libs\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\libs\MySql.Data.dll</HintPath>
@@ -60,13 +63,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -99,7 +99,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -151,6 +150,10 @@
       <Project>{de405df4-26a4-4949-a703-5d4cd81ba5d2}</Project>
       <Name>CiWong.OpenAPI.BookCase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.ExpandWork\CiWong.OpenAPI.ExpandWork.csproj">
+      <Project>{970c3639-46dc-48c2-9b41-5dd69467b995}</Project>
+      <Name>CiWong.OpenAPI.ExpandWork</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.Package\CiWong.OpenAPI.ToolsAndPackage.csproj">
       <Project>{7c2d3430-34e7-4ddc-b2e6-787fd7eb9b1e}</Project>
       <Name>CiWong.OpenAPI.ToolsAndPackage</Name>
@@ -158,6 +161,10 @@
     <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.Store\CiWong.OpenAPI.Store.csproj">
       <Project>{5b741d58-f2c0-4846-a01c-479749a3d6c8}</Project>
       <Name>CiWong.OpenAPI.Store</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.Work\CiWong.OpenAPI.Work.csproj">
+      <Project>{cb844eb7-6e20-41c4-9810-fde1fd078da6}</Project>
+      <Name>CiWong.OpenAPI.Work</Name>
     </ProjectReference>
     <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.YiShang\CiWong.OpenAPI.YiShang.csproj">
       <Project>{5d29d243-7960-4a62-b7d1-7e2051f5e0c7}</Project>
@@ -170,6 +177,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config\Log4net.config" />
     <None Include="Properties\PublishProfiles\61.pubxml" />
   </ItemGroup>
   <PropertyGroup>
