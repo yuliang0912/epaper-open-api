@@ -1,0 +1,342 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiWong.Work.Contract</name>
+    </assembly>
+    <members>
+        <member name="M:CiWong.Work.Contract.IClassGroupProvider.addClassGroup(CiWong.Work.Entities.ClassGroup)">
+            <summary>
+            添加班级分组
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IClassGroupProvider.updateClassGroup(System.Int32,System.Int32)">
+            <summary>
+            修改组成员数量
+            </summary>
+            <param name="memberCount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IClassGroupProvider.getClassGroupByClassId(System.Int32)">
+            <summary>
+            根据班级id获取组列表
+            </summary>
+            <param name="classId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IClassGroupProvider.addClassGroupMembers(System.Int32,System.String,System.String,System.Int32)">
+            <summary>
+            批量添加班级小组成员
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IClassGroupProvider.delMembers(System.Int32,System.String,System.Int32)">
+            <summary>
+            删除组成员
+            </summary>
+            <param name="groupId"></param>
+            <param name="studentIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IClassGroupProvider.haveInGroup(System.Int32,System.Int32)">
+            <summary>
+            是否存在于组中
+            </summary>
+            <param name="studentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IClassGroupProvider.getClassGroupMemberByClassId(System.Int32)">
+            <summary>
+            查询本班已分组人员列表
+            </summary>
+            <param name="classId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IClassGroupProvider.getClassGroupMemberByGroupId(System.Int32)">
+            <summary>
+            查询组成员
+            </summary>
+            <param name="groupId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.BackWork(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            退回作业
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.AddWorkOnline(CiWong.Work.Entities.DoWorkBase,System.Collections.Generic.IEnumerable{CiWong.Work.Entities.OnlineWorkAnswer})">
+            <summary>
+            保存一份自主测试作业
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.SubmitWork(CiWong.Work.Entities.DoWorkBase,System.Collections.Generic.IEnumerable{CiWong.Work.Entities.OnlineWorkAnswer})">
+            <summary>
+            提交作业
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetDoWorkBase(System.Int64)">
+            <summary>
+            获取单份作业
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetDoWorkBase(System.Int64,System.Int32)">
+            <summary>
+            获取单份作业
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetDoWorkList(System.Int64)">
+            <summary>
+            根据作业ID获取全部做作业记录
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetDoWorkList(System.Collections.Generic.IEnumerable{System.Int32},System.DateTime,System.DateTime,System.Collections.Generic.IEnumerable{CiWong.Work.Entities.PublishTypeEnum},System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据条件获取做作业记录
+            </summary>
+            <param name="beginDate">作业开始日期</param>
+            <param name="endDate">作业结束日期</param>
+            <param name="workStatus">作业状态(-1:全部 0:待上交 2:待批改 3:已完成 6:超时作业)</param>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetOnlineWorkAnswer(System.Int64)">
+            <summary>
+            获取在线作业答案
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetOnlineWorkAnswer(System.Int64,System.Decimal)">
+            <summary>
+            根据作业ID和最小分值获取答案列表
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetDoWorkList(System.Int64,System.Int64,System.Int32)">
+            <summary>
+            根绝作业ID,试卷ID,作业类型获取做作业列表
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetDoWorkBaseList(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            根绝作业ID和用户ID获取做作业ID集合(一份作业包含多套试卷的备课作业)
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetDoWorkList(System.Collections.Generic.IEnumerable{System.Int64})">
+            <summary>
+            根据作业ID获取做作业列表(主要用户老师显示具体某份作业布置列表)
+            </summary>
+            <param name="workID">作业ID</param>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetAnswerScore(System.Collections.Generic.IEnumerable{System.Int64})">
+            <summary>
+            根据作业ID集合分组统计作业题目总分值
+            </summary>
+            <param name="workIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetSubmitWorkRank(System.Int64,System.DateTime)">
+            <summary>
+            获取作业提交排名
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Contract.IWorkCustom">
+            <summary>
+            作业系统用户自定义科目和作业类型功能
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkCustom.ListMySubject(System.Int32)">
+            <summary>
+            获取我的自定义科目
+            </summary>
+            <param name="userId">用户Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkCustom.SetMySubject(System.Int32,System.Int32[])">
+            <summary>
+            设置我的自定义科目
+            </summary>
+            <param name="userId">用户Id</param>
+            <param name="subjectIds">科目Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkCustom.ListMyWorkType(System.Int32)">
+            <summary>
+            获取我的自定义作业类型
+            </summary>
+            <param name="userId">用户Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkCustom.SetMyWorkType(System.Int32,System.Int32,System.Int32[])">
+            <summary>
+            设置我的自定义作业类型
+            </summary>
+            <param name="userId">用户Id</param>
+            <param name="subjectId">科目Id</param>
+            <param name="workTypeIds">作业类型Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkCustom.GetMySubjectAndWorkType(System.Int32)">
+            <summary>
+            获取我的自定义科目及作业类型
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkRecord.CreateRecord(CiWong.Work.Entities.ReleaseRecord)">
+            <summary>
+            创建作业记录
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkRecord.DeleteRecord(System.Int64,System.Int32)">
+            <summary>
+            删除已经创建的作业
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkRecord.DeleteRecord(System.Collections.Generic.IEnumerable{System.Int64},System.Int32)">
+            <summary>
+            批量删除已创建的作业
+            </summary>
+            <param name="recordIdList"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkRecord.UpdateRecord(CiWong.Work.Entities.ReleaseRecord)">
+            <summary>
+            更新记录信息
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkRecord.RenameRecord(System.Int64,System.String,System.Int32)">
+            <summary>
+            重命名作业
+            </summary>
+            <param name="recordId">记录Id</param>
+            <param name="workName">作业名称</param>
+            <param name="userId">用户Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkRecord.UpdatePublishNums(System.Int64,System.Int32)">
+            <summary>
+            更新作业发布次数
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkRecord.GetRecord(System.Int64,System.Int32)">
+            <summary>
+            根据ID获取单条记录
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkRecord.GetRecord(System.Collections.Generic.IEnumerable{System.Int64},System.Int32)">
+            <summary>
+            批量获取记录
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkRecord.GetRecordList(System.Int32,System.Int32,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            已创建作业记录列表
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkRecord.GetUserWorkSubject(System.Int32)">
+            <summary>
+            获取用户已完成作业中的科目分类
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetWorkBase(System.Int64)">
+            <summary>
+            根据作业ID获取作业信息
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetWorkBaseList(System.Int32,System.DateTime,System.DateTime,System.Collections.Generic.IEnumerable{CiWong.Work.Entities.PublishTypeEnum},System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据条件获取布置记录
+            </summary>
+            <param name="beginDate">布置开始日期</param>
+            <param name="endDate">布置结束日期</param>
+            <param name="publishTypes">布置类型,若为空或者空集合,则查询全部</param>
+            <param name="workStatus">作业状态( -1:全部未取消的 0:全部 1:待上交 2:正在完成 3:已提交 4.已取消 5:待发送 6:待批改)</param>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetWorkBaseList(System.Int32,System.String,System.Int64,System.DateTime,System.DateTime,CiWong.Work.Entities.PublishTypeEnum,System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据条件获取布置记录
+            </summary>
+            <param name="publishUserId">布置人ID,大于10000为有效ID</param>
+            <param name="publishUserName">布置人姓名,精确匹配,长度大于0为有效字符</param>
+            <param name="ReviceID">接收者ID,大于0为有效ID</param>
+            <param name="beginDate">作业创建起始日期</param>
+            <param name="endDate">作业创建结束日期</param>
+            <param name="publishType">布置类型</param>
+            <param name="workStatus">作业状态( -1:全部未取消的 0:全部 1:待上交 2:正在完成 3:已提交 4.已取消 5:待发送 6:待批改)</param>
+            <param name="curriculum">科目ID</param>
+            <param name="sonWorkType">子作业类型ID</param>
+            <param name="totalItem">总数据条数</param>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">每页数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetWorkBaseList(System.Collections.Generic.IEnumerable{System.Int64},System.Int32)">
+            <summary>
+            根据指定的作业ID获取布置记录
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.PublishWork(CiWong.Work.Entities.WorkBase,System.Collections.Generic.List{System.Collections.Generic.KeyValuePair{System.Int32,System.String}})">
+            <summary>
+            发布作业
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.DeleteWorkBase(System.Int64,System.Int32)">
+            <summary>
+            取消已经发布的作业(若有用户提交,则无法取消)
+            </summary>
+            <param name="workId">作业Id</param>
+            <param name="userId">用户Id</param>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetCreatedAndMarkNum(System.Int32,System.Int32)">
+            <summary>
+            已创建和待批改作业数量
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetWorkBaseList(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int64},System.Nullable{System.Int64},System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            获取作业布置记录
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetPublishWorkStatistics(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int64},System.Nullable{System.Int64},System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.String)">
+            <summary>
+            获取布置作业统计数据
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetSameBatchWorks(System.Int64)">
+            <summary>
+            获取相同批次的布置记录
+            </summary>
+            <param name="workId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetClassWorkRecords(System.Collections.Generic.IEnumerable{System.Int64},System.DateTime,System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            根据指定的班级ID集合获取班级完成情况汇总
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkStatisticsProvider.GetWorkStatistics">
+            <summary>
+            获取作业统计情况
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkStatisticsProvider.GetWorkStatisticsDetail(System.Int32)">
+            <summary>
+            用户作业统计详情
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkStatisticsProvider.GetWorkStatisticsDetailList(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            作业统计列表
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkStatisticsProvider.SubmitRateRank(System.Int32,System.Decimal)">
+            <summary>
+            提交率排名
+            </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkStatisticsProvider.TotalSendNumRank(System.Int32,System.Int32)">
+            <summary>
+            作业布置次数排名
+            </summary>
+        </member>
+    </members>
+</doc>

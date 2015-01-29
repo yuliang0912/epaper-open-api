@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 using CiWong.OpenAPI.Core;
 using CiWong.Tools.Package;
@@ -41,7 +39,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
         /// <param name="packageId">资源包ID,必选</param>
         /// <returns></returns>
 		[HttpGet]
-        public object catalogues(long packageId)
+        public dynamic catalogues(long packageId)
 		{
             var result = packageService.GetCataloguesForApi(packageId, false);
             var catalogueTree = result.Where(item => item.Level.Equals(1));
@@ -68,14 +66,14 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 	    /// <param name="cId">目录ID(最末级目录id),必选</param>
 	    /// <returns></returns>
 	    [HttpGet]
-	    public object book_resources(long packageId, string cId)
+	    public dynamic book_resources(long packageId, string cId)
 	    {
 	        var packageCategoryContent = packageService.GetTaskResultForApi(packageId, cId, false).FirstOrDefault();
 
-	        if (null == packageCategoryContent)
-	        {
-	            throw new ApiException(RetEum.ApplicationError, 1, "未找到资源");
-	        }
+			if (null == packageCategoryContent)
+			{
+				return new ApiException(RetEum.ApplicationError, 1, "未找到资源");
+			}
 
 	        var taskResultContent = packageCategoryContent.TaskModules.ToDictionary(c => c.ModuleId,
 	            c => packageCategoryContent.ResultContents.Where(x => x.ModuleId == c.ModuleId).ToList()).Where(t=>t.Value.Count>0);

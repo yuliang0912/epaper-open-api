@@ -1,0 +1,1219 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiWong.Framework.Helper</name>
+    </assembly>
+    <members>
+        <member name="P:CiWong.Framework.Helper.AppSettingsHelper.ErrorURLAppSetting">
+            <summary>
+            错误页面URL地址
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.ComHelper.CommentType">
+            <summary>
+            评论一级分类
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.BLOG">
+            <summary>
+            书房博客评论
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.MOOD">
+            <summary>
+            心情评论
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.PHOTO">
+            <summary>
+            书房相册评论
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.ClassZone">
+            <summary>
+            班级空间留言
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.ClassTalent">
+            <summary>
+            班级空间才艺吧
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.ClassPhoto">
+            <summary>
+            班级相片
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.WorkCategory">
+            <summary>
+            作业类型相关
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.ClassActive">
+            <summary>
+            班级空间活动
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.ClassActivePhont">
+            <summary>
+            班级空间活动照片
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.Experience">
+            <summary>
+            学习心得
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.KnowledgeExpand">
+            <summary>
+            知识拓展
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.ReadingGuidance">
+            <summary>
+            阅读指导
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.Eshop">
+            <summary>
+            教辅商城
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.ERoomPhono">
+            <summary>
+            教育工作室相片
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.SchoolZone">
+            <summary>
+            学校空间
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.TeacherZone">
+            <summary>
+            教育工作室
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.ERoomFruit">
+            <summary>
+            高效课堂
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.ExamCore">
+            <summary>
+            试卷中心
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.VideoCenter">
+            <summary>
+            视频中心
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.ResourceDownLoad">
+            <summary>
+            资源下载
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.CiWongHomePage">
+            <summary>
+            习网首页
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.PaiPai">
+            <summary>
+            拍一拍
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.Prepare">
+            <summary>
+            集体备课
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.PynchroPrepare">
+            <summary>
+            同步备课
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.LiuYingEnglish">
+            <summary>
+            刘鹰英语
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.YiShang">
+            <summary>
+            6v68
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.GoodChild">
+            <summary>
+            好孩子视频
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.CommentType.TodayStar">
+            <summary>
+            今日之星
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.ComHelper.SonCategory">
+            <summary>
+            评论二级分类
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.None">
+            <summary>
+            默认
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Kousuan">
+            <summary>
+            我爱口算
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.ChineseReading">
+            <summary>
+            语文阅读
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.EnglishReading">
+            <summary>
+            英语阅读
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Experiment">
+            <summary>
+            仿真实验
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.ChineseListenning">
+            <summary>
+            语文听写
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.EnglishListenning">
+            <summary>
+            英语听写
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.LearningLevel">
+            <summary>
+            学习闯关
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.PlayWords">
+            <summary>
+            玩转单词
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.EBook">
+            <summary>
+            电子书
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.IntelligenceGame">
+            <summary>
+            智力游戏
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Orallanguage">
+            <summary>
+            智能口语
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.ListenOnline">
+            <summary>
+            在线听力
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.KousuanEN">
+            <summary>
+            口算英文版
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.ChineseDictationBoard">
+            <summary>
+            语文听写版
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.EnglishDictationBoard">
+            <summary>
+            英语听写版
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.InformationOpus">
+            <summary>
+            信息作品
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.ChineseComposition">
+            <summary>
+            语文作文
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.EnglishComposition">
+            <summary>
+            英语作文
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.WordChanged">
+            <summary>
+            单词变变变
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Information">
+            <summary>
+            资讯
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.LeaveMessage">
+            <summary>
+            留言
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Video">
+            <summary>
+            视频
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Audio">
+            <summary>
+            音频
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Photo">
+            <summary>
+            相片
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.LunWen">
+            <summary>
+            论文
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.OrallanguageAudio">
+            <summary>
+            智能口语音频
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Examination">
+            <summary>
+            试卷
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.TaskStep">
+            <summary>
+            任务步骤
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.AllArea">
+            <summary>
+            所有地区
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.PartArea">
+            <summary>
+            部分地区
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Fruit">
+            <summary>
+            高效课堂成果
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Course">
+            <summary>
+            高效课堂课程
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Lesson">
+            <summary>
+            集体备课课时
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.ListenAndSpeakTraining">
+            <summary>
+            听说训练
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Work">
+            <summary>
+            作业
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.WisdomPrepare">
+            <summary>
+            智慧备课
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Share">
+            <summary>
+            分享
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.Classroom">
+            <summary>
+            课堂
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.GuidancSscheme">
+            <summary>
+            导学案
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.InstructionalDesign">
+            <summary>
+            教学设计
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.BeiKeStep">
+            <summary>
+            备课步骤
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.CourseQuestion">
+            <summary>
+            网校课程题目
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.GoodChild">
+            <summary>
+            好孩子视频
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.SonCategory.EGuidance">
+            <summary>
+            电子导学单
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.ComHelper.ComStatus">
+            <summary>
+            评论状态
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.ComStatus.Normal">
+            <summary>
+            正常
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.ComStatus.NoPass">
+            <summary>
+            审核未通过
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.ComStatus.Delete">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.ComHelper.ReplyStatus">
+            <summary>
+            回复状态
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.ReplyStatus.Normal">
+            <summary>
+            正常
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.ReplyStatus.NoPass">
+            <summary>
+            审核未通过
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.ComHelper.ReplyStatus.Delete">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.Config">
+            <summary>
+            WebConfig 操作类
+            </summary>
+        </member>
+        <member name="M:CiWong.Framework.Helper.Config.GetAppSetting(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="strKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.Config.GetAppSetting``1(System.String,``0)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="strKey"></param>
+            <param name="d"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.Config.GetBooleanValue(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.Config.ConnectionString(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CiWong.Framework.Helper.Config.Item(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="strKey"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CiWong.Framework.Helper.Config.Instance">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CiWong.Framework.Helper.DateTimeHelper.ToRelativeDateTime(System.DateTime)">
+            <summary>
+            把时间转换成个性化字符串(前天,昨天,今天等..)
+            </summary>
+            <param name="dateTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.DateTimeHelper.ToTimeStamp(System.DateTime)">
+            <summary>
+            获取时间间隔
+            </summary>
+            <param name="dateTime"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionName.AuthContext">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionName.RoomWorkContext">
+            <summary>
+            作业
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionName.RoomExaminationContext">
+            <summary>
+            试卷
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionName.RoomIntegralContext">
+            <summary>
+            班级关系
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionName.RoomFriendContext">
+            <summary>
+            好友
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionName.RoomAlbumContext">
+            <summary>
+            相册
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionName.RoomTaskContext">
+            <summary>
+            任务
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionName.RoomContext">
+            <summary>
+            书房
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionName.RoomBadgeContext">
+            <summary>
+            徽章
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.RoomWorkConnectionString">
+            <summary>
+            作业
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.RoomExaminationConnectionString">
+            <summary>
+            试卷
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.RoomClassRelationConnectionString">
+            <summary>
+            班级关系
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.AreaConnectionString">
+            <summary>
+            地区
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.RoomConnectionString">
+            <summary>
+            书房
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.AuthConnectionString">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.IntegralConnectionString">
+            <summary>
+             积分
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.FriendConnectionString">
+            <summary>
+            好友
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.FamilyRelationConnectionString">
+            <summary>
+            家庭关系
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.MessageConnectionString">
+            <summary>
+            消息/留言
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.CommentConnectionString">
+            <summary>
+            评论
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.VisitorConnectionString">
+            <summary>
+            访客
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.FavConnectionString">
+            <summary>
+            收藏
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.CWShareConnectionString">
+            <summary>
+            分享
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.TwitterConnectionString">
+            <summary>
+            动静
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.BlogConnectionString">
+            <summary>
+            博客
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.RoomAlbumConnectionString">
+            <summary>
+            相册
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.BadgeConnectionString">
+            <summary>
+            徽章系统
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.QuestionConnectionString">
+            <summary>
+            题库
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.QuesContextConnectionString">
+            <summary>
+                  知识点 教材版本
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.BookCaseConnectionString">
+            <summary>
+            书柜
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.WikiPointConnectionString">
+            <summary>
+            维基平台知识点连接字符串
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DbConnectionString.WikiConnectionString">
+            <summary>
+            维基主库连接字符串
+            </summary>
+        </member>
+        <member name="M:CiWong.Framework.Helper.DictHelper.Dict_RoomPeriodGrade(System.Int32)">
+            <summary>
+            根据学段获取年级
+            </summary>
+            <param name="period">学段ID</param>
+            <returns></returns>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DictHelper.Dict_RoomPeriod">
+            <summary>
+            学段
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DictHelper.Dict_RoomGrade">
+            <summary>
+            年级
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DictHelper.Dict_Privacy">
+            <summary>
+            隐私关系
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DictHelper.Dict_Subject">
+            <summary>
+            科目
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DictHelper.Dict_Category">
+            <summary>
+            题册分类
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.DictHelper.Dict_Education">
+            <summary>
+            学历分类
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.DictHelper.PeriodEnum">
+            <summary>
+            学段枚举
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.DictHelper.GradeEnum">
+            <summary>
+            年级枚举
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.DictHelper.EducationEnum">
+            <summary>
+            学历枚举
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.DictHelper.WorkTypeEnum">
+            <summary>
+            作业类型枚举
+            </summary>
+        </member>
+        <member name="M:CiWong.Framework.Helper.ErrorLogHelper.WriteError(System.String,System.String)">
+            <summary>
+            write error
+            </summary>
+            <param name="wenjianjia">cuowurizhi wenjianjia</param>
+        </member>
+        <member name="T:CiWong.Framework.Helper.MasterSlaveType">
+            <summary>
+            数据库读写分离
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.MasterSlaveType.Master">
+            <summary>
+            主库(写)
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.MasterSlaveType.Slave">
+            <summary>
+            从库(读)
+            </summary>
+        </member>
+        <!-- 对于成员“T:CiWong.Framework.Helper.AttachmentPosition”忽略有格式错误的 XML 注释 -->
+        <member name="T:CiWong.Framework.Helper.FileType">
+            <summary>
+            文件类型（1：pic 2:doc -1:默认(DefaultValue)）
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.AttachmentType">
+            <summary>
+            作用域 （1：题干  2：解题思路 -1:默认(DefaultValue)）
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.AttachmentType.Problem">
+            <summary>
+            题干
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.AttachmentType.Ideas">
+            <summary>
+            解题思路附件
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.AttachmentType.Option">
+            <summary>
+            选项附件
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.AttachmentType.RefeInformation">
+            <summary>
+            参考资料
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.AuditState">
+            <summary>
+            审核状态（0：未完成  1：审核通过  2：未通过 3：审核中  4：删除  -1:默认(DefaultValue)）
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.CompleteStatus">
+            <summary>
+            完善度(审核级别)  1:A 2:B 3:C 4:D 5:E -1:默认(DefaultValue)
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.Source">
+            <summary>
+            题目来源（1：维基平台 2：资源中心  3：合作伙伴 -1:默认(DefaultValue)）
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.DifficultyCount">
+            <summary>
+            难度系数(1:易 2：中 3：难 -1:默认(DefaultValue))
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.QTtype">
+            <summary>
+            题型（1:单选(Radio) 2:多选(ChooseMore) 3:填空(FillsUp) 4:完型填空(ClozeTest)
+            5:阅读理解(ReadingIdeal) 6:简答题(JaneAnswer) 7:应用(Application) 8：判断 -1:默认(DefaultValue)）
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QTtype.Radio">
+            <summary>
+            单选
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QTtype.ChooseMore">
+            <summary>
+            多选
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QTtype.FillsUp">
+            <summary>
+            填空
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QTtype.ClozeTest">
+            <summary>
+            完型填空
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QTtype.ReadingIdeal">
+            <summary>
+            阅读理解
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QTtype.JaneAnswer">
+            <summary>
+            简答题
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QTtype.Application">
+            <summary>
+            应用
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QTtype.Judgement">
+            <summary>
+            判断
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.AssessMode">
+            <summary>
+            考核方式（1：基本知识 2：基本应用 -1:默认(DefaultValue)）
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.LevelStatus">
+            <summary>
+            级别(1 ，2 ，3 ，4 -1:默认(DefaultValue))
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.CurriculumType">
+            <summary>
+            科目类型（1：文科 2：理科 -1:默认(DefaultValue)）
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.QuestionSemester">
+            <summary>
+            学期（1201：上学期  1202：下学期  1203:全册 -1:默认(DefaultValue)）
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QuestionSemester.Last">
+            <summary>
+            上学期
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QuestionSemester.Next">
+            <summary>
+            下学期
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QuestionSemester.Complete">
+            <summary>
+            全册
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.QuestionSemester.DefaultValue">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="M:CiWong.Framework.Helper.QuestionHelper.GetStartTag(System.String)">
+            <summary>
+            根据标签名获取完整的开始标签
+            </summary>
+            <param name="tagName">标签名</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.QuestionHelper.GetEndTag(System.String)">
+            <summary>
+            根据标签名获取完整的结束标签
+            </summary>
+            <param name="tagName">标签名</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.QuestionHelper.ConvertToBlankTag(System.String)">
+            <summary>
+            将填空区转换为填空标签
+            </summary>
+            <param name="content">要转换的内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.QuestionHelper.ConvertBlankTagToHtmlInput(System.String,System.String)">
+            <summary>
+            将填空标签转换为html输入标签
+            </summary>
+            <param name="content">要转换的内容</param>
+            <param name="inputElementIdPrefix">输入文本框的ID前缀</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.QuestionHelper.ConvertBlankTagToHtml(System.String,System.Func{CiWong.Framework.Helper.QuestionBlankTagEventArgs,System.String})">
+            <summary>
+            将填空标签转换为html内容
+            </summary>
+            <param name="content">要转换的内容</param>
+            <param name="questionBlankTagHandler">填空标签处理函数</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.QuestionHelper.ConvertToMathExpressionTag(System.String)">
+            <summary>
+            将数学表达式转换为数学表达式标签
+            </summary>
+            <param name="content">要转换的内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.QuestionHelper.ConvertMathExpressionTagToHtml(System.String)">
+            <summary>
+            将数学表达式标签转换为数学表达式显示html
+            </summary>
+            <param name="content">要转换的内容</param>
+            <returns></returns>
+        </member>
+        <member name="P:CiWong.Framework.Helper.QuestionHelper.BlankTagName">
+            <summary>
+            填空区域标记名
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.QuestionHelper.MathExpressionTagName">
+            <summary>
+            数学表达式标记名
+            </summary>
+        </member>
+        <member name="P:CiWong.Framework.Helper.QuestionBlankTagEventArgs.BlankTagNumber">
+            <summary>
+            当前填空标签序号
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.SerializeHelper">
+            <summary>
+            系列化帮助类
+            </summary>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.SerializeToXmlString``1(``0)">
+            <summary>
+            序列化对象到字符串
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="obj">对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.SerializeToXmlString``1(``0,System.Xml.Serialization.XmlSerializerNamespaces,System.Text.Encoding)">
+            <summary>
+            序列化对象到xml字符串
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="obj">对象</param>
+            <param name="namespaces"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.XmlStringDeserialize``1(System.String)">
+            <summary>
+            xml字符串反序列化为对象
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="xmlStr">要序列化为对象的Xml字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.SerializeToXmlFile``1(``0,System.String)">
+            <summary>
+            对象序列化为xml文件
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="obj">对象</param>
+            <param name="xmlFile">XML文件</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.SerializeToXmlFile``1(``0,System.String,System.Text.Encoding,System.Xml.Serialization.XmlSerializerNamespaces)">
+            <summary>
+            对象序列化为xml文件
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="obj">对象</param>
+            <param name="xmlFile">XML文件</param>
+            <param name="encoding">文档编码</param>
+            <param name="namespaces">命名空间的名称</param>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.XmlFileDeserialize``1(System.String)">
+            <summary>
+            xml文件反序列化为对象
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="xmlFile">XML文件</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.XmlFileDeserialize``1(System.String,System.Text.Encoding)">
+            <summary>
+            xml文件反序列化为对象
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="xmlFile">XML文件</param>
+            <param name="encoding">文档编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.SerializeToBinary(System.Object)">
+            <summary>
+            把对象序列化并返回相应的字节数组
+            </summary>
+            <param name="obj">需要序列化的对象</param>
+            <returns>byte[]</returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.SerializeToBinary(System.Object,System.IO.Stream)">
+            <summary>
+            把对象序列化并返回数据流
+            </summary>
+            <param name="obj">需要序列化的对象</param>
+            <param name="stream">流对象可以是MemoryStream、FileStream、BufferedStream</param>
+            <returns>Stream</returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.SerializeToBinaryFile(System.Object,System.String)">
+            <summary>
+            把对象序列化成二进制文件
+            </summary>
+            <param name="obj">要系列化的对象</param>
+            <param name="BinaryFile">文件</param>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.BinaryFileDeserialize``1(System.String)">
+            <summary>
+            把二进制文件反序列化成相应的对象
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="BinaryFile">要处理的文件</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.BinaryDeserialize``1(System.Byte[])">
+            <summary>
+            把字节反序列化成相应的对象
+            </summary>
+            <param name="pBytes">字节流</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.BinaryDeserialize``1(System.IO.Stream)">
+            <summary>
+            把字节反序列化成相应的对象
+            </summary>
+            <param name="stream">字节流</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.JSONEncode``1(``0)">
+            <summary>
+            系列化对象为JSON
+            </summary>
+            <typeparam name="T">类型T</typeparam>
+            <param name="obj">需要序列化的对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.SerializeHelper.JSONDecode``1(System.String)">
+            <summary>
+            JSON反序列化成相应的对象
+            </summary>
+            <typeparam name="T">类型T</typeparam>
+            <param name="json">Json数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.ToNormalFormatAnswer(System.String)">
+            <summary>
+            答案统一格式转换
+            </summary>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.CompareToUserAnswer(System.String,System.String)">
+            <summary>
+            对比作业参考答案与用户答案是否一致(客观填空题和客观简答题)
+            </summary>
+            <param name="refAnswer">参考答案</param>
+            <param name="userAnser">用户答案</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.ToDBC(System.String)">
+            <summary>
+            数据保存答案时需要条用此方法进行转换
+            </summary>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.RemoveHtmlTag(System.String)">
+            <summary>
+            移除html标签
+            </summary>
+            <param name="content">需要移除html标签的内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.RemoveHTML(System.String)">
+            <summary>
+            删除HTML代码,
+            </summary>
+            <param name="Htmlstring"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.RestoreHtmlCode(System.String)">
+            <summary>
+            恢复html中的特殊字符
+            </summary>
+            <param name="theString">需要恢复的文本。</param>
+            <returns>恢复好的文本。</returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.RemoveBreakLineChar(System.String)">
+            <summary>
+            移除回车、换行符
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.ToSafeString(System.String)">
+            <summary>
+            转换HTML安全字符串
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.RestoreSafeString(System.String)">
+            <summary>
+            恢复转换之后的HTML代码
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.ToBreakString(System.String)">
+            <summary>
+            转换换行符
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Framework.Helper.StringHelper.CutString(System.String,System.Int32,System.String)">
+            <summary>
+            截取字符串
+            </summary>
+            <param name="str">原字符串</param>
+            <param name="length">截取的长度</param>
+            <param name="hasEllipsis">截取之后尾部追加字符串</param>
+            <returns></returns>
+        </member>
+        <member name="T:CiWong.Framework.Helper.Task.TaskHelper">
+            <summary>
+            异步操作帮助类
+            </summary>
+        </member>
+        <member name="M:CiWong.Framework.Helper.Task.TaskHelper.TaskAsync(System.Action)">
+            <summary>
+            异步操作
+            </summary>
+            <param name="action">方法</param>
+        </member>
+        <member name="M:CiWong.Framework.Helper.Task.TaskHelper.TaskAsync(System.Action[])">
+            <summary>
+            异步操作
+            </summary>
+            <param name="actions">方法集</param>
+        </member>
+        <member name="T:CiWong.Framework.Helper.UserRoleType">
+            <summary>
+            用户角色
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.UserRoleType.Normal">
+            <summary>
+            普通角色
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.UserRoleType.Student">
+            <summary>
+            学生
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.UserRoleType.Teacher">
+            <summary>
+            教师
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.UserRoleType.StudentAndTeacher">
+            <summary>
+            学生,老师双重身份
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.UserRoleType.Parent">
+            <summary>
+            家长
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.UserRoleType.StudentAndParent">
+            <summary>
+            学生,家长双重身份
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.UserRoleType.TeacherAndParent">
+            <summary>
+            老师,家长双重身份
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.UserRoleType.AllRole">
+            <summary>
+            学生,老师,家长三重身份
+            </summary>
+        </member>
+        <member name="T:CiWong.Framework.Helper.Sex">
+            <summary>
+            用户性别
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.Sex.Normal">
+            <summary>
+            保密
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.Sex.Male">
+            <summary>
+            男
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.Sex.Female">
+            <summary>
+            女
+            </summary>
+        </member>
+        <member name="F:CiWong.Framework.Helper.TemplateConverter.WhiteSpace">
+            <summary>
+            空格，可以输入Input
+            </summary>
+        </member>
+    </members>
+</doc>

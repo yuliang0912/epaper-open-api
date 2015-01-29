@@ -1,0 +1,668 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiWong.Relation.Mapping</name>
+    </assembly>
+    <members>
+        <member name="P:CiWong.Relation.Mapping.Entities.ClassGroupMembers.IsLeader">
+            <summary>
+            是否组长
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.Entities.classgrouptype.typeid">
+            <summary>
+            类别ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.Entities.classgrouptype.typename">
+            <summary>
+            分类名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.Entities.classgrouptype.classid">
+            <summary>
+            所属班级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.Entities.classgrouptype.userid">
+            <summary>
+            创建者ID(教师ID)
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.Entities.classgrouptype.ord">
+            <summary>
+            排序号(备用)
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.Entities.classgrouptype.createdate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:CiWong.Relation.Mapping.Entities.RoomClass">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:CiWong.Relation.Mapping.Entities.RoomClassMember">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:CiWong.Relation.Mapping.Entities.RoomRoleMember">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:CiWong.Relation.Mapping.Entities.RoomSchool">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:CiWong.Relation.Mapping.Entities.RoomUserRole">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:CiWong.Relation.Mapping.Entities.UserBlackList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:CiWong.Relation.Mapping.Entities.User_JingSaiRegister">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:CiWong.Relation.Mapping.Entities.RegisterStatus">
+            <summary>
+            注册状态
+            </summary>
+        </member>
+        <member name="F:CiWong.Relation.Mapping.Entities.RegisterStatus.NoRegister">
+            <summary>
+            未注册
+            </summary>
+        </member>
+        <member name="F:CiWong.Relation.Mapping.Entities.RegisterStatus.Registering">
+            <summary>
+            正在注册
+            </summary>
+        </member>
+        <member name="F:CiWong.Relation.Mapping.Entities.RegisterStatus.RegisterClass">
+            <summary>
+            已注册班级关系
+            </summary>
+        </member>
+        <member name="F:CiWong.Relation.Mapping.Entities.RegisterStatus.RegisterFamily">
+            <summary>
+            已注册家庭关系
+            </summary>
+        </member>
+        <member name="F:CiWong.Relation.Mapping.Entities.RegisterStatus.RegisterUser">
+            <summary>
+            已注册用户信息
+            </summary>
+        </member>
+        <member name="F:CiWong.Relation.Mapping.Entities.RegisterStatus.RegisterOver">
+            <summary>
+            全部注册完
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.CID">
+            <summary>
+            班级ID外键
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.SchoolID">
+            <summary>
+            所属学校ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.PeriodID">
+            <summary>
+            学段ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.GradeID">
+            <summary>
+            年级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.ClassNumber">
+            <summary>
+            班级序号
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.ClassAliasName">
+            <summary>
+            自定义名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.ShowAliasName">
+            <summary>
+            是否显示自定义名称（0：不显示；1：显示）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.GroupID">
+            <summary>
+            班级群ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.TeacherSize">
+            <summary>
+            老师人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.StudentSize">
+            <summary>
+            学生人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.ParentSize">
+            <summary>
+            家长人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.SchoolName">
+            <summary>
+            学校名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassEntity.ClassYear">
+            <summary>
+            班级年份
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassRoleInfo.RoleID">
+            <summary>
+            角色ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassRoleInfo.RoleName">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassRoleInfo.AddDate">
+            <summary>
+            添加时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassRoleInfo.RoleState">
+            <summary>
+            角色状态(0：异常    1：正常)
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.ClassRoleInfo.RoleType">
+            <summary>
+            角色类型（1：学生    2：老师）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.ID">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.GroupClassName">
+            <summary>
+            班级群名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.GroupClassDesc">
+            <summary>
+            群班级描述
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.GroupTypeID">
+            <summary>
+            群类型ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.AuthType">
+            <summary>
+            认证类型(0：允许任何人；1：问题验证；2：身份验证；3：会费)
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.GroupState">
+            <summary>
+            群班级状态(1：正常；0：异常)
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.GroupClassLogo">
+            <summary>
+            群班级logo
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.CreateUserID">
+            <summary>
+            创建用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.CreateUserName">
+            <summary>
+            创建用户名
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClass.QrCode">
+            <summary>
+            二维码
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.ID">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.GCID">
+            <summary>
+            群班级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.UserID">
+            <summary>
+            群班级成员ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.UserName">
+            <summary>
+            群成员名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.NID">
+            <summary>
+            成员备注ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.UserAuthStatus">
+            <summary>
+            认证状态（0：未认证  1：已认证 ）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.UserStatus">
+            <summary>
+            成员状态（0：异常 1：正常 ）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.AddDate">
+            <summary>
+            成员加入时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.UserIdentity">
+            <summary>
+            成员身份（1：学生   2：老师    4：家长）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.UserAddYear">
+            <summary>
+            成员加入年份（针对班级成员，群组成员可为0）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupClassMember.IsAdmin">
+            <summary>
+            成员是否为管理员（0：否    1：是）仅对群成员有效
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassMemberClass.PeriodId">
+            <summary>
+            学段ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassMemberClass.GradeId">
+            <summary>
+            年级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassMemberClass.ClassAliasName">
+            <summary>
+            自定义名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassMemberClass.UserId">
+            <summary>
+            班级成员ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassMemberClass.UserName">
+            <summary>
+            成员名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassMemberClass.ClassId">
+            <summary>
+            班级
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassMemberClass.ClassYear">
+            <summary>
+            班级年份
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassMemberClass.Isgraduates">
+            <summary>
+            是否毕业（0：没有 1：毕业）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassMemberClass.ClassNun">
+            <summary>
+            班级编号
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.upgradeInfo.ClassId">
+            <summary>
+            班级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.upgradeInfo.PeriodId">
+            <summary>
+            学段ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.upgradeInfo.GradeId">
+            <summary>
+            年级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassUpgradeInfo.ClassName">
+            <summary>
+            班级名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassUpgradeInfo.ClassAlias">
+            <summary>
+            班级别名
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassUpgradeInfo.ClassNun">
+            <summary>
+            班级数号
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassUpgradeInfo.ClassYear">
+            <summary>
+            升级时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.viewClassUpgradeInfo.UpdateDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="T:CiWong.Relation.Mapping.NewEntities.ClassPriod">
+            <summary>
+            学段
+            </summary>
+        </member>
+        <member name="T:CiWong.Relation.Mapping.NewEntities.ClassGrade">
+            <summary>
+            年级
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupEntity.GID">
+            <summary>
+            群组外键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupEntity.PeriodID">
+            <summary>
+            学段ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupEntity.GroupAreaID">
+            <summary>
+            群地区ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupEntity.GroupSize">
+            <summary>
+            群上限人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupEntity.GroupTotal">
+            <summary>
+            群人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupEntity.GroupMoney">
+            <summary>
+            群会费（0：免费）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupEntity.IsRecommend">
+            <summary>
+            是否推荐（0：不推荐；1推荐）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupEntity.GroupPraise">
+            <summary>
+            群赞数量
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupEntity.GroupLabel">
+            <summary>
+            群标签
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupMoneyInfo.ID">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupMoneyInfo.GID">
+            <summary>
+            群ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupMoneyInfo.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupMoneyInfo.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupMoneyInfo.GroupMoney">
+            <summary>
+            缴费金额
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupMoneyInfo.AddDate">
+            <summary>
+            缴费时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupPraiseInfo.ID">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupPraiseInfo.GID">
+            <summary>
+            群ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupPraiseInfo.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupPraiseInfo.UserName">
+            <summary>
+            用户名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupPraiseInfo.AddDate">
+            <summary>
+            赞的时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupType.ID">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupType.TypeName">
+            <summary>
+            群类型名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupType.TypeState">
+            <summary>
+            群类型状态（0：异常 1：正常 ）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupType.AddDate">
+            <summary>
+            添加时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.GroupType.CateType">
+            <summary>
+            类型分类（1：班级     2：群）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.QuestionVerify.Type">
+            <summary>
+            类型（1：好友  2：家庭  3：群  4：班级）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.QuestionVerify.Question">
+            <summary>
+            问题
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.QuestionVerify.ObjectID">
+            <summary>
+            对象ID（1：班级 2：群）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.QuestionVerify.CreateUserID">
+            <summary>
+            创建人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.QuestionVerify.CreateUserName">
+            <summary>
+            创建人名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.QuestionVerify.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.SchoolID">
+            <summary>
+            学校主键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.PeriodID">
+            <summary>
+            学段ID（1：幼儿园  2：小学  4：中学  8：高中  16：大学）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.SchoolName">
+            <summary>
+            学校名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.RoomUserID">
+            <summary>
+            创建用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.RoomUserName">
+            <summary>
+            创建用户名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.SchoolDesc">
+            <summary>
+            学校描述
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.SchoolCreateDate">
+            <summary>
+            学校创建时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.SchoolUpdateDate">
+            <summary>
+            学校更新时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.SchoolAuthStatus">
+            <summary>
+            认证状态（0：未认证  1：已认证）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.SchoolStatus">
+            <summary>
+            状态（0：正常 1：异常）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.PrincipalName">
+            <summary>
+            校长名
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.SchoolArea">
+            <summary>
+            学校所在地区（省/市/区）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.School.Phone">
+            <summary>
+            联系人电话
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.UserNote.ID">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.UserNote.GCID">
+            <summary>
+            群班级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.UserNote.UserID">
+            <summary>
+            班级成员ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.UserNote.Curriculum">
+            <summary>
+            任教科目(班级成员需要，群成员为空)
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.UserNote.RoleID">
+            <summary>
+            成员角色ID（1：学生    2：老师    >2：班级角色信息表ID）
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.UserNote.Phone">
+            <summary>
+            电话
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.UserNote.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:CiWong.Relation.Mapping.NewEntities.UserNote.Note">
+            <summary>
+            说明
+            </summary>
+        </member>
+    </members>
+</doc>

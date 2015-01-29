@@ -110,7 +110,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 		}
 
 		/// <summary>
-		/// 获取做作业列表
+		/// 获取做作业列表(我的作业)
 		/// </summary>
 		/// <param name="workStatus">作业状态: 待完成0, 已完成7, 已批阅:3</param>
 		/// <returns></returns>
@@ -170,6 +170,25 @@ namespace CiWong.OpenAPI.Work.Controllers
 					};
 				}).ToList()
 			};
+		}
+
+		/// <summary>
+		/// 老师获取自己布置的作业列表
+		/// </summary>
+		/// <param name="workStatus">作业状态:-1:全部 待完成:9  过期:10</param>
+		/// <param name="sonWorkType">子作业类型 -1 全部</param>
+		/// <param name="publishType">布置对象0:个人布置 1班级布置 2孩子 4：班级小组</param>
+		/// <param name="reviceId">接受对象ID(当选择班级时,此处为班级ID)</param>
+		[HttpGet, BasicAuthentication]
+		public dynamic my_publishs(int workStatus, int sonWorkType, int publishType, long reviceId = 0, int page = 1, int pageSize = 10)
+		{
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+
+			int totalItem = 0;
+
+			var workBaseList = new WorkBaseProvider().GetWorkBaseList(userId, null, reviceId, DateTime.MinValue, DateTime.Now, (PublishTypeEnum)publishType, workStatus, -1, sonWorkType, ref totalItem, page, pageSize);
+
+			return null;
 		}
 	}
 }

@@ -1,0 +1,1161 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiWong.Relation.WCFContract</name>
+    </assembly>
+    <members>
+        <member name="T:CiWong.Relation.WCFContract.IBlackListRelationManager">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IBlackListRelationManager.GetUserBlackList(System.Int32)">
+            <summary>
+            根据用户ID获取黑名单
+            </summary>
+            <param name="roomUserRoleID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IBlackListRelationManager.CheckIsExistsUserBlack(System.Int32,System.Int32)">
+            <summary>
+            根据用户ID检查是否被加入黑名单
+            </summary>
+            <param name="UserID"></param>
+            <param name="addUserID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IBlackListRelationManager.AddUserBlackList(CiWong.Relation.Mapping.Entities.UserBlackList)">
+            <summary>
+            添加黑名单
+            </summary>
+            <param name="userBlackList"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IBlackListRelationManager.UpdateUserBlackList(CiWong.Relation.Mapping.Entities.UserBlackList)">
+            <summary>
+            修改黑名单
+            </summary>
+            <param name="userBlackList"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IBlackListRelationManager.DeleteUserBlack(System.Int32,System.Int32)">
+            <summary>
+            删除黑名单
+            </summary>
+            <param name="roomBlackList"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IBlackListRelationManager.DeleteUserBlack(System.Int64)">
+            <summary>
+            删除黑名单
+            </summary>
+            <param name="roomBlackList"></param>
+        </member>
+        <member name="T:CiWong.Relation.WCFContract.IClassRelationManager">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClassMember(System.Int64,System.Int32)">
+            <summary>
+            根据班级ID和用户ID获取班级成员
+            </summary>
+            <param name="roomUserRoleID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClassMember(System.Int32)">
+            <summary>
+            根据用户ID获取用户所有所在班级的成员
+            </summary>
+            <param name="userID">用户ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClassMember(System.Int64)">
+            <summary>
+            根据班级ID获取班级成员
+            </summary>
+            <param name="classID">班级ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClassMember(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            根据班级ID集合获取班级成员
+            </summary>
+            <param name="classID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClassMember(System.Int64,System.String)">
+            <summary>
+            根据班级ID和用户姓名获取班级成员
+            </summary>
+            <param name="classID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SearchRoomClassMember(System.Int64,System.String)">
+            <summary>
+            根据班级ID和用户姓名模糊搜索班级成员
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassMemberByRoleID(System.Int64,System.Byte)">
+            <summary>
+            根据班级ID和角色ID获取班级中对应角色的成员
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassMemberByRoleID(System.Int64,CiWong.Framework.Helper.UserRoleType)">
+            <summary>
+            根据班级ID和角色ID获取班级中对应角色的成员
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassStudentMember(System.Int64)">
+            <summary>
+            根据班级ID获取班级中角色为学生的成员
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassTeacherMember(System.Int64)">
+            <summary>
+            根据班级ID获取班级中角色为老师的成员
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetTeacherBySchoolID(System.Int64,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据学校ID获取老师
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetTeacherBySchoolID(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            根据学校ID,学段,年级获取老师异常
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClass(System.Int32)">
+            <summary>
+            根据用户ID获取所在班级列表
+            </summary>
+            <param name="roomUserRoleID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClass(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            根据用户ID集合获取所在班级列表
+            </summary>
+            <param name="userID">用户ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClass(System.Int64,System.Int32,System.Int32,System.String)">
+            <summary>
+            根据学校ID,学段,年级获取班级列表
+            </summary>
+            <param name="schoolID"></param>
+            <param name="period"></param>
+            <param name="grade"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClassBySchoolID(System.Int64)">
+            <summary>
+            根据学校ID获取班级
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClassIDAndName(System.Int32)">
+            <summary>
+            根据用户ID获取所在班级列表
+            </summary>
+            <param name="roomUserRoleID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassAndMemberCount(System.Int32)">
+            <summary>
+            根据用户ID获取用户班级列表以及班级总人数
+            </summary>
+            <param name="userID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassAndMemberCount(System.Collections.Generic.IEnumerable{System.Int64})">
+            <summary>
+            根据班级ID集合获取班级总人数
+            </summary>
+            <param name="userID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassAndMemberCount(System.Collections.Generic.IEnumerable{System.Int64},System.Int32)">
+            <summary>
+            根据班级ID集合和角色ID获取角色人数
+            </summary>
+            <param name="classIDList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassMemberCount(System.Int64)">
+            <summary>
+            根据班级ID获取班级总人数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoleMemberCount(System.Int64)">
+            <summary>
+            根据班级ID获取班级人数
+            </summary>
+            <param name="classID">班级ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.AddRoomClassMember(CiWong.Relation.Mapping.Entities.RoomClassMember)">
+            <summary>
+            添加班级成员
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpdateMemberNo(CiWong.Relation.Mapping.Entities.RoomClassMember)">
+            <summary>
+            修改班级成员学号
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpdateEmail(CiWong.Relation.Mapping.Entities.RoomClassMember)">
+            <summary>
+            修改班级成员邮箱
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.DeleteRoomClassMember(System.Int32,System.Int64)">
+            <summary>
+            删除班级成员(修改UserStatus为3)
+            </summary>
+            <param name="roomUserRole"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClassByClassID(System.Int64)">
+            <summary>
+            根据ID获取班级(ClassStatus=1)
+            </summary>
+            <param name="roomUserRoleID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetUserBySchoolID(System.Int64,System.Int32@,System.Int32,System.Int32,System.String)">
+            <summary>
+            根据学校ID和用户姓名搜索
+            </summary>
+            <param name="schoolID"></param>
+            <param name="userName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.AddRoomClass(CiWong.Relation.Mapping.Entities.RoomClass)">
+            <summary>
+            添加班级
+            </summary>
+            <param name="roomUserRole"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.AddRoomClassAndReturnId(CiWong.Relation.Mapping.Entities.RoomClass)">
+            <summary>
+            添加班级
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpdateRoomClass(CiWong.Relation.Mapping.Entities.RoomClass)">
+            <summary>
+            修改班级(不修改schoolID,CreateDate,RoomUserID,ClassAuthStatus,ClassStatus)
+            </summary>
+            <param name="roomUserRole"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassNum(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            获取班级编号集合
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomRoleMember(System.Int64,System.Int32)">
+            <summary>
+            根据班级ID和用户ID获取用户角色
+            </summary>
+            <param name="roomUserRoleID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomRoleMemberByUserID(System.Int32)">
+            <summary>
+            根据用户ID获取用户所有的角色以及角色对应的班级
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoleMember(System.Int64)">
+            <summary>
+            根据班级ID获取成员身份的角色(如:班长,学习委员,语文老师)
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoleMember(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            根据用户ID获取角色(如:班长,学习委员,语文老师)
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomRoleMember(System.Int64)">
+            <summary>
+            根据ID获取用户角色关系
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetStudentRoleMember(System.Int64)">
+            <summary>
+            根据班级ID获取学生身份的角色(如:班长,学习委员)
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetTeacherRoleMember(System.Int64)">
+            <summary>
+            根据班级ID获取学生身份的角色(如:班主任,副班主任)
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetTeacher(System.Int64)">
+            <summary>
+            根据班级ID获取老师,有明确身份或者没有的
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.AddRoomRoleMember(CiWong.Relation.Mapping.Entities.RoomRoleMember)">
+            <summary>
+            添加用户角色关系(没有绑定课程,则CurriculumID=null)
+            </summary>
+            <param name="roomUserRole"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpdateRoomRoleMember(CiWong.Relation.Mapping.Entities.RoomRoleMember)">
+            <summary>
+            修改用户角色关系(根据主键RoleMemberID)
+            </summary>
+            <param name="roomUserRole"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.DeleteUserRole(System.Int64,System.Int32,System.Int64)">
+            <summary>
+            删除班级用户身份
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomUserRole(CiWong.Framework.Helper.UserRoleType)">
+            <summary>
+            根据基础身份获取获取角色信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchool(System.String,System.Int32,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据地区ID获取学校
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchool(System.String,System.Int32,System.Int32@,System.Int32,System.Int32,System.Collections.Generic.List{System.Int64},System.String)">
+            <summary>
+            根据地区ID获取学校
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchool(System.String,System.Int32)">
+            <summary>
+            根据地区和学段ID获取学校
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchool(System.String)">
+            <summary>
+            根据地区ID获取学校
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchoolByName(System.String,System.String,System.Int32)">
+            <summary>
+            根据地区ID获取学校
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchool(System.Int64)">
+            <summary>
+            根据ID获取学校
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchoolDetail(System.Int32)">
+            <summary>
+            根据用户ID获取用户学校班级以及成员信息
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchoolByUserList(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            根据用户ID获取学校和班级列表
+            </summary>
+            <param name="userID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchoolMember(System.Int64,System.Byte,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据学校ID和角色获取成员列表
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchoolMemberByName(System.Int64,System.String)">
+            <summary>
+            根据学校ID和角色获取成员列表
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchoolMember(System.Int64,System.Byte,System.Int32,System.Int32@,System.Int32,System.Int32,System.Collections.Generic.List{System.Int32},System.String)">
+            <summary>
+            根据学校ID和角色获取成员列表
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchool(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            根据ID获取学校
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchoolByName(System.String)">
+            <summary>
+            根据校名获取学校
+            </summary>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchoolByNameAndPeriod(System.String,System.Int32)">
+            <summary>
+            根据学校名称获取学校
+            </summary>
+            <param name="strName">学校名称</param>
+            <param name="period">学段</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.AddRoomSchool(CiWong.Relation.Mapping.Entities.RoomSchool)">
+            <summary>
+            添加学校
+            </summary>
+            <param name="roomSchool"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpdateRoomSchool(CiWong.Relation.Mapping.Entities.RoomSchool)">
+            <summary>
+            修改学校
+            </summary>
+            <param name="roomSchool"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpdateSchoolPeriod(System.Int32,System.Int64)">
+            <summary>
+            修改学校学段信息
+            </summary>
+            <param name="pid"></param>
+            <param name="schoolID"></param>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.InvitationClassMember(CiWong.Relation.Mapping.Entities.Invitationclassmember)">
+            <summary>
+            邀请成员加入班级
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.DelInvitation(System.Int32,System.Int64)">
+            <summary>
+            删除邀请请求
+            </summary>
+            <param name="TargetUserID"></param>
+            <param name="ClassID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetInvitation(System.Int32)">
+            <summary>
+            根据被邀请人ID获取所有邀请
+            </summary>
+            <param name="userID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetSchoolInfo(System.Int32)">
+            <summary>
+            用户所在学校信息
+            </summary>
+            <param name="uin">用户ID</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassInfo(System.Int32)">
+            <summary>
+            用户所在班级信息
+            </summary>
+            <param name="uin">用户ID</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetMemberListByGID(System.Int64)">
+            <summary>
+            通过groupid 找小组成员
+            </summary>
+            <param name="GID">小组ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.DelClassGroupMember(System.Int64,System.Int32)">
+            <summary>
+            删除小组成员
+            </summary>
+            <param name="gid">小组ID</param>
+            <param name="uid">成员ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.PatchDelClassGroupMember(System.Int64,System.String)">
+            <summary>
+            批量删除成员
+            </summary>
+            <param name="gid">小组ID</param>
+            <param name="struid">成员ID串以逗号隔开</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.MoveMember(System.Int64,System.Int64,System.Int64,System.String,System.Int64)">
+            <summary>
+            移动小组
+            </summary>
+            <param name="classid">班级ID</param>
+            <param name="typeid">分类ID</param>
+            <param name="gid">小组ID</param>
+            <param name="struser">成员ID串，用逗号隔开</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpdateMemberLeader(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            更新成员为组长或取消组长
+            </summary>
+            <param name="gid">小组ID</param>
+            <param name="userid">用户ID</param>
+            <param name="status">状态 0==取消 1==设为组长</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.PatchAddClassGroupMember(System.Collections.Generic.List{CiWong.Relation.Mapping.Entities.ClassGroupMembers},System.Collections.Generic.List{CiWong.Relation.Mapping.Entities.ClassGroupMembers},System.Int64,System.Int64,System.Int64)">
+            <summary>
+            批量添加成员
+            </summary>
+            <param name="list">成员列表</param>
+            <param name="cid">班级ID</param>
+            <param name="gid">小组ID</param>
+            <param name="tid">分类ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupListByTypeID(System.Int64)">
+            <summary>
+            通过分类ID找该分类下的小组列表
+            </summary>
+            <param name="typeid">分类ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupListByStuAndTeacher(System.Int32,System.Int32)">
+            <summary>
+            通过学生id、老师id找该学生的小组列表（含分类ID）
+            </summary>
+            <param name="stuid">学生ID</param>
+            <param name="teacherid">教师ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassGroupByGID(System.Int64)">
+            <summary>
+            根据groupid找小组实体（含classid、teacherid、分类ID）
+            </summary>
+            <param name="GID">小组ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassGroupCount(System.Int64,System.Int32,System.Int64)">
+            <summary>
+            根据根据班级ID获取小组数量
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.EditClassGroups(CiWong.Relation.Mapping.Entities.ClassGroups)">
+            <summary>
+            编辑班级小组
+            </summary>
+            <param name="model"></param>
+            <param name="userlist">新的用户ID及用户名串</param>
+            <param name="olduid">旧成员ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.AddClassGroups(CiWong.Relation.Mapping.Entities.ClassGroups)">
+            <summary>
+            创建班级小组 
+            </summary>
+            <param name="model"></param>       
+            <returns>-2==已经超过20个限制,>0==成功 否则失败</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.DelClassGroups(System.Int64,System.Int32)">
+            <summary>
+            根据小组ID删除小组及小组成员
+            </summary>
+            <param name="gid">小组ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.AddClassGroupType(CiWong.Relation.Mapping.Entities.classgrouptype)">
+            <summary>
+            添加分类
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.EditClassGroupType(CiWong.Relation.Mapping.Entities.classgrouptype)">
+            <summary>
+            编辑分类
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.DelClassGroupType(System.Int64,System.Int32)">
+            <summary>
+            删除分类
+            </summary>
+            <param name="typeid">分类ID</param>
+            <param name="uid">创建者ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassGroupTypeList(System.Int64,System.Int32)">
+            <summary>
+            根据班级ID和创建者ID获取分类
+            </summary>
+            <param name="classid">班级ID</param>
+            <param name="userid">创建者ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomClassList(System.Int64,System.Int32,System.Int32,System.Int32@,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            根据学校ID,学段,年级获取班级列表
+            </summary>
+            <param name="schoolID"></param>
+            <param name="period"></param>
+            <param name="grade"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.DeleteRoomClass(System.Int64)">
+            <summary>
+            删除班级,但不修改用户库中冗余信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpdataClassState(System.Int64,System.Byte)">
+            <summary>
+            修改班级状态
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassMemberListByRoleID(System.Int64,System.Int32@,System.Int32,System.Int32,System.Byte)">
+            <summary>
+            根据班级ID和角色ID获取班级中对应角色的成员
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetSchoolByArea(System.String,System.Int32,System.String)">
+            <summary>
+            根据地区ID和学校名称获取学校
+            </summary>
+            <param name="areaId">地区ID</param>
+            <param name="periodId">学段ID</param>
+            <param name="schoolName">学校名称（可选）</param>
+            <returns>School对象集合</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SearchUserIdInSchoolByName(System.Int64,System.String,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据学校ID和用户名称精确搜索用户ID
+            </summary>
+            <param name="schoolid">学校ID</param>
+            <param name="name">用户名</param>
+            <param name="total">返回总数</param>
+            <param name="pageindex">页码</param>
+            <param name="pagesize">分页大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SearchUserIdInSchoolByKey(System.Int64,System.String,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据学校ID和用户名称模糊搜索用户ID
+            </summary>
+            <param name="schoolid">学校ID</param>
+            <param name="name">用户名</param>
+            <param name="total">返回总数</param>
+            <param name="pageindex">页码</param>
+            <param name="pagesize">分页大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassBySchoolId(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            根据学校ID和年级ID查询班级列表
+            </summary>
+            <param name="schoolId">学校ID</param>
+            <param name="gradeId">年级ID(可选0为查询全校)</param>
+            <param name="periodId">学段ID(可选0为查询全校)</param>
+            <returns>GroupClass对象集合</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassBySchoolId(System.Int64,System.Int32,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            根据学校ID查询班级列表
+            </summary>
+            <param name="schoolId">学校ID</param> 
+            <param name="gradeId">年级ID</param>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">分页大小</param>
+            <param name="total">总数</param>
+            <returns>GroupClass对象集合</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassByClassId(System.Int64)">
+            <summary>
+            根据班级ID查询班级
+            </summary>
+            <param name="classId">班级ID</param>
+            <returns>GroupClass对象集合</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.CreateClass(CiWong.Relation.Mapping.NewEntities.GroupClass)">
+            <summary>
+            创建班级
+            </summary>
+            <param name="model">班级群对象</param>
+            <returns>返回新增ID</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.IsClass(System.Int64,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            判断班级是否存在
+            </summary>
+            <param name="schoolId">学校ID</param>
+            <param name="priodId">学段ID</param>
+            <param name="gradeId">年级ID</param>
+            <param name="classnumber">班级序号</param>
+            <returns>返回新增ID</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassByUserId(System.Int32)">
+            <summary>
+            根据班级成员ID查询班级
+            </summary>
+            <param name="userId">成员用户ID</param>
+            <returns>GroupClass对象</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpdateClassEntity(CiWong.Relation.Mapping.NewEntities.GroupClass)">
+            <summary>
+            根据班级ID修改班级信息
+            </summary>
+            <param name="model">班级</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassMemberByClassId(System.Int64,System.Int32,System.Int32,System.String)">
+            <summary>
+            根据班级ID获取成员列表
+            </summary>
+            <param name="classId">班级ID</param>
+            <param name="role">成员身份（1：学生   2：老师    4：家长）</param>
+            <param name="year">入班年份</param>
+            <param name="searchName">用户名称</param>
+            <returns>QuestionVerify对象集合</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassMemberCountByClassId(System.Int64,System.Int32)">
+            <summary>
+            根据班级ID获取成员人数
+            </summary>
+            <param name="classId">班级ID</param>
+            <param name="role">成员身份（1：学生   2：老师    4：家长）</param>
+            <returns>人数</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.IsClassMember(System.Int64,System.Int32)">
+            <summary>
+            判断用户是否已经加入班级
+            </summary>
+            <param name="classId">班级ID</param>
+            <param name="userId">用户ID</param>
+            <returns>是否加入</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.AddClassMember(System.Int64,System.Int32,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            加入班级
+            </summary>
+            <param name="classId">班级ID</param>
+            <param name="userId">用户ID</param>
+            <param name="userName">用户名称</param>
+            <param name="roleId">角色ID</param>
+            <param name="note">备注信息</param>
+            <param name="isAdmin">是否为管理员（1是0否）</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SetClassAdmin(System.Int64,System.Int32)">
+            <summary>
+            设置班级管理员
+            </summary>
+            <param name="classId">班级ID</param>
+            <param name="userId">用户ID</param>
+            <returns>返回(1成功 2已经存在 0失败)</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.CancelClassAdmin(System.Int64,System.Int32)">
+            <summary>
+            撤销班级管理员
+            </summary>
+            <param name="classId">班级ID</param>
+            <param name="userId">用户ID</param>
+            <returns>返回(1成功 0失败)</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.IsClassAdmin(System.Int64,System.Int32)">
+            <summary>
+            根据用户ID和班级ID判断用户是否为班级管理员
+            </summary>
+            <param name="classId">班级ID</param>
+            <param name="userId">用户ID</param>
+            <returns>是否为管理员</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassAdmin(System.Int64)">
+            <summary>
+            根据班级ID获取班级管理员
+            </summary>
+            <param name="classId">班级ID</param>
+            <returns>是否为管理员</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassRoleInfo(System.Int32)">
+            <summary>
+            获取班级身份类型
+            </summary>
+            <param name="roleType">身份类型(1:学生 2:老师)</param>
+            <returns>ClassRoleInfo对象集合</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetUserNote(System.Int32,System.Int64)">
+            <summary>
+            根据用户ID和班级ID获取班级备注
+            </summary>
+            <param name="userId">用户ID</param>
+            <param name="classId">班级ID</param>
+            <returns>UserNote对象</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SaveNote(CiWong.Relation.Mapping.NewEntities.UserNote)">
+            <summary>
+            保存用户班级备注
+            </summary>
+            <param name="userNote">用户备注</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.OutClass(System.Int32,System.Int64)">
+            <summary>
+            退班
+            </summary>
+            <param name="userId">用户ID</param>
+            <param name="classId">班级ID</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupClassMember(System.Int32,System.Int64)">
+            <summary>
+            根据用户ID和班级ID获取成员信息
+            </summary>
+            <param name="userId">用户ID</param>
+            <param name="classId">班级ID</param>
+            <returns>GroupClassMember对象</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetQuestonVerify(System.Int64)">
+            <summary>
+            根据班级ID获取验证信息
+            </summary>
+            <param name="classid">班级ID</param>
+            <returns>QuestionVerify对象集合</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupClassByGroupId(System.Int64)">
+            <summary>
+            根据群ID获取群信息
+            </summary>
+            <param name="groupId">群ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupClass(System.String,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            根据ID查找群组
+            </summary>
+            <param name="search">标签或者群ID</param>
+             <param name="order">排序（1：推荐,2:活跃度,3:好评,4:最新,5:免费）</param>
+            <param name="typeId">群类型ID</param>
+            <param name="periodId">学段ID</param>
+            <param name="areaId">地区ID</param>
+            <returns>GroupClass对象</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupClass(System.String,System.Int32@,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>
+            搜索群
+            </summary>
+            <param name="search">群名称</param>
+            <param name="total">总数</param>
+            <param name="order">排序</param>
+            <param name="typeId">类型ID</param>
+            <param name="pageindex">页码</param>
+            <param name="pagesize">分页大小</param>
+            <param name="areaId">地区ID</param>
+            <param name="periodId">年级ID</param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupAdminIds(System.Int64)">
+            <summary>
+            根据群ID获取管理员ID
+            </summary>
+            <param name="groupId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupMembers(System.Int64,System.Int32)">
+            <summary>
+            根据群ID获取群成员
+            </summary>
+            <param name="groupId">群ID</param>
+            <param name="flag">是否为管理员</param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupMembers(System.Int64,System.Int32@,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            根据群ID获取群成员带分页
+            </summary>
+            <param name="groupId">群ID</param>
+            <param name="total">总数</param>
+            <param name="flag">是否为管理员</param>
+            <param name="pageindex">页码</param>
+            <param name="pagesize">分页大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.CreateGroup(CiWong.Relation.Mapping.NewEntities.GroupClass)">
+            <summary>
+            创建群组
+            </summary>
+            <param name="model">GroupClass对象</param>
+            <returns>新增ID</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupByUserId(System.Int32)">
+            <summary>
+            根据群组成员ID查询群组
+            </summary>
+            <param name="userId">成员用户ID</param>
+            <returns>GroupClass对象</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.IsGroupAdmin(System.Int64,System.Int32)">
+            <summary>
+            查询用户是否为群管理员
+            </summary>
+            <param name="groupId">群ID</param>
+            <param name="uin">用户ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SetGroupAdmin(System.Int64,System.Int32,System.Boolean)">
+            <summary>
+            设置群管理员
+            </summary>
+            <param name="groupId">群ID</param>
+            <param name="uin">用户ID</param>
+            <param name="isAdmin">是否为管理员</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpDateGroup(System.Int64,System.String,System.String,System.String,System.String)">
+            <summary>
+            修改群组信息
+            </summary>
+            <param name="groupId">群ID</param>
+            <param name="groupName">群名称</param>
+            <param name="groupArea">群地区</param>
+            <param name="groupDesc">群简介</param>
+            <param name="groupTags">群标签</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SetGroupLogo(System.Int64,System.String)">
+            <summary>
+            设置群logo
+            </summary>
+            <param name="groupId">群ID</param>
+            <param name="groupLogo">群logo</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SetGroupNote(CiWong.Relation.Mapping.NewEntities.UserNote)">
+            <summary>
+            修改群备注
+            </summary>
+            <param name="note">备注</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SetGroupAuthType(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            修改群组验证类型
+            </summary>
+            <param name="groupId">群ID</param>
+            <param name="val">验证类型ID</param>
+            <param name="money">会费类型金额数，可为0</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.AddGroupMember(System.Int64,System.Int32,System.String,System.String,System.Int32)">
+            <summary>
+            加入群
+            </summary>
+            <param name="groupId">群id</param>
+            <param name="userId">用户id</param>
+            <param name="userName">用户名称</param>
+            <param name="note">备注</param>
+            <param name="isAdmin">是否管理员</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SetOutGroup(System.Int64,System.Int32)">
+            <summary>
+            退出群组 
+            </summary>
+            <param name="gid">群ID</param>
+            <param name="uid">用户ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SetDelGroupNote(System.Int64,System.Int32)">
+            <summary>
+            删除群成员备注
+            </summary>
+            <param name="gid">群ID</param>
+            <param name="uid">用户ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.IsPraise(System.Int32,System.Int64)">
+            <summary>
+            检查群赞记录
+            </summary>
+            <param name="uid">用户ID</param>
+            <param name="gid">群ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SetPraiseGroup(System.Int64,System.Int32,System.String)">
+            <summary>
+            赞群操作
+            </summary>
+            <param name="gid">群ID</param>
+            <param name="uid">用户ID</param>
+            <param name="uname">用户名</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetPraiseCount(System.Int64)">
+            <summary>
+            获取群咱数量
+            </summary>
+            <param name="gid">群ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.DeleGroup(System.Int64)">
+            <summary>
+            删除群
+            </summary>
+            <param name="gid">群ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRelationMemberIdsById(System.Int64)">
+            <summary>
+            获取班级\群组成员ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRelationMemberIdsByUin(System.Int32,System.Int32)">
+            <summary>
+            根据用户ID和群标签获取群成员
+            </summary>
+            <param name="uin">用户ID</param>
+            <param name="tag">标签ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupClassCountGroupByType(System.Int32)">
+            <summary>
+            根据用户ID获取所在班级和群组的数量
+            </summary>
+            <param name="uin">用户ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupClassesByUin(System.Int32)">
+            <summary>
+            根据用户ID获取所在群信息
+            </summary>
+            <param name="uin">用户ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetGroupBySchoolId(System.Int64,System.Int32@,System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            校园群
+            </summary>
+            <param name="schoolID">学校ID</param>
+            <param name="search">群ID或群名称</param>
+            <param name="total">分页总数</param>
+            <param name="pageindex">页码</param>
+            <param name="pagesize">分页大小</param>
+            <returns>群集合</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.AddGroupBySchool(CiWong.Relation.Mapping.NewEntities.GroupClass)">
+            <summary>
+            创建校园群组
+            </summary>
+            <param name="model">GroupClass对象</param>
+            <returns>新增ID</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.UpdateClassMemberByStudent(System.Int64,System.Int64,System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{System.Int32})">
+            <summary>
+            移班
+            </summary>
+            <param name="oldClassID">老班级ID</param>
+            <param name="newClassID">新班级ID</param>
+            <param name="userID">移班学生ID</param>
+            <returns>是否成功</returns>
+        </member>
+        <!-- 对于成员“M:CiWong.Relation.WCFContract.IClassRelationManager.GetSchoolTeacherInfoBySchoolId(System.Int64,System.String)”忽略有格式错误的 XML 注释 -->
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassMemberBySchoolId(System.Int64,System.Int64,System.Int32,System.String)">
+            <summary>
+            根据学校、年级、角色返回用户列表
+            </summary>
+            <param name="schoolId">学校ID</param>
+            <param name="gradeId">年级ID</param>
+            <param name="role">角色(1：学生2：老师4：家长)</param>
+            <param name="searchName">用户名称</param>
+            <returns>用户列表</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetClassMemberInfoByClassId(System.Int64,System.Int64,System.Int32@,System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            根据班级ID获取成员列表并分页
+            </summary>
+            <param name="classId">班级ID</param>
+            <param name="total">分页总数</param>
+            <param name="pageIndex">分页索引（从第1页开始）</param>
+            <param name="pageSize">分页大小</param>
+            <param name="role">成员身份（1：学生   2：老师    4：家长）</param>
+            <param name="year">入班年份</param>
+            <param name="searchName">用户名称</param>
+            <returns>班级列表（GroupClassMember对象集合）</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.ClassUpgradeByClassId(System.Int64,System.Int64)">
+            <summary>
+            班级升级
+            </summary>
+            <param name="schoolId">学校Id</param>
+            <param name="classId">班级Id</param>
+            <returns>班级是否升级成功（0：失败 1：成功 2：冲突）</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.ClassUpgrade(System.Int64,System.Collections.Generic.List{CiWong.Relation.Mapping.NewEntities.upgradeInfo})">
+            <summary>
+            班级是否能升级
+            </summary>
+            <param name="schoolId">学校</param>
+            <param name="upgradeInfo">班级升级信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.SchoolOverallUpgrade(System.Int64)">
+            <summary>
+            学校整体升级
+            </summary>
+            <param name="schoolId">学校Id</param>
+            <returns>是否整学校全部升级</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetHistoryClassBySchoolId(System.Int64,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            根据学校ID查询毕业班级列表
+            </summary>
+            <param name="schoolId">学校ID</param> 
+            <param name="gradeId">年级ID</param>
+            <param name="classYear">毕业年份</param>
+            <param name="pageIndex">页码</param>
+            <param name="pageSize">分页大小</param>
+            <param name="total">总数</param>
+            <returns>GroupClass对象集合</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GraduatingClassByClassId(System.Int64,System.Int64)">
+            <summary>
+            毕业班升级
+            </summary>
+            <param name="schoolId">学校Id</param>
+            <param name="classId">班级Id</param>
+            <returns>班级是否升级为毕业班（0：失败 1：成功 2：冲突）</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetHistoryClassMemberInfoByClassId(System.Int64,System.Int32@,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            根据班级ID获取历史班级成员列表并分页
+            </summary>
+            <param name="classId">班级ID</param>
+            <param name="total">分页总数</param>
+            <param name="pageIndex">分页索引（从第1页开始）</param>
+            <param name="pageSize">分页大小</param>
+            <param name="role">成员身份（1：学生   2：老师    4：家长）</param>
+            <param name="searchName">用户名称</param>
+            <returns>班级列表（GroupClassMember对象集合）</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetHistoryClassByClassId(System.Int64,System.Int64)">
+            <summary>
+            根据班级ID取历史班级数量
+            </summary>
+            <param name="schoolId">学校ID</param>
+            <param name="classId">班级ID</param>
+            <returns>GroupClass实体</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetHistoryClassByClassYear(System.Int64,System.Int64,System.Int32)">
+            <summary>
+            根据年份和学段返回学校历史班级
+            </summary>
+            <param name="schoolId">学校</param>
+            <param name="periodId">学段</param>
+            <param name="classYear">毕业年份</param>
+            <returns>返回历史班级名称和ID</returns>
+        </member>
+        <member name="M:CiWong.Relation.WCFContract.IClassRelationManager.GetRoomSchoolByareaCode(System.String)">
+            <summary>
+            根据区域返回学校表
+            </summary>
+            <param name="areaCode">地区</param>
+            <returns>学校列表</returns>
+        </member>
+    </members>
+</doc>

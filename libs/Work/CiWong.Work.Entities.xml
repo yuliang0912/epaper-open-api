@@ -1,0 +1,833 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiWong.Work.Entities</name>
+    </assembly>
+    <members>
+        <member name="P:CiWong.Work.Entities.BeiKeBook.BookId">
+            <summary>
+            主键ID,备课书ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeiKeBook.BookName">
+            <summary>
+            同步备课书本名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeiKeBook.CreateUserId">
+            <summary>
+            创建人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeiKeBook.CreateUserName">
+            <summary>
+            创建人姓名
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeiKeBook.PaperCount">
+            <summary>
+            试卷数量
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeiKeBook.BeiKeType">
+            <summary>
+            备课作业类型 (1.同步练习  2.单元测试  3.期中考试  4.期末考试  5.周练  6.月考  7.寒假作业  8.暑假作业  9.章节练习 100.小升初  200.中考  300.高考)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeiKeBook.CreateDate">
+            <summary>
+            创建日期
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeiKeBook.Status">
+            <summary>
+            状态(0:正常  1:删除)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeikeBookSection.SectionId">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeikeBookSection.BookId">
+            <summary>
+            备课书ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeikeBookSection.PaperId">
+            <summary>
+            试卷ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeikeBookSection.PaperName">
+            <summary>
+            试卷名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeikeBookSection.PaperScore">
+            <summary>
+            试卷总分值
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.BeikeBookSection.Sort">
+            <summary>
+            排序ID(升序)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.DoWorkID">
+            <summary>
+            做作业ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkID">
+            <summary>
+            作业ID（自主测试时可以为0 ）
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkName">
+            <summary>
+            作业名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.SubmitUserID">
+            <summary>
+            提交人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.SubmitUserName">
+            <summary>
+            提交人
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.SubmitDate">
+            <summary>
+            提交时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkStatus">
+            <summary>
+            状态（0：未提交  1：暂存  2：已提交  3：已批改 4:退回）
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkComment">
+            <summary>
+            评语
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkPractice">
+            <summary>
+            做题方式（0：作业  1：练习）
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.DelStatus">
+            <summary>
+            删除状态（0：未删除  1：删除）
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkPrize">
+            <summary>
+            奖品(奖品的图片地址)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkLong">
+            <summary>
+            做作业时长（单位：分钟）
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.ParentComment">
+            <summary>
+            家长建议
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.ActualScore">
+            <summary>
+            实际得分
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkLevel">
+            <summary>
+            作业等级(A-E),用于不能评分的类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.ExaminationID">
+            <summary>
+            试卷ID(没有试卷的作业类型,为0)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkScore">
+            <summary>
+            作业总分
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkType">
+            <summary>
+            作业类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.SonWorkType">
+            <summary>
+            作业子应用
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.EffectiveDate">
+            <summary>
+            作业过期时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.WorkDesc">
+            <summary>
+            作业说明
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.RedirectParm">
+            <summary>
+            作业跳转所用参数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.DoWorkBase.IsWiki">
+            <summary>
+            是否维基库中的作业
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.WorkStatusEnum">
+            <summary>
+            作业状态 0：正常  1：过期  2：删除
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.WorkStatusEnum.Normal">
+            <summary>
+            正常
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.WorkStatusEnum.Expired">
+            <summary>
+            过期
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.WorkStatusEnum.Delete">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.DoWorkStatusEnum">
+            <summary>
+            作业提交状态（0：未提交(待完成)  1：暂存  2：已提交 3：已批改 4:退回,5.延时提交）
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.DoWorkStatusEnum.WaitSend">
+            <summary>
+            待发送  无实际意义
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.DoWorkStatusEnum.UnSubmit">
+            <summary>
+            未提交(待完成)
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.DoWorkStatusEnum.Temporary">
+            <summary>
+            暂存
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.DoWorkStatusEnum.Submit">
+            <summary>
+            已提交
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.DoWorkStatusEnum.Mark">
+            <summary>
+            已批改
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.DoWorkStatusEnum.Back">
+            <summary>
+            被退回
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.DoWorkStatusEnum.DelaySubmit">
+            <summary>
+            延时提交
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.DoWorkStatusEnum.None">
+            <summary>
+            全部
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.WorkPracticeEnum">
+            <summary>
+            做题方式（0：作业  1：练习）
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.WorkPracticeEnum.Work">
+            <summary>
+            作业
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.WorkPracticeEnum.Practice">
+            <summary>
+            练习
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.PublishTypeEnum">
+            <summary>
+            布置对象
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.PublishTypeEnum.User">
+            <summary>
+            个人
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.PublishTypeEnum.Class">
+            <summary>
+            班级
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.PublishTypeEnum.Childen">
+            <summary>
+            孩子
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.PublishTypeEnum.ClassBook">
+            <summary>
+            班级版图书
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.PublishTypeEnum.ClassGroup">
+            <summary>
+            班级分组
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.ShareRangeEnum">
+            <summary>
+            相册的共享范围（0：仅自己看 1：所有人看）
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.ShareRangeEnum.Self">
+            <summary>
+            仅自己看
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.ShareRangeEnum.ALL">
+            <summary>
+            所有人看
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.NumStatus">
+            <summary>
+            删除OR添加
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.NumStatus.Add">
+            <summary>
+            添加
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.NumStatus.Delete">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.MarkType">
+            <summary>
+            批改方式
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.MarkType.Manual">
+            <summary>
+            手动批改
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.MarkType.Auto">
+            <summary>
+            自动批改
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.ViewStatus.AllUsers">
+            <summary>
+            所有人
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.ViewStatus.Teacher">
+            <summary>
+            老师
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.ViewStatus.Parent">
+            <summary>
+            家长
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.ViewStatus.ClassMember">
+            <summary>
+            班级
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.CompletedType.ReferLong">
+            <summary>
+            参考时长
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.CompletedType.ReadNums">
+            <summary>
+            朗读次数
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.CompletedType.ReadScore">
+            <summary>
+            朗读得分
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.SubmitWorksOptions.Normal">
+            <summary>
+            不设置批改与完成的数量信息
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.SubmitWorksOptions.SetCompletedNum">
+            <summary>
+            设置完成数量+1
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.SubmitWorksOptions.SetMarkNum">
+            <summary>
+            设置批改数量+1
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.SubmitWorksOptions.SetMarkAndCompletedNum">
+            <summary>
+            设置批改数量和完成数量+1
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.ToBackWorkOptions.SetCompletedNum">
+            <summary>
+            设置完成数量-1
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.ToBackWorkOptions.SetMarkAndCompletedNum">
+            <summary>
+            设置批改数量和完成-1
+            </summary>
+        </member>
+        <member name="F:CiWong.Work.Entities.ToBackWorkOptions.Normal">
+            <summary>
+            不设置
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.SubmitUserId">
+            <summary>
+            作业提交人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.DoWorkID">
+            <summary>
+            做作业ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.QuestionVersion">
+            <summary>
+            题目版本ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.WorkQuestionAnswer">
+            <summary>
+            经过序列换之后的答案
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.AttachmentURL">
+            <summary>
+            附件地址
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.FileType">
+            <summary>
+            文件类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.WorkScore">
+            <summary>
+            题目分值
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.P_QuestionVersion">
+            <summary>
+            父路径版本ID,没有则为空字符串
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.IsCorrect">
+            <summary>
+            是否正确
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.QuestionRefSorce">
+            <summary>
+            参考分值(非数据库字段)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.IsObjective">
+            <summary>
+            是否客观题(非数据库字段)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.QTtype">
+            <summary>
+            题目类型(非数据库字段)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.OnlineWorkAnswer.CorrectTxt">
+            <summary>
+            批改信息
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.Answer.SID">
+            <summary>
+            排序ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.Answer.Ans">
+            <summary>
+            学生答案
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.Answer.FURL">
+            <summary>
+            附件地址
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.Answer.IsCorrect">
+            <summary>
+            是否正确
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.RecordID">
+            <summary>
+            主键记录ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.WorkName">
+            <summary>
+            作业名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.WorkType">
+            <summary>
+            作业类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.UserName">
+            <summary>
+            用户名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.CurriculumID">
+            <summary>
+            所属科目
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.PeriodID">
+            <summary>
+            所属学段
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.GradeID">
+            <summary>
+            所属年级
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.MarkType">
+            <summary>
+            批改方式
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.ExaminationID">
+            <summary>
+            试卷id
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.WorkScore">
+            <summary>
+            作业分数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.ReferLong">
+            <summary>
+            参考时长
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.RedirectParm">
+            <summary>
+            跳转参数(bookid,sectionid等)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.WorkDesc">
+            <summary>
+            作业说明
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.IsWiki">
+            <summary>
+            是否维基库试卷
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.CreateDate">
+            <summary>
+            数据创建日期
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.Status">
+            <summary>
+            作业状态
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.PublishNum">
+            <summary>
+            布置次数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.UpdateDate">
+            <summary>
+            最后更新时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.ReleaseRecord.UserRole">
+            <summary>
+            布置身份(2:老师 4:家长)
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.UserWorkType">
+            <summary>
+            用户自定义作业类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.UserWorkType.SubjectId">
+            <summary>
+            科目Id
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.UserWorkType.WorkTypeId">
+            <summary>
+            作业类型Id
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.UserWorkType.SortNo">
+            <summary>
+            作业类型Id排序号
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.WorkBase">
+            <summary>
+            作业基础实体
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.WorkID">
+            <summary>
+            作业ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.WorkName">
+            <summary>
+            作业名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.WorkType">
+            <summary>
+            作业类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.SonWorkType">
+            <summary>
+            作业子应用
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.PublishUserID">
+            <summary>
+            布置人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.PublishUserName">
+            <summary>
+            布置人姓名
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.PublishDate">
+            <summary>
+            布置时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.SendDate">
+            <summary>
+            发送时间(实指学生收到作业时间)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.EffectiveDate">
+            <summary>
+            有效时间(实指学生作业过期时间) 注:当学生作业过期之后,该份作业只能当自主测试,不会再被提交到老师.
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.WorkStatus">
+            <summary>
+            作业状态
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.TotalNum">
+            <summary>
+            本次作业人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.CompletedNum">
+            <summary>
+            已完成作业人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.IsSubmit">
+            <summary>
+            作业是否需要提交
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.ViewStatus">
+            <summary>
+            查看对象（0：所有人 1：老师 2：家长 3：班级）
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.CompletedType">
+            <summary>
+            作业完成方式(0:参考时长 1:朗读次数 2:朗读分数)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.ReferLong">
+            <summary>
+            参考时长(分钟)/朗读次数/朗读分数 根据CompletedType决定
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.CurriculumID">
+            <summary>
+            所属科目（课程ID）
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.PeriodID">
+            <summary>
+            所属学段ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.GradeID">
+            <summary>
+            所属年级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.PublishType">
+            <summary>
+            布置对象类型（0：个人 1：班级）
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.WorkScore">
+            <summary>
+            分数(默认为100分)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.ReviceUserID">
+            <summary>
+            布置对象ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.ReviceUserName">
+            <summary>
+            布置对象名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.MarkNum">
+            <summary>
+            已批改人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.MarkType">
+            <summary>
+            批改方式（1：手动批改 2：自动批改 ）
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.ReferenceType">
+            <summary>
+            查看参考答案方式（0：提交作业后可以看 1：到完成时间后可以看,暂时未用)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.ExaminationID">
+            <summary>
+            试卷ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.WorkDesc">
+            <summary>
+            作业描述
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.RedirectParm">
+            <summary>
+            作业跳转所用参数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.IsWiki">
+            <summary>
+            是否维基库中的作业
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.RecordId">
+            <summary>
+            记录ID
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.WorkStatistics">
+            <summary>
+            作业统计
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatistics.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatistics.TotalUserNum">
+            <summary>
+            作业系统布置者人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatistics.TotalSendNum">
+            <summary>
+            总作业发布次数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatistics.TotalPublishNum">
+            <summary>
+            总布置人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatistics.TotalCompletedNum">
+            <summary>
+            总完成人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatistics.TotalMarkNum">
+            <summary>
+            总批改人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatistics.SubmitRate">
+            <summary>
+            提交率
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatistics.StatisitcsType">
+            <summary>
+            统计类型(1:全部 2:上周 3:上月)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatistics.UpdateDate">
+            <summary>
+            最后更新时间
+            </summary>
+        </member>
+    </members>
+</doc>
