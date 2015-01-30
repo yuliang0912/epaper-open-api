@@ -1,34 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Web.Http;
+﻿using CiWong.Framework.Helper;
 using CiWong.OpenAPI.Core;
-using CiWong.Framework.Helper;
+using CiWong.OpenAPI.Core.Extensions;
+using CiWong.OpenAPI.Work.Service;
 using CiWong.Work.Entities;
+using CiWong.Work.Service;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Web;
-using CiWong.OpenAPI.Core.Extensions;
-using CiWong.Work.Contract;
-using CiWong.OpenAPI.Work.Service;
-using CiWong.Work.Service;
+using System.Web.Http;
 
 namespace CiWong.OpenAPI.Work.Controllers
 {
 	public class WorkController : ApiController
 	{
-		//private IDoWorkBase workbase;
-		//public WorkController(IDoWorkBase workbase)
-		//{
-		//	this.workbase = workbase;
-		//}
-
-		[HttpGet]
-		public int test()
-		{
-			return 1;
-		}
-
 		/// <summary>
 		/// 布置作业
 		/// </summary>
@@ -113,21 +100,24 @@ namespace CiWong.OpenAPI.Work.Controllers
 		/// 获取做作业列表(我的作业)
 		/// </summary>
 		/// <param name="workStatus">作业状态: 待完成0, 已完成7, 已批阅:3</param>
-		/// <returns></returns>
+		/// <param name="from">请求来源: 1:安卓 2:IOS </param>
 		[HttpGet, BasicAuthentication]
-		public dynamic my_doworks(int workStatus, int page = 1, int pageSize = 10)
+		public dynamic my_doworks(int workStatus, int from, int versionId = 1, int page = 1, int pageSize = 10)
 		{
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			List<PublishTypeEnum> publishTypes = new List<PublishTypeEnum>();
-			publishTypes.Add(PublishTypeEnum.User);
-			publishTypes.Add(PublishTypeEnum.Class);
-			publishTypes.Add(PublishTypeEnum.Childen);
-			publishTypes.Add(PublishTypeEnum.ClassGroup);
-
+			var sonWorkTypes = new List<int>();
+			if (from == 1)
+			{
+				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
+			}
+			else if (from == 2)
+			{
+				sonWorkTypes = new List<int>() { 23 };
+			}
 			int totalItem = 0;
 
-			var list = new DoWorkBaseProvider().GetDoWorkList(new List<int>() { userId }, DateTime.MinValue, DateTime.Now, publishTypes, workStatus, -1, -1, ref totalItem, page, pageSize);
+			var list = new DoWorkBaseProvider().GetDoWorkListForApi(new List<int>() { userId }, null, sonWorkTypes, DateTime.MinValue, DateTime.Now, workStatus, -1, ref totalItem, page, pageSize);
 
 			var workBaseList = new WorkBaseProvider().GetWorkBaseList(list.Select(t => t.WorkID).Distinct(), -1).ToDictionary(c => c.WorkID, c => c);
 
@@ -177,18 +167,87 @@ namespace CiWong.OpenAPI.Work.Controllers
 		/// </summary>
 		/// <param name="workStatus">作业状态:-1:全部 待完成:9  过期:10</param>
 		/// <param name="sonWorkType">子作业类型 -1 全部</param>
-		/// <param name="publishType">布置对象0:个人布置 1班级布置 2孩子 4：班级小组</param>
+		/// <param name="publishType">布置对象 -1:全部 0:个人布置 1班级布置 2孩子 4：班级小组</param>
+		/// <param name="from">请求来源: 1:安卓 2:IOS </param>
 		/// <param name="reviceId">接受对象ID(当选择班级时,此处为班级ID)</param>
 		[HttpGet, BasicAuthentication]
-		public dynamic my_publishs(int workStatus, int sonWorkType, int publishType, long reviceId = 0, int page = 1, int pageSize = 10)
+		public dynamic my_publishs(int workStatus, int sonWorkType, int publishType, int from, int versionId = 1, long reviceId = 0, int page = 1, int pageSize = 10)
 		{
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
+			var publishTypes = new List<PublishTypeEnum>();
+			if (publishType > -1 && Enum.IsDefined(typeof(PublishTypeEnum), (byte)publishType))
+			{
+				publishTypes.Add((PublishTypeEnum)publishType);
+			}
+			var sonWorkTypes = new List<int>();
+
+			if (sonWorkType > 0)
+			{
+				sonWorkTypes.Add(sonWorkType);
+			}
+			else if (from == 1)
+			{
+				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
+			}
+			else if (from == 2)
+			{
+				sonWorkTypes = new List<int>() { 23 };
+			}
+
 			int totalItem = 0;
 
-			var workBaseList = new WorkBaseProvider().GetWorkBaseList(userId, null, reviceId, DateTime.MinValue, DateTime.Now, (PublishTypeEnum)publishType, workStatus, -1, sonWorkType, ref totalItem, page, pageSize);
+			var workBaseList = new WorkBaseProvider().GetWorkBaseListForApi(new List<int>() { userId }, publishTypes, sonWorkTypes, reviceId, DateTime.MinValue, DateTime.Now, workStatus, -1, ref totalItem, page, pageSize);
 
-			return null;
+			var _workPublisher = new WorkPublisher();
+
+			return new ApiPageList<object>()
+			{
+				Page = page,
+				PageSize = pageSize,
+				TotalCount = totalItem,
+				PageList = workBaseList.Select(t => new
+				{
+					workId = t.WorkID,
+					workName = t.WorkName ?? string.Empty,
+					workType = t.WorkType,
+					sonWorkType = t.SonWorkType,
+					publishUserId = t.PublishUserID,
+					publishUserName = t.PublishUserName ?? string.Empty,
+					sendDate = t.SendDate.Epoch(),
+					effectiveDate = t.EffectiveDate.Epoch(),
+					totalNum = t.TotalNum,
+					completedNum = t.CompletedNum,
+					markNum = t.MarkNum,
+					reviceId = t.ReviceUserID,
+					reviceName = t.ReviceUserName,
+					recordId = _workPublisher.redirectParmsArray(t.RedirectParm),
+					isTimeout = DateTime.Now > t.EffectiveDate
+				})
+			};
+		}
+
+		/// <summary>
+		/// 获取该份作业的所有学生列表
+		/// </summary>
+		[HttpGet]
+		public dynamic doworks(long workId)
+		{
+			var doWorkList = new DoWorkBaseProvider().GetDoWorkList(workId);
+
+			return doWorkList.Select(t => new
+			{
+				workId = t.WorkID,
+				doworkId = t.DoWorkID,
+				workName = t.WorkName ?? string.Empty,
+				submitUserId = t.SubmitUserID,
+				submitUserName = t.SubmitUserName ?? string.Empty,
+				submitDate = t.SubmitDate.Epoch(),
+				workStatus = t.WorkStatus,
+				workLong = t.WorkLong,
+				actualScore = t.ActualScore,
+				workScore = t.WorkScore
+			});
 		}
 	}
 }

@@ -431,6 +431,146 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			});
 		}
 
+		/// <summary>
+		/// 获取子资源作业提交情况
+		/// </summary>
+		/// <param name="workId"></param>
+		/// <param name="contentId"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic unitworks(long workId, long contentId)
+		{
+			var unitWorks = new WorkService().GetUnitWorks(contentId, workId).Where(t => t.Status == 2 || t.Status == 3);
+			return unitWorks.Select(t => new
+			{
+				doId = t.DoId,
+				contentId = t.ContentId,
+				recordId = t.RecordId,
+				doworkId = t.DoWorkId,
+				submitUserId = t.SubmitUserId,
+				submitUserName = t.SubmitUserName ?? string.Empty,
+				submitDate = t.SubmitDate.Epoch(),
+				workLong = t.WorkLong,
+				actualScore = t.ActualScore,
+				isTimeOut = t.IsTimeOut,
+				submitCount = t.SubmitCount,
+				status = t.Status
+			});
+		}
+
+		/// <summary>
+		/// 老师查看布置作业内容详情
+		/// </summary>
+		[HttpGet, BasicAuthentication]
+		public dynamic work_resources(long recordId, long workId)
+		{
+			var _workService = new WorkService();
+			var workResources = _workService.GetWorkResources(recordId);
+
+			if (!workResources.Any())
+			{
+				return Enumerable.Empty<object>();
+			}
+			var workBase = new WorkBaseService().GetWorkBase(workId);
+
+			if (null == workBase)
+			{
+				return new ApiArgumentException("参数workId错误,未找到指定的作业");
+			}
+
+			var unitSummarys = _workService.GetUnitSummarys(recordId, workId).ToDictionary(c => c.ContentId, c => c);
+
+			return workResources.Select(t => new
+			{
+				contentId = t.ContentId,
+				packageId = t.PackageId,
+				taskId = t.TaskId ?? string.Empty,
+				moduleId = t.ModuleId,
+				versionId = t.VersionId,
+				relationPath = t.RelationPath ?? string.Empty,
+				sonModuleId = t.SonModuleId ?? string.Empty,
+				resourceName = t.ResourceName ?? string.Empty,
+				resourceType = t.ResourceType ?? string.Empty,
+				totalNum = workBase.TotalNum,
+				completedNum = unitSummarys.ContainsKey(t.ContentId) ? unitSummarys[t.ContentId].CommentNum : 0,
+				markNum = unitSummarys.ContainsKey(t.ContentId) ? unitSummarys[t.ContentId].MarkNum : 0
+			});
+		}
+
+		/// <summary>
+		/// 获取跟读语音答案
+		/// </summary>
+		/// <param name="workId"></param>
+		/// <param name="contentId"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic followread_answers(long workId, long contentId)
+		{
+			var unitWorkAnswers = new WorkService().GetUnitWorkAnswers(workId, contentId, true).GroupBy(t => t.DoId).ToDictionary(c => c.Key, c => c.ToList());
+
+			return unitWorkAnswers.Select(t => new
+			{
+				doId = t.Key,
+				answers = t.Value.Select(m => new
+				{
+					versionId = m.VersionId,
+					assess = m.Assess,
+					score = m.Score,
+					answerContent = JSONHelper.Decode<List<ReadAnswerEntity>>(m.AnswerContent).Select(x => new
+					{
+						sid = x.Sid,
+						word = x.Word,
+						audioUrl = x.AudioUrl,
+						readTimes = x.ReadTimes
+					})
+				})
+			});
+		}
+
+		/// <summary>
+		/// 点评
+		/// </summary>
+		/// <returns></returns>
+		[HttpPost, BasicAuthentication]
+		public dynamic comment()
+		{
+			var request = ((System.Web.HttpContextBase)Request.Properties["MS_HttpContext"]).Request;
+			request.ContentEncoding = Encoding.UTF8;
+
+			long workId = Convert.ToInt64(request["workId"]);
+			long contentId = Convert.ToInt64(request["contentId"]);
+			int commentType = Convert.ToInt32(request["commentType"]);
+			string userIds = request["userIds"] ?? string.Empty;
+			string content = request["content"];
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+
+			var workBase = new WorkBaseService().GetWorkBase(workId);
+
+			if (null == workBase)
+			{
+				return new ApiArgumentException("未找到指定的作业", 1);
+			}
+			if (workBase.PublishUserId != userId)
+			{
+				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 2, Message = "暂无没有点评权限" };
+			}
+			if (string.IsNullOrWhiteSpace(content))
+			{
+				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 3, Message = "点评内容不能为空" };
+			}
+			if (commentType != 1 && commentType != 2)
+			{
+				return new ApiArgumentException("参数commentType错误", 4);
+			}
+			var studentList = userIds.Split(',').Select(t => Convert.ToInt32(t));
+			if (!studentList.Any())
+			{
+				return new ApiArgumentException("未找到指定的被点评用户", 5);
+			}
+
+			return new WorkService().CommentUnitWorks(studentList, workId, contentId, System.Web.HttpUtility.UrlDecode(content), commentType);
+		}
+
 		private string GetRootVersionId(string relationPath)
 		{
 			if (relationPath.IndexOf("/") > -1)
