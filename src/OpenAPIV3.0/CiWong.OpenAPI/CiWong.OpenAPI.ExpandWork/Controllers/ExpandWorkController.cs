@@ -383,6 +383,27 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			return doId;
 		}
 
+		[HttpPost, HttpGet]
+		public dynamic submit_filework()
+		{
+			var content = Request.GetBodyContent();
+
+			if (string.IsNullOrWhiteSpace(content))
+			{
+				return new ApiArgumentException("未接收到post数据", 1);
+			}
+			FileWorkDTO fileWorkAnswer;
+			try
+			{
+				fileWorkAnswer = JSONHelper.Decode<FileWorkDTO>(content);
+			}
+			catch (Exception e)
+			{
+				return new ApiException(RetEum.ApplicationError, 2, "序列化失败,message:" + e.Message);
+			}
+			return (long)1;
+		}
+
 		/// <summary>
 		/// 学生获取电子书,电子报作业详细内容列表
 		/// </summary>
@@ -495,6 +516,36 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				completedNum = unitSummarys.ContainsKey(t.ContentId) ? unitSummarys[t.ContentId].CommentNum : 0,
 				markNum = unitSummarys.ContainsKey(t.ContentId) ? unitSummarys[t.ContentId].MarkNum : 0
 			});
+		}
+
+		/// <summary>
+		/// 获取作业快传附件列表
+		/// </summary>
+		/// <param name="workId"></param>
+		/// <param name="recordId"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic workfiles(long recordId)
+		{
+			var list = new List<WorkFileDTO>();
+
+			list.Add(new WorkFileDTO()
+			{
+				FileName = "我的图片.jpg",
+				FileType = 1,
+				FileExt = ".jpg",
+				FileUrl = "http://img1.ciwong.net/yishang/6b5a1fa5827d451a6374ac5fd5baed93.jpg",
+				FileDesc = string.Empty
+			});
+			list.Add(new WorkFileDTO()
+			{
+				FileName = "我的音频.jpg",
+				FileType = 2,
+				FileExt = ".mp3",
+				FileUrl = "http://img1.ciwong.net/yishang/6b5a1fa5827d451a6374ac5fd5baed93.mp3",
+				FileDesc = string.Empty
+			});
+			return list;
 		}
 
 		/// <summary>

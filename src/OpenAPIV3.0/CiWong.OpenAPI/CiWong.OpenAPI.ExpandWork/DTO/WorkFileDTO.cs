@@ -6,6 +6,8 @@ namespace CiWong.OpenAPI.ExpandWork.DTO
 	/// </summary>
 	public class WorkFileDTO
 	{
+		public long VersionId { get; set; }
+
 		/// <summary>
 		/// 附件名称
 		/// </summary>

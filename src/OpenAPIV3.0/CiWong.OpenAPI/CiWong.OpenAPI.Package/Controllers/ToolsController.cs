@@ -71,7 +71,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			var words = wordList.Data.Where(t => t != null).OfType<WordContract>();
 			return words.Select(x => new
 			{
-				wId = x.Id ?? 0,
+				wId = x.VersionId ?? 0,
 				words = x.Name ?? string.Empty,
 				wordFile = x.AudioUrl ?? string.Empty,
 				wordType = x.IsExpand.HasValue ? x.IsExpand.Value : false,

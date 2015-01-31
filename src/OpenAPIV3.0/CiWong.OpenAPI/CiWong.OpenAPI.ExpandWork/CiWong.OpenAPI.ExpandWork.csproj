@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ExpandWorkController.cs" />
+    <Compile Include="DTO\FileWorkDTO.cs" />
     <Compile Include="DTO\ListenSpeakAnswerDTO.cs" />
     <Compile Include="DTO\WorkFileDTO.cs" />
     <Compile Include="DTO\FollowReadAnswerDTO.cs" />
