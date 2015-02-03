@@ -3,6 +3,7 @@ using CiWong.OpenAPI.Core.Extensions;
 using CiWong.OpenAPI.ExpandWork.DTO;
 using CiWong.Resource.Preview.DataContracts;
 using CiWong.Resource.Preview.Service;
+using CiWong.Work.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,96 +15,12 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 {
 	public class ExpandWorkController : ApiController
 	{
-
-		#region POST数据模拟
-		[HttpGet]
-		public WorkPackageDTO test()
-		{
-			var workPackage = new WorkPackageDTO()
-			{
-				AppId = 20002,
-				PackageId = 1410,
-				PackageName = "深圳七年级",
-				PackageType = 3,
-				ProductId = 2349
-			};
-			var list = new List<WorkResourceDTO>();
-			list.Add(new WorkResourceDTO()
-			{
-				TaskId = "791",
-				ModuleId = 7,
-				VersionId = 5591825773073883860,
-				RelationPath = "5364386369650785552/5591825773073883860",
-				SonModuleId = "05a3bf23-b65b-4d7f-956c-5db2b76b9c11",
-				ResourceName = "【文字新闻】 郭美美在京实体店关张 原址变身成人用品店(图)",
-				ResourceType = "05a3bf23-b65b-4d7f-956c-5db2b76b9c11",
-				RequirementContent = string.Empty
-			});
-			list.Add(new WorkResourceDTO()
-			{
-				TaskId = "791",
-				ModuleId = 10,
-				VersionId = 4992341320180472910,
-				RelationPath = "4992341320180472910",
-				SonModuleId = "a7527f97-14e6-44ef-bf73-3039033f128e",
-				ResourceName = "【课后单词表】 111",
-				ResourceType = "a7527f97-14e6-44ef-bf73-3039033f128e",
-				RequirementContent = "{\"readtimes\":1,\"passscorce\":0,\"speekingtype\":0}",
-				resourceParts = new List<ResourcePartDTO>()
-				{
-					new ResourcePartDTO()
-					{
-						VersionId = 5325228502561083016,
-						ResourceType = "a7527f97-14e6-44ef-bf73-3039033f128e"
-					},
-					new ResourcePartDTO()
-					{
-						VersionId = 4700393524673334543,
-						ResourceType = "a7527f97-14e6-44ef-bf73-3039033f128e"
-					}
-				}
-			});
-			workPackage.workResources = list;
-
-			var com = JSONHelper.Encode<WorkPackageDTO>(workPackage);
-
-			var newp = JSONHelper.Decode<WorkPackageDTO>(com);
-
-			return workPackage;
-		}
-
-		[HttpGet]
-		public dynamic fileTest()
-		{
-			var list = new List<WorkFileDTO>();
-
-			list.Add(new WorkFileDTO()
-			{
-				FileName = "我的图片.jpg",
-				FileType = 1,
-				FileExt = ".jpg",
-				FileUrl = "http://img1.ciwong.net/yishang/6b5a1fa5827d451a6374ac5fd5baed93.jpg",
-				FileDesc = string.Empty
-			});
-			list.Add(new WorkFileDTO()
-			{
-				FileName = "我的音频.jpg",
-				FileType = 2,
-				FileExt = ".mp3",
-				FileUrl = "http://img1.ciwong.net/yishang/6b5a1fa5827d451a6374ac5fd5baed93.mp3",
-				FileDesc = string.Empty
-			});
-
-			return list;
-		}
-		#endregion
-
 		/// <summary>
 		/// 创建电子书,电子报作业资源包
 		/// </summary>
 		/// <returns></returns>
 		[BasicAuthentication, HttpPost]
-		public long create_work_package()
+		public dynamic create_work_package()
 		{
 			var request = ((System.Web.HttpContextBase)Request.Properties["MS_HttpContext"]).Request;
 			request.ContentEncoding = Encoding.UTF8;
@@ -113,11 +30,11 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 
 			if (workType != "101" && workType != "102")
 			{
-				throw new ApiArgumentException("参数workType不在指定的范围内", 1);
+				return new ApiArgumentException("参数workType不在指定的范围内", 1);
 			}
 			if (string.IsNullOrWhiteSpace(packageInfo))
 			{
-				throw new ApiArgumentException("参数packagesInfo不能为空", 2);
+				return new ApiArgumentException("参数packagesInfo不能为空", 2);
 			}
 			WorkPackageDTO workPackage = null;
 			try
@@ -126,15 +43,19 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			}
 			catch (Exception e)
 			{
-				throw new ApiException(RetEum.ApplicationError, 3, "序列化失败,message:" + e.Message);
+				return new ApiException(RetEum.ApplicationError, 3, "序列化失败,message:" + e.Message);
 			}
 			if (workPackage.PackageId < 1)
 			{
-				throw new ApiArgumentException("参数packageInfo.packageId不正确", 5);
+				return new ApiArgumentException("参数packageInfo.packageId不正确", 5);
 			}
 			if (string.IsNullOrWhiteSpace(workPackage.PackageName))
 			{
-				throw new ApiArgumentException("参数packageInfo.packageName不能为空", 6);
+				return new ApiArgumentException("参数packageInfo.packageName不能为空", 6);
+			}
+			if (!workPackage.workResources.Any())
+			{
+				return new ApiArgumentException("作业资源包中没有任何资源", 7);
 			}
 
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
@@ -172,19 +93,55 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			var recordId = new WorkService().CreateWorkPackage(publishRecord);
 			if (recordId < 1)
 			{
-				throw new ApiException(RetEum.ApplicationError, 6, "创建作业资源包失败");
+				return new ApiException(RetEum.ApplicationError, 6, "创建作业资源包失败");
 			}
 			return recordId;
 		}
 
 		/// <summary>
-		/// 创建附件作业
+		/// 创建附件作业资源包
 		/// </summary>
 		/// <returns></returns>
 		[BasicAuthentication, HttpPost]
-		public long create_filework()
+		public dynamic create_filework()
 		{
-			return 0;
+			var content = Request.GetBodyContent();
+
+			if (string.IsNullOrWhiteSpace(content))
+			{
+				return new ApiArgumentException("未接收到post数据", 1);
+			}
+			List<WorkFileDTO> workFiles = new List<WorkFileDTO>();
+			try
+			{
+				workFiles = JSONHelper.Decode<List<WorkFileDTO>>(content);
+			}
+			catch (Exception e)
+			{
+				return new ApiException(RetEum.ApplicationError, 2, "序列化失败,message:" + e.Message);
+			}
+			if (!workFiles.Any())
+			{
+				return new ApiException(RetEum.ApplicationError, 3, "集合中不包含任何元素");
+			}
+
+			var workFilePackage = new WorkFilePackageContract();
+			workFilePackage.FilePackageName = "作业快传附件资源包";
+			workFilePackage.FilePackageType = 2;
+			workFilePackage.UserId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			workFilePackage.UserName = string.Empty;
+			workFilePackage.CreateDate = DateTime.Now;
+
+			workFilePackage.WorkFileResources = workFiles.Select(t => new WorkFileResourceContract()
+			{
+				FileName = t.FileName,
+				FileUrl = t.FileUrl,
+				FileExt = t.FileExt,
+				FileType = t.FileType,
+				FileDesc = t.FileDesc
+			}).ToList();
+
+			return new WorkService().CreateWorkFilePackage(workFilePackage);
 		}
 
 		/// <summary>
@@ -289,6 +246,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[BasicAuthentication, HttpPost]
 		public dynamic submit_listenspeak_work()
 		{
+			#region 参数验证与赋值
 			var content = Request.GetBodyContent();
 
 			if (string.IsNullOrWhiteSpace(content))
@@ -337,6 +295,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiException(RetEum.ApplicationError, 8, "作业已经完成,不允许重复提交");
 			}
+			#endregion
 
 			unitWork.ContentId = workResource.ContentId;
 			unitWork.RecordId = workResource.RecordId;
@@ -383,9 +342,14 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			return doId;
 		}
 
-		[HttpPost, HttpGet]
+		/// <summary>
+		/// 提交快传(附件)作业
+		/// </summary>
+		/// <returns></returns>
+		[HttpPost, BasicAuthentication]
 		public dynamic submit_filework()
 		{
+			#region 参数验证与赋值
 			var content = Request.GetBodyContent();
 
 			if (string.IsNullOrWhiteSpace(content))
@@ -401,7 +365,73 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiException(RetEum.ApplicationError, 2, "序列化失败,message:" + e.Message);
 			}
-			return (long)1;
+
+			if (!fileWorkAnswer.WorkAnswers.Any())
+			{
+				return new ApiException(RetEum.ApplicationError, 3, "答案中不包含任何附件");
+			}
+			var _workService = new WorkService();
+			var doWorkBase = new WorkBaseService().GetDoWorkBase(fileWorkAnswer.DoWorkId);
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+
+			if (null == doWorkBase || doWorkBase.SonWorkType != 23)
+			{
+				return new ApiException(RetEum.ApplicationError, 4, "未找到指定的作业");
+			}
+			if (doWorkBase.SubmitUserID != userId)
+			{
+				return new ApiException(RetEum.ApplicationError, 5, "当前用户没有提交作业权限");
+			}
+			var workFilePackage = _workService.GetWorkFilePackage(fileWorkAnswer.RecordId);
+			if (null == workFilePackage)
+			{
+				return new ApiException(RetEum.ApplicationError, 6, "未找到指定的作业资源");
+			}
+			if (doWorkBase.RedirectParm.IndexOf("bid_" + workFilePackage.RecordId) == -1)
+			{
+				return new ApiException(RetEum.ApplicationError, 7, " 作业参数不匹配");
+			}
+			var fileWork = _workService.GetUserFileWork(fileWorkAnswer.DoWorkId) ?? new FileWorksContracts();
+			if (fileWork.Status == 2 || fileWork.Status == 3)
+			{
+				return new ApiException(RetEum.ApplicationError, 8, "作业已经完成,不允许重复提交");
+			}
+			#endregion
+
+			fileWork.WorkId = doWorkBase.WorkID;
+			fileWork.DoWorkId = fileWorkAnswer.DoWorkId;
+			fileWork.RecordId = fileWorkAnswer.RecordId;
+			fileWork.SubmitUserId = doWorkBase.SubmitUserID;
+			fileWork.SubmitUserName = doWorkBase.SubmitUserName;
+			fileWork.WorkLong = fileWorkAnswer.WorkLong;
+			fileWork.SubmitDate = DateTime.Now;
+			fileWork.IsTimeOut = fileWork.SubmitDate > doWorkBase.EffectiveDate;
+			fileWork.SubmitCount = 1;
+			fileWork.FileCount = fileWorkAnswer.WorkAnswers.Count();
+			fileWork.Status = 2;
+
+			int sid = 0;
+			var workAnser = fileWorkAnswer.WorkAnswers.Select(t => new FileAnswer()
+			{
+				Sid = sid++,
+				FileName = t.FileName ?? string.Empty,
+				FileUrl = t.FileUrl ?? string.Empty,
+				FileExt = t.FileExt ?? string.Empty,
+				FileType = t.FileType,
+				Comment = string.Empty
+			});
+
+			var answerList = new List<WorkAnswerContract>();
+			answerList.Add(new WorkAnswerContract()
+			{
+				VersionId = fileWork.RecordId,
+				AnswerType = 3,
+				AnswerContent = JSONHelper.Encode<IEnumerable<FileAnswer>>(workAnser),
+				Assess = 4,
+				ResourceType = ResourceModuleOptions.WorkFile.ToString()
+			});
+
+			return _workService.DoFileWork(fileWork, answerList);
 		}
 
 		/// <summary>
@@ -442,6 +472,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 					sonModuleId = t.SonModuleId,
 					resourceName = t.ResourceName,
 					resourceType = t.ResourceType,
+					requirementContent = t.RequirementContent??string.Empty,
 					actualScore = unitWork.ActualScore,
 					workScore = unitWork.WorkScore,
 					isTimeOut = unitWokrs.ContainsKey(t.ContentId) && (unitWork.Status == 2 || unitWork.Status == 3) ? unitWork.IsTimeOut : doWorkBase.EffectiveDate < DateTime.Now,
@@ -468,6 +499,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				contentId = t.ContentId,
 				recordId = t.RecordId,
 				doworkId = t.DoWorkId,
+				workId = t.WorkId,
 				submitUserId = t.SubmitUserId,
 				submitUserName = t.SubmitUserName ?? string.Empty,
 				submitDate = t.SubmitDate.Epoch(),
@@ -476,6 +508,36 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				isTimeOut = t.IsTimeOut,
 				submitCount = t.SubmitCount,
 				status = t.Status
+			});
+		}
+
+		/// <summary>
+		/// 快传(附件)作业完成情况
+		/// </summary>
+		/// <param name="workId"></param>
+		/// <param name="recordId"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic fileworks(long workId, long recordId)
+		{
+			var list = new List<long>() { 1, 2 };
+			return list.Select(t => new
+			{
+				doId = t,
+				recordId = t,
+				doworkId = t,
+				workId = (long)561,
+				submitUserId = 1,
+				submitUserName = "yuliang" ?? string.Empty,
+				submitDate = DateTime.Now.Epoch(),
+				workLong = 100,
+				actualScore = "A",
+				isTimeOut = 1,
+				submitCount = 1,
+				status = 3,
+				comment = "做的很好",
+				commentType = 1,
+				fileCount = 5
 			});
 		}
 
@@ -527,25 +589,17 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic workfiles(long recordId)
 		{
-			var list = new List<WorkFileDTO>();
+			var list = new WorkService().GetWorkFileResources(recordId);
 
-			list.Add(new WorkFileDTO()
+			return list.Select(t => new
 			{
-				FileName = "我的图片.jpg",
-				FileType = 1,
-				FileExt = ".jpg",
-				FileUrl = "http://img1.ciwong.net/yishang/6b5a1fa5827d451a6374ac5fd5baed93.jpg",
-				FileDesc = string.Empty
+				versionId = t.ContentId,
+				fileName = t.FileName ?? string.Empty,
+				fileUrl = t.FileUrl ?? string.Empty,
+				fileExt = t.FileExt ?? string.Empty,
+				fileType = t.FileType,
+				fileDesc = t.FileDesc ?? string.Empty
 			});
-			list.Add(new WorkFileDTO()
-			{
-				FileName = "我的音频.jpg",
-				FileType = 2,
-				FileExt = ".mp3",
-				FileUrl = "http://img1.ciwong.net/yishang/6b5a1fa5827d451a6374ac5fd5baed93.mp3",
-				FileDesc = string.Empty
-			});
-			return list;
 		}
 
 		/// <summary>
@@ -562,6 +616,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			return unitWorkAnswers.Select(t => new
 			{
 				doId = t.Key,
+				userId = t.Value.First().SubmitUserId,
 				answers = t.Value.Select(m => new
 				{
 					versionId = m.VersionId,
@@ -579,7 +634,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		}
 
 		/// <summary>
-		/// 点评
+		/// 批量点评作业
 		/// </summary>
 		/// <returns></returns>
 		[HttpPost, BasicAuthentication]
@@ -603,25 +658,69 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			}
 			if (workBase.PublishUserId != userId)
 			{
-				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 2, Message = "暂无没有点评权限" };
+				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 2, Message = "暂无点评权限" };
 			}
 			if (string.IsNullOrWhiteSpace(content))
 			{
 				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 3, Message = "点评内容不能为空" };
 			}
+			content = System.Web.HttpUtility.UrlDecode(content);
+			if (content.Length > 300)
+			{
+				return new ApiArgumentException("点评内容不能超过300字", 5);
+			}
 			if (commentType != 1 && commentType != 2)
 			{
-				return new ApiArgumentException("参数commentType错误", 4);
+				return new ApiArgumentException("参数commentType错误", 6);
 			}
 			var studentList = userIds.Split(',').Select(t => Convert.ToInt32(t));
 			if (!studentList.Any())
 			{
-				return new ApiArgumentException("未找到指定的被点评用户", 5);
+				return new ApiArgumentException("未找到指定的被点评用户", 7);
 			}
 
-			return new WorkService().CommentUnitWorks(studentList, workId, contentId, System.Web.HttpUtility.UrlDecode(content), commentType);
+			return new WorkService().CommentUnitWorks(studentList, workId, contentId, content, commentType);
 		}
 
+		/// <summary>
+		/// 给未完成作业的孩子发提醒
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet, BasicAuthentication]
+		public dynamic send_remind(long workId, long contentId)
+		{
+			var workBase = new WorkBaseProvider().GetWorkBase(workId);
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			if (null == workBase)
+			{
+				return new ApiArgumentException("未找到指定的作业", 1);
+			}
+			if (workBase.PublishUserID != userId)
+			{
+				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 2, Message = "暂无提醒权限" };
+			}
+			
+			var allUserList = new DoWorkBaseProvider().GetDoWorkList(workId).Select(t => t.SubmitUserID);
+			var submitUserList = new WorkService().GetUnitWorks(workId, contentId).Where(t => t.Status == 2 || t.Status == 3).Select(t => t.SubmitUserId);
+			var sendUserList = allUserList.Except(submitUserList).ToArray();
+
+			if (!sendUserList.Any())
+			{
+				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 3, Message = "所有人都已提交作业,无需提醒" };
+			}
+
+			var xiXinClient = new CApi.Client.XiXinClient();
+			xiXinClient.Send(userId, sendUserList, "老师还没收到你的作业呢？前往我的书房赶紧写作业吧！" + workBase.WorkName);
+			xiXinClient.SendToFamily(userId, sendUserList, "您的孩子还有作业未完成，提醒孩子前往我的书房赶紧交作业吧！" + workBase.WorkName);
+
+			return true;
+		}
+
+		/// <summary>
+		/// 获取第一级资源版本ID
+		/// </summary>
+		/// <param name="relationPath"></param>
+		/// <returns></returns>
 		private string GetRootVersionId(string relationPath)
 		{
 			if (relationPath.IndexOf("/") > -1)

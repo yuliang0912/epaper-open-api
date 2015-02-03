@@ -30,11 +30,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CApi.Client">
+      <HintPath>..\..\..\..\libs\CApi.Client.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Resource.Preview">
       <HintPath>..\..\..\..\libs\Preview\CiWong.Resource.Preview.dll</HintPath>
     </Reference>
     <Reference Include="CiWong.Resource.Preview.DataContracts">
       <HintPath>..\..\..\..\libs\Preview\CiWong.Resource.Preview.DataContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Work.Contract">
+      <HintPath>..\..\..\..\libs\Work\CiWong.Work.Contract.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Work.Entities">
+      <HintPath>..\..\..\..\libs\Work\CiWong.Work.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Work.Service">
+      <HintPath>..\..\..\..\libs\Work\CiWong.Work.Service.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

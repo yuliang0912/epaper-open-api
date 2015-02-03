@@ -16,7 +16,7 @@ namespace CiWong.OpenAPI.Store.Controllers
 		{
 			if (type != 1)
 			{
-				throw new ApiArgumentException("type不在指定的范围之内");
+				return new ApiArgumentException("type不在指定的范围之内");
 			}
 
 			int totalItem = 0, pageCount = 0;
@@ -34,9 +34,17 @@ namespace CiWong.OpenAPI.Store.Controllers
 					productName = t.ProductName ?? string.Empty,
 					cover = t.CoverImgUrl ?? string.Empty,
 					packageId = t.PackageId,
-					appId = 200003
+					appId = 200003	
 				})
 			};
 		}
+
+		//[HttpGet]
+		//public dynamic push_service()
+		//{
+		//	var list = PushProductProxy.GetPushServiceList(381430154);
+
+
+		//}
 	}
 }
