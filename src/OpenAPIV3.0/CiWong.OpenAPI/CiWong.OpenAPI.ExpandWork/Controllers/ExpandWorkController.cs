@@ -1,4 +1,5 @@
-﻿using CiWong.OpenAPI.Core;
+﻿using CiWong.Framework.Helper;
+using CiWong.OpenAPI.Core;
 using CiWong.OpenAPI.Core.Extensions;
 using CiWong.OpenAPI.ExpandWork.DTO;
 using CiWong.Resource.Preview.DataContracts;
@@ -406,8 +407,9 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			fileWork.WorkLong = fileWorkAnswer.WorkLong;
 			fileWork.SubmitDate = DateTime.Now;
 			fileWork.IsTimeOut = fileWork.SubmitDate > doWorkBase.EffectiveDate;
-			fileWork.SubmitCount = 1;
 			fileWork.FileCount = fileWorkAnswer.WorkAnswers.Count();
+			fileWork.Message = fileWorkAnswer.Message;
+			fileWork.SubmitCount = 1;
 			fileWork.Status = 2;
 
 			int sid = 0;
@@ -472,7 +474,8 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 					sonModuleId = t.SonModuleId,
 					resourceName = t.ResourceName,
 					resourceType = t.ResourceType,
-					requirementContent = t.RequirementContent??string.Empty,
+					requirementContent = t.RequirementContent ?? string.Empty,
+					isFull = t.IsFull,
 					actualScore = unitWork.ActualScore,
 					workScore = unitWork.WorkScore,
 					isTimeOut = unitWokrs.ContainsKey(t.ContentId) && (unitWork.Status == 2 || unitWork.Status == 3) ? unitWork.IsTimeOut : doWorkBase.EffectiveDate < DateTime.Now,
@@ -520,24 +523,38 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic fileworks(long workId, long recordId)
 		{
-			var list = new List<long>() { 1, 2 };
+			var _workService = new WorkService();
+
+			var list = _workService.GetFileWorks(recordId, workId);
+
+			var fileWorkAnswers = _workService.GetFileWorkAnswers(workId, recordId, true).ToDictionary(c => c.DoId, c => c);
+
 			return list.Select(t => new
 			{
-				doId = t,
-				recordId = t,
-				doworkId = t,
-				workId = (long)561,
-				submitUserId = 1,
-				submitUserName = "yuliang" ?? string.Empty,
-				submitDate = DateTime.Now.Epoch(),
-				workLong = 100,
-				actualScore = "A",
-				isTimeOut = 1,
-				submitCount = 1,
-				status = 3,
-				comment = "做的很好",
-				commentType = 1,
-				fileCount = 5
+				doId = t.DoId,
+				workId = t.WorkId,
+				doworkId = t.DoWorkId,
+				recordId = t.RecordId,
+				submitUserId = t.SubmitUserId,
+				submitUserName = t.SubmitUserName ?? string.Empty,
+				submitDate = t.SubmitDate.Epoch(),
+				workLong = t.WorkLong,
+				WorkLevel = t.WorkLevel ?? string.Empty,
+				isTimeOut = t.IsTimeOut,
+				submitCount = t.SubmitCount,
+				message = t.Message,
+				comment = t.Comment,
+				commentType = t.CommentType,
+				status = t.Status,
+				workAnswers = fileWorkAnswers.ContainsKey(t.DoId) ? JSONHelper.Decode<List<FileAnswer>>(fileWorkAnswers[t.DoId].AnswerContent).Select(m => new
+				{
+					sid = m.Sid,
+					fileName = m.FileName,
+					fileUrl = m.FileUrl,
+					fileExt = m.FileExt,
+					fileType = m.FileType,
+					comment = m.Comment
+				}) : Enumerable.Empty<object>()
 			});
 		}
 
@@ -587,18 +604,29 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		/// <param name="recordId"></param>
 		/// <returns></returns>
 		[HttpGet]
-		public dynamic workfiles(long recordId)
+		public dynamic work_file_resources(string recordIds)
 		{
-			var list = new WorkService().GetWorkFileResources(recordId);
+			var recordIdList = recordIds.Split(',').Select(t => Convert.ToInt64(t));
+
+			if (!recordIdList.Any())
+			{
+				return new ApiArgumentException("未能解析正确的记录ID", 1);
+			}
+
+			var list = new WorkService().GetWorkFileResources(recordIdList).GroupBy(t => t.RecordId);
 
 			return list.Select(t => new
 			{
-				versionId = t.ContentId,
-				fileName = t.FileName ?? string.Empty,
-				fileUrl = t.FileUrl ?? string.Empty,
-				fileExt = t.FileExt ?? string.Empty,
-				fileType = t.FileType,
-				fileDesc = t.FileDesc ?? string.Empty
+				recordId = t.Key,
+				fileResources = t.Select(x => new
+				{
+					versionId = x.ContentId,
+					fileName = x.FileName ?? string.Empty,
+					fileUrl = x.FileUrl ?? string.Empty,
+					fileExt = x.FileExt ?? string.Empty,
+					fileType = x.FileType,
+					fileDesc = x.FileDesc ?? string.Empty
+				})
 			});
 		}
 
@@ -652,7 +680,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 
 			var workBase = new WorkBaseService().GetWorkBase(workId);
 
-			if (null == workBase)
+			if (null == workBase || workBase.WorkType < 100)
 			{
 				return new ApiArgumentException("未找到指定的作业", 1);
 			}
@@ -683,6 +711,60 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		}
 
 		/// <summary>
+		/// 批量点评附件作业
+		/// </summary>
+		/// <returns></returns>
+		[HttpPost, BasicAuthentication]
+		public dynamic comment_file_work()
+		{
+			var request = ((System.Web.HttpContextBase)Request.Properties["MS_HttpContext"]).Request;
+			request.ContentEncoding = Encoding.UTF8;
+
+			long workId = Convert.ToInt64(request["workId"]);
+			long recordId = Convert.ToInt64(request["recordId"]);
+			int commentType = Convert.ToInt32(request["commentType"]);
+			string userIds = request["userIds"] ?? string.Empty;
+			string content = request["content"] ?? string.Empty;
+			string workLevel = request["workLevel"] ?? string.Empty;
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+
+			var workBase = new WorkBaseService().GetWorkBase(workId);
+
+			if (null == workBase || workBase.SonWorkType != 23)
+			{
+				return new ApiArgumentException("未找到指定的作业", 1);
+			}
+			if (workBase.PublishUserId != userId)
+			{
+				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 2, Message = "暂无点评权限" };
+			}
+			if (string.IsNullOrWhiteSpace(content))
+			{
+				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 3, Message = "点评内容不能为空" };
+			}
+			content = System.Web.HttpUtility.UrlDecode(content);
+			if (content.Length > 300)
+			{
+				return new ApiArgumentException("点评内容不能超过300字", 5);
+			}
+			if (commentType != 1 && commentType != 2)
+			{
+				return new ApiArgumentException("参数commentType错误", 6);
+			}
+			var studentList = userIds.Split(',').Select(t => Convert.ToInt32(t));
+			if (!studentList.Any())
+			{
+				return new ApiArgumentException("未找到指定的被点评用户", 7);
+			}
+			if (workLevel.Length > 6)
+			{
+				return new ApiArgumentException("评分长度不能超过6个字符", 8);
+			}
+
+			return new WorkService().CommentFileWorks(studentList, workId, recordId, workLevel, content, commentType);
+		}
+
+		/// <summary>
 		/// 给未完成作业的孩子发提醒
 		/// </summary>
 		/// <returns></returns>
@@ -699,9 +781,17 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 2, Message = "暂无提醒权限" };
 			}
-			
+
 			var allUserList = new DoWorkBaseProvider().GetDoWorkList(workId).Select(t => t.SubmitUserID);
-			var submitUserList = new WorkService().GetUnitWorks(workId, contentId).Where(t => t.Status == 2 || t.Status == 3).Select(t => t.SubmitUserId);
+			var submitUserList = new List<int>();
+			if (workBase.WorkType == DictHelper.WorkTypeEnum.电子报 || workBase.WorkType == DictHelper.WorkTypeEnum.电子报)
+			{
+				submitUserList = new WorkService().GetUnitWorks(contentId, workId).Where(t => t.Status == 2 || t.Status == 3).Select(t => t.SubmitUserId).ToList();
+			}
+			else if (workBase.WorkType == DictHelper.WorkTypeEnum.电子报)
+			{
+				submitUserList = new WorkService().GetFileWorks(contentId, workId).Where(t => t.Status == 2 || t.Status == 3).Select(t => t.SubmitUserId).ToList();
+			}
 			var sendUserList = allUserList.Except(submitUserList).ToArray();
 
 			if (!sendUserList.Any())
@@ -714,6 +804,77 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			xiXinClient.SendToFamily(userId, sendUserList, "您的孩子还有作业未完成，提醒孩子前往我的书房赶紧交作业吧！" + workBase.WorkName);
 
 			return true;
+		}
+
+		/// <summary>
+		/// 涂鸦附件作业
+		/// </summary>
+		/// <returns></returns>
+		[HttpPost, BasicAuthentication]
+		public dynamic GraffitiFileWork()
+		{
+			var content = Request.GetBodyContent();
+
+			if (string.IsNullOrWhiteSpace(content))
+			{
+				return new ApiArgumentException("未接收到post数据", 1);
+			}
+			GraffitiFileWorkDTO graffitiFileWork = null;
+			try
+			{
+				graffitiFileWork = JSONHelper.Decode<GraffitiFileWorkDTO>(content);
+			}
+			catch (Exception e)
+			{
+				return new ApiException(RetEum.ApplicationError, 2, "序列化失败,message:" + e.Message);
+			}
+			if (!graffitiFileWork.GraffitiFiles.Any())
+			{
+				return new ApiException(RetEum.ApplicationError, 3, "数据中不包含任何涂鸦附件");
+			}
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			var doWorkBase = new WorkBaseService().GetDoWorkBase(graffitiFileWork.DoWorkId);
+
+			if (null == doWorkBase || doWorkBase.WorkType != 103)
+			{
+				return new ApiException(RetEum.ApplicationError, 4, "未找到指定的作业");
+			}
+			if (doWorkBase.PublishUserId != userId)
+			{
+				return new ApiException(RetEum.ApplicationError, 5, "当前用户暂无操作权限");
+			}
+
+			var _workService = new WorkService();
+			var userFileWork = _workService.GetUserFileWork(graffitiFileWork.DoWorkId);
+			if (null == userFileWork || (userFileWork.Status != 2 && userFileWork.Status != 3))
+			{
+				return new ApiException(RetEum.ApplicationError, 6, "未找到指定的作业");
+			}
+			if (doWorkBase.RedirectParm.IndexOf("bid_" + userFileWork.RecordId) == -1)
+			{
+				return new ApiException(RetEum.ApplicationError, 7, " 作业参数不匹配");
+			}
+			if (userFileWork.DoId != graffitiFileWork.DoId)
+			{
+				return new ApiException(RetEum.ApplicationError, 8, " 作业参数不匹配");
+			}
+			var userAnswer = _workService.GetAnswer(userFileWork.DoId, 3, userFileWork.RecordId);
+			if (null == userAnswer)
+			{
+				return new ApiException(RetEum.ApplicationError, 9, " 未找到作业答案");
+			}
+			var userFileAnswers = JSONHelper.Decode<List<FileAnswer>>(userAnswer.AnswerContent);
+			var graffitiFiles = graffitiFileWork.GraffitiFiles.ToDictionary(c => c.Sid, c => c.Comment);
+			foreach (var item in userFileAnswers)
+			{
+				if (graffitiFiles.ContainsKey(item.Sid))
+				{
+					item.Comment = graffitiFiles[item.Sid];
+				}
+			}
+			userAnswer.AnswerContent = JSONHelper.Encode<List<FileAnswer>>(userFileAnswers);
+
+			return _workService.CorrectAnswer(userAnswer);
 		}
 
 		/// <summary>

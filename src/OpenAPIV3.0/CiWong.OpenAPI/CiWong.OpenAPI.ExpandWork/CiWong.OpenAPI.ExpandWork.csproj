@@ -33,6 +33,9 @@
     <Reference Include="CApi.Client">
       <HintPath>..\..\..\..\libs\CApi.Client.dll</HintPath>
     </Reference>
+    <Reference Include="CiWong.Framework.Helper">
+      <HintPath>..\..\..\..\libs\CiWong.Framework.Helper.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Resource.Preview">
       <HintPath>..\..\..\..\libs\Preview\CiWong.Resource.Preview.dll</HintPath>
     </Reference>
@@ -73,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Controllers\ExpandWorkController.cs" />
     <Compile Include="DTO\FileWorkDTO.cs" />
+    <Compile Include="DTO\GraffitiFileWorkDTO.cs" />
     <Compile Include="DTO\ListenSpeakAnswerDTO.cs" />
     <Compile Include="DTO\WorkFileDTO.cs" />
     <Compile Include="DTO\FollowReadAnswerDTO.cs" />
