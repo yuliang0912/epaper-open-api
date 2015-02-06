@@ -48,6 +48,12 @@
     <Reference Include="CiWong.Relation.WCFProxy">
       <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.WCFProxy.dll</HintPath>
     </Reference>
+    <Reference Include="CiWong.Users">
+      <HintPath>..\..\..\..\libs\CiWong.Users.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Users.Mapping">
+      <HintPath>..\..\..\..\libs\CiWong.Users.Mapping.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Work.Contract">
       <HintPath>..\..\..\..\libs\Work\CiWong.Work.Contract.dll</HintPath>
     </Reference>

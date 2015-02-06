@@ -2,6 +2,7 @@
 using CiWong.OpenAPI.Core;
 using CiWong.OpenAPI.Core.Extensions;
 using CiWong.OpenAPI.Work.Service;
+using CiWong.Users;
 using CiWong.Work.Entities;
 using CiWong.Work.Service;
 using System;
@@ -16,6 +17,14 @@ namespace CiWong.OpenAPI.Work.Controllers
 {
 	public class WorkController : ApiController
 	{
+
+		[HttpGet, BasicAuthentication]
+		public dynamic GetUserInfo()
+		{
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			var userInfo = new UserManager().GetUserInfo(userId);
+			return userInfo.RealName;
+		}
 		/// <summary>
 		/// 布置作业
 		/// </summary>
@@ -70,13 +79,15 @@ namespace CiWong.OpenAPI.Work.Controllers
 			{
 				throw new ApiArgumentException("receiveObject序列化失败,Message:" + e.ToString(), 5);
 			}
+			var userInfo = new UserManager().GetUserInfo(userId);
+
 			var workBase = new WorkBase()
 			{
 				WorkName = HttpUtility.UrlDecode(workName),
 				WorkType = (DictHelper.WorkTypeEnum)workType,
 				SonWorkType = sonWorkType,
 				PublishUserID = userId,
-				PublishUserName = string.Empty,
+				PublishUserName = userInfo.RealName,
 				PublishDate = DateTime.Now,
 				SendDate = DateTime.Now,
 				EffectiveDate = DateTimeExtensions.FromEpoch(completeDate),

@@ -4,6 +4,7 @@ using CiWong.OpenAPI.Core.Extensions;
 using CiWong.OpenAPI.ExpandWork.DTO;
 using CiWong.Resource.Preview.DataContracts;
 using CiWong.Resource.Preview.Service;
+using CiWong.Users;
 using CiWong.Work.Service;
 using System;
 using System.Collections.Generic;
@@ -60,6 +61,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			}
 
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			var userInfo = new UserManager().GetUserInfo(userId);
 
 			var publishRecord = new PublishRecordContract()
 			{
@@ -69,7 +71,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				PackageName = workPackage.PackageName,
 				PackageType = workPackage.PackageType,
 				UserId = userId,
-				UserName = string.Empty,
+				UserName = userInfo.RealName,
 				CreateDate = DateTime.Now
 			};
 
@@ -125,21 +127,22 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiException(RetEum.ApplicationError, 3, "集合中不包含任何元素");
 			}
-
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name); ;
+			var userInfo = new UserManager().GetUserInfo(userId);
 			var workFilePackage = new WorkFilePackageContract();
 			workFilePackage.FilePackageName = "作业快传附件资源包";
 			workFilePackage.FilePackageType = 2;
-			workFilePackage.UserId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
-			workFilePackage.UserName = string.Empty;
+			workFilePackage.UserId = userId;
+			workFilePackage.UserName = userInfo.RealName;
 			workFilePackage.CreateDate = DateTime.Now;
 
 			workFilePackage.WorkFileResources = workFiles.Select(t => new WorkFileResourceContract()
 			{
-				FileName = t.FileName,
-				FileUrl = t.FileUrl,
-				FileExt = t.FileExt,
+				FileName = t.FileName ?? string.Empty,
+				FileUrl = t.FileUrl ?? string.Empty,
+				FileExt = t.FileExt ?? string.Empty,
 				FileType = t.FileType,
-				FileDesc = t.FileDesc
+				FileDesc = t.FileDesc ?? string.Empty
 			}).ToList();
 
 			return new WorkService().CreateWorkFilePackage(workFilePackage);
@@ -811,7 +814,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpPost, BasicAuthentication]
-		public dynamic GraffitiFileWork()
+		public dynamic graffiti_file_work()
 		{
 			var content = Request.GetBodyContent();
 
@@ -875,6 +878,87 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			userAnswer.AnswerContent = JSONHelper.Encode<List<FileAnswer>>(userFileAnswers);
 
 			return _workService.CorrectAnswer(userAnswer);
+		}
+
+		/// <summary>
+		/// 获取筛选的跟读单词详情
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic part_followread_word_details(long contentId)
+		{
+			var resourceParts = new WorkService().GetResourceParts(contentId).Where(t => t.ResourceType == ResourceModuleOptions.Word.ToString()).Select(t => t.VersionId).ToArray();
+
+			var wordList = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Word, resourceParts);
+
+			if (!wordList.IsSucceed)
+			{
+				return new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
+			}
+
+			var words = wordList.Data.Where(t => t != null).OfType<CiWong.Tools.Workshop.DataContracts.WordContract>();
+
+			return words.Select(x => new
+			{
+				wId = x.VersionId ?? 0,
+				words = x.Name ?? string.Empty,
+				wordFile = x.AudioUrl ?? string.Empty,
+				wordType = x.IsExpand.HasValue ? x.IsExpand.Value : false,
+				symbol = x.Symbol ?? string.Empty,
+				syllable = x.Syllable ?? string.Empty,
+				pretations = x.Pretations ?? string.Empty,
+				sentences = x.Sentences.Any() ? x.Sentences.First().Text ?? string.Empty : string.Empty,
+				sentFile = x.Sentences.Any() ? x.Sentences.First().AudioUrl ?? string.Empty : string.Empty,
+				wordPic = x.PictureUrl ?? string.Empty
+			});
+		}
+
+		/// <summary>
+		/// 获取筛选的跟读句子详情
+		/// </summary>
+		/// <param name="contentId"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic part_followread_text_sentences(long contentId)
+		{
+			var _workService = new WorkService();
+
+			var resourceParts = _workService.GetResourceParts(contentId).Where(t => t.ResourceType == ResourceModuleOptions.Phrase.ToString()).Select(t => t.VersionId).ToList();
+
+			if (!resourceParts.Any())
+			{
+				return new ApiException(RetEum.ApplicationError, 1, "当前资源中不包含任何筛选的句子");
+			}
+
+			var workResource = _workService.GetWorkResource(contentId);
+
+			if (null == workResource || workResource.ModuleId != 10 && workResource.ResourceType != ResourceModuleOptions.SyncFollowReadText.ToString())
+			{
+				return new ApiException(RetEum.ApplicationError, 1, "未找到指定资源");
+			}
+
+			var result = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowReadText, workResource.VersionId);
+
+			if (!result.IsSucceed)
+			{
+				return new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
+			}
+
+			var data = (CiWong.Tools.Workshop.DataContracts.SyncFollowReadTextContract)result.Data.FirstOrDefault();
+
+			if (data == null)
+			{
+				return new ApiArgumentException("参数versionId错误，未找到指定资源");
+			}
+
+			return data.Sections.SelectMany(t => t.Sentences).Where(t => t.VersionId.HasValue && resourceParts.Contains(t.VersionId.Value)).Select(x => new
+			{
+				content = x.Content ?? string.Empty,
+				audioUrl = x.AudioUrl ?? string.Empty,
+				versionId = x.VersionId ?? 0,
+				resourceModuleId = x.ModuleId ?? Guid.Empty,
+				name = x.Name ?? string.Empty,
+			});
 		}
 
 		/// <summary>
