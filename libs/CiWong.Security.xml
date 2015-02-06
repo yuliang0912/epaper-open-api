@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiWong.Security</name>
+    </assembly>
+    <members>
+        <member name="T:CiWong.Security.Attribute.MeAttribute">
+            <summary>
+            获取当前用户信息
+            </summary>
+        </member>
+        <member name="T:CiWong.Security.SelfOnlyAttribute">
+            <summary>
+            必须登录才能访问
+            </summary>
+            
+        </member>
+        <member name="M:CiWong.Security.Services.IUserService.Get(System.Int32)">
+            <summary>
+            获取用户信息
+            </summary>
+            <param name="uin">用户ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Security.Services.IUserService.Gets(System.String)">
+            <summary>
+            按姓名获取用户
+            </summary>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Security.User.Checking(CiWong.Framework.Helper.UserRoleType)">
+            <summary>
+            判断是否指定角色
+            </summary>
+            <param name="type">角色,
+            同时满足多个角色用 &amp; 连接（UserRoleType.Parent &amp; UserRoleType.Teacher），
+            可以使摸个角色用 | (UserRoleType.Parent | UserRoleType.Teacher)  </param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Security.User.HasClass(System.Int64)">
+            <summary>
+            判断是否指定班级成员
+            </summary>
+            <param name="cid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Security.User.HasSchool(System.Int64)">
+            <summary>
+            判断是否指定学校成员
+            </summary>
+            <param name="sid"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CiWong.Security.User.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.BirthDayType">
+            <summary>
+            出生日期类型（0：公历  1：农历）
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.BirthDay">
+            <summary>
+            出生日期
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.Constellation">
+            <summary>
+            星座（根据出生日期自动计算）
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.IsAuthenticated">
+            <summary>
+            是否通过认证[只有当前用户使用]
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.Role">
+            <summary>
+            用户角色
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.IsAuth">
+            <summary>
+            是否认证用户
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.ClassYear">
+            <summary>
+            班级年份
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.UserType">
+            <summary>
+            用户帐号类型（0：普通用户 1：资源平台  2：安全知识竞赛帐号 3：老师批量注册帐号 ........）
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.IsTeacher">
+            <summary>
+            是否老师
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.IsParent">
+            <summary>
+            是否家长
+            </summary>
+        </member>
+        <member name="P:CiWong.Security.User.IsStudent">
+            <summary>
+            是否学生
+            </summary>
+        </member>
+    </members>
+</doc>

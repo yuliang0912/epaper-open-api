@@ -1,0 +1,1595 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiWong.Resource.Preview.DataContracts</name>
+    </assembly>
+    <members>
+        <member name="T:CiWong.Resource.Preview.DataContracts.FileAnswer">
+            <summary>
+            附件作业答案存放格式
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.IAnswer">
+            <summary>
+            资源模块答案序列化实体接口
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IAnswer.Sid">
+            <summary>
+            答案下标
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileAnswer.Sid">
+            <summary>
+            答案位置下标
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileAnswer.FileName">
+            <summary>
+            附件名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileAnswer.FileUrl">
+            <summary>
+            附件地址
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileAnswer.FileExt">
+            <summary>
+            附件格式(.png .mp4等)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileAnswer.FileType">
+            <summary>
+            文件类型(图片=1,音频=2,视频=3,Word文档=4)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileAnswer.Comment">
+            <summary>
+            点评
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.FlowReadAnswerEntity">
+            <summary>
+            模拟及听力考试答案单体 暂是不用 看需求定义一下
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FlowReadAnswerEntity.Sid">
+            <summary>
+            答案位置下标
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FlowReadAnswerEntity.Word">
+            <summary>
+            原文
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FlowReadAnswerEntity.Answer">
+            <summary>
+            选择题或者填空题答案（A，或者TXT）
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FlowReadAnswerEntity.AudioUrl">
+            <summary>
+            录音文件URL
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FlowReadAnswerEntity.ReadTimes">
+            <summary>
+            跟读次数
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.ReadAnswerEntity">
+            <summary>
+            跟读作业答案单体
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ReadAnswerEntity.Sid">
+            <summary>
+            内容序号
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ReadAnswerEntity.Word">
+            <summary>
+            单词或者句子
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ReadAnswerEntity.AudioUrl">
+            <summary>
+            录音文件URL
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ReadAnswerEntity.ReadTimes">
+            <summary>
+            跟读次数
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.ListenAnswerEntity">
+            <summary>
+            听力模考试答案,一道题多个答案 保存一个LIST
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ListenAnswerEntity.Sid">
+            <summary>
+            内容序号
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ListenAnswerEntity.OptionId">
+            <summary>
+            选项ID 先择题
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ListenAnswerEntity.AudioUrl">
+            <summary>
+            录音文件URL 情景对话录音文件
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ListenAnswerEntity.BlankContent">
+            <summary>
+            填空题
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.Business.ILearnBase">
+            <summary>
+            各资源学习展示业务实体基础接口
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.QuestionAnswer">
+            <summary>
+            维基试题答案存储格式实体
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionAnswer.Sid">
+            <summary>
+            答案位置下标
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionAnswer.Content">
+            <summary>
+            用户答案
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionAnswer.Assess">
+            <summary>
+            判定(1.正确 2.错误 3.半对 4.未知)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionAnswer.ItemScore">
+            <summary>
+            选项得分
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.ResourceBase">
+            <summary>
+            资源实体基类
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ResourceBase.Id">
+            <summary>
+            资源Id
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ResourceBase.VersionId">
+            <summary>
+            资源版本Id
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ExaminationContract.Title">
+            <summary>
+            试卷标题
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ExaminationContract.RefScore">
+            <summary>
+            试卷参考分值
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ExaminationContract.CurriculumID">
+            <summary>
+            试卷所属科目
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ExaminationContract.Parts">
+            <summary>
+            试卷大题部分
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.QuestionModuleContract">
+            <summary>
+            大题部分
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionModuleContract.Sid">
+            <summary>
+            排序编号
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionModuleContract.ModuleTypeName">
+            <summary>
+            模块名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionModuleContract.ModuleTypeURL">
+            <summary>
+            模块头部URL
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionModuleContract.Children">
+            <summary>
+            子试题
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.QuestionContract">
+            <summary>
+            试题资源
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionContract.Sid">
+            <summary>
+            排序编号
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionContract.Stem">
+            <summary>
+            题干
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionContract.Type">
+            <summary>
+            题目类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionContract.IsObjective">
+            <summary>
+            是否客观
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionContract.ParentVersion">
+            <summary>
+            父题版本ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionContract.QuestionRefSorce">
+            <summary>
+            题目参考分值(兼容试卷模式)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionContract.RefInfo">
+            <summary>
+            参考信息(答案.解题思路等)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionContract.Opions">
+            <summary>
+            选项集合
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionContract.Attachments">
+            <summary>
+            附件集合
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionContract.Children">
+            <summary>
+            子题集合
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.QuestionOption">
+            <summary>
+            选项集合
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionOption.Id">
+            <summary>
+            选项Id
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionOption.Stem">
+            <summary>
+            选项题干
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionOption.Attachments">
+            <summary>
+            附件集合
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.QuestionRefInfo">
+            <summary>
+            题目参考信息
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionRefInfo.Answers">
+            <summary>
+            参考答案
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.QuestionRefInfo.WayOfObtain">
+            <summary>
+            解题思路
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.Attachment">
+            <summary>
+            题目附件信息
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.Attachment.FileType">
+            <summary>
+            文件类型(Pic=1,Audio=2,Video=3,Doc=4)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.Attachment.Position">
+            <summary>
+            文件位置(On=1,Up=2,Left=3,Right=4)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.Attachment.FileUrl">
+            <summary>
+            文件地址
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.SpeekingAnswersEntity`1">
+            <summary>
+            PC 端答案提交实体
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.SpeekingAnswersEntity`1.Work_Type">
+            <summary>
+            作业类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.SpeekingAnswersEntity`1.Is_Work">
+            <summary>
+            练习还是作业 0 练习 1 作业
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.SpeekingAnswersEntity`1.practiceInfo">
+            <summary>
+            练习对像列表（作业模式不需要）
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.SpeekingAnswersEntity`1.worksInfo">
+            <summary>
+            作业提交记录（练习模式不需要）
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.SpeekingAnswersEntity`1.AnswerData">
+            <summary>
+            提交答案内容实体 包括单词、句子、听力、考试
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.SubmitWorkIds">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.SubmitWorkIds.DoWorkId">
+            <summary>
+            作业ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.SubmitWorkIds.ContentId">
+            <summary>
+            作业资源包ID 
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.SubmitWorkIds.PublishId">
+            <summary>
+            布置记录ID
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.SpeekingWorkType">
+            <summary>
+            作业类型
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.SpeekingWorkRescoreType">
+            <summary>
+            作业内容类型
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.SpeekingAnswers">
+            <summary>
+            接口构建实体
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.SpeekingAnswers.ListAnswers">
+            <summary>
+            提交作业答案明细
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.ReadWorkContent`1">
+            <summary>
+            跟读作业内容信息
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ReadWorkContent`1.Rules">
+            <summary>
+            规则
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ReadWorkContent`1.Content">
+            <summary>
+            类型（单词列表，句子列表）
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.Rule">
+            <summary>
+            跟读作业规则，后续可按业务增加
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.Rule.ReadTimes">
+            <summary>
+            根读次数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.Rule.PassScores">
+            <summary>
+            达标分数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkConents`1.WorkInfo">
+            <summary>
+            具体作业实现
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkConents`1.WorkPublishInfo">
+            <summary>
+            发布记录
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkConents`1.Content">
+            <summary>
+            类型（单词ID）
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.ResConents`2">
+            <summary>
+            练习资源包
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.RequirementContentContract`1">
+            <summary>
+            跟读作业内容要求序列化实体
+            字段请设置为允许null值,方便序列化时忽略此字段.
+            控制序列化之后的字符串长度在300以内
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.RequirementContentContract`1.ReadTimes">
+            <summary>
+            跟读次数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.RequirementContentContract`1.PassScorce">
+            <summary>
+            达标分数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.RequirementContentContract`1.SpeekingType">
+            <summary>
+            跟读类型 1逐句 2选段 3全文
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.RequirementContentContract`1.Attchment">
+            <summary>
+            附件
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.UserContract">
+            <summary>
+            webApi契约实体
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UserContract.Id">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UserContract.Name">
+            <summary>
+            用户名称
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.PaginationResult`1">
+            <summary>
+            分页结果集
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PaginationResult`1.TotalCount">
+            <summary>
+            总记录数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PaginationResult`1.PageSize">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PaginationResult`1.PageIndex">
+            <summary>
+            页索引，从0开始
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PaginationResult`1.Result">
+            <summary>
+            结果集
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions">
+            <summary>
+            资源类型定义
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.newsPaperModuleSortArray">
+            <summary>
+            电子报模板指定排序集合
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.Question">
+            <summary>
+            试题
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.TeachingPlan">
+            <summary> 
+            教学设计
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.Guidance">
+            <summary>
+            导学案
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.Knowledge">
+            <summary>
+            知识点精讲
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.Courseware">
+            <summary>
+            课件素材
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.ExaminationPaper">
+            <summary>
+            试卷
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.TestPoint">
+            <summary>
+            考点
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.CourseMap">
+            <summary>
+            导图课程
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.TreeView">
+            <summary>
+            考点导图
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.TestCourse">
+            <summary>
+            考点课程
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.Article">
+            <summary>
+            文章
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.News">
+            <summary>
+            新闻
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.SynchronousRead">
+            <summary>
+            同步阅读
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.SyncTrain">
+            <summary>
+            同步训练
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.SyncTrainSpecial">
+            <summary>
+            同步训练专项
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.SyncTrainClassHour">
+            <summary>
+            同步训练课时
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.SyncFollowRead">
+            <summary>
+            同步跟读
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.SyncFollowReadText">
+            <summary>
+            同步跟读课文
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.Word">
+            <summary>
+            单词
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.Phrase">
+            <summary>
+            短语
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.BookMarker">
+            <summary>
+            书签
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.Video">
+            <summary>
+            视频
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.ProblemMileage">
+            <summary>
+            问题里程碑
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.ListeningAndSpeakingTemplate">
+             <summary>
+            听说训练模板
+             </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.ListeningAndSpeaking">
+            <summary>
+            模考
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.ListeningAndSpeakingExam">
+            <summary>
+            听说模考试卷(转换为标准试卷结构)
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.ChineseWord">
+            <summary>
+            汉字
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.chineseGroupWord">
+            <summary>
+            词
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.ChineseFont">
+            <summary>
+            字体演变
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.DataContracts.ResourceModuleOptions.WorkFile">
+            <summary>
+            作业快传附件
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.ReturnResult`1">
+            <summary>
+            通用json返回格式
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.ReturnResult">
+            <summary>
+            通用json返回格式
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ReturnResult.Code">
+            <summary>
+            状态码:0成功,其他自定义
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ReturnResult.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ReturnResult.IsSucceed">
+            <summary>
+            是否成功
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ReturnResult`1.Data">
+            <summary>
+            内容实体
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract">
+            <summary>
+            做作业信息
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.DoWorkID">
+            <summary>
+            做作业ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkID">
+            <summary>
+            作业ID（自主测试时可以为0 ）
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkName">
+            <summary>
+            作业名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.SubmitUserID">
+            <summary>
+            提交人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.SubmitUserName">
+            <summary>
+            提交人
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.SubmitDate">
+            <summary>
+            提交时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkStatus">
+            <summary>
+            状态（0：未提交  1：暂存  2：已提交  3：已批改 4:退回）
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkComment">
+            <summary>
+            评语
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkPractice">
+            <summary>
+            做题方式（0：作业  1：练习）
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.DelStatus">
+            <summary>
+            删除状态（0：未删除  1：删除）
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkLong">
+            <summary>
+            做作业时长（单位：分钟）
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.ActualScore">
+            <summary>
+            实际得分
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.ExaminationID">
+            <summary>
+            试卷ID(没有试卷的作业类型,为0)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkScore">
+            <summary>
+            作业总分
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkType">
+            <summary>
+            作业类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.SonWorkType">
+            <summary>
+            作业子应用
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.EffectiveDate">
+            <summary>
+            作业过期时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkDesc">
+            <summary>
+            作业说明
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.RedirectParm">
+            <summary>
+            作业跳转所用参数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.IsWiki">
+            <summary>
+            是否维基库中的作业
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.TotalNum">
+            <summary>
+            当前作业布置人数(兼容统计数据,数据来源于workBase)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.PublishUserId">
+            <summary>
+            布置人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.PublishUserName">
+            <summary>
+            布置人姓名
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.workBaseStatus">
+            <summary>
+            主表状态
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.SendDate">
+            <summary>
+            发送日期
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.FileWorksContracts">
+            <summary>
+            附件作业提交情况
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.DoId">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.RecordId">
+            <summary>
+            布置记录ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.WorkId">
+            <summary>
+            作业ID(作业系统)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.DoWorkId">
+            <summary>
+            做作业ID(作业系统)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.SubmitUserId">
+            <summary>
+            提交人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.SubmitUserName">
+            <summary>
+            提交人姓名
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.WorkLevel">
+            <summary>
+            作业分值
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.WorkLong">
+            <summary>
+            /作业时长
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.SubmitDate">
+            <summary>
+            提交时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.IsTimeOut">
+            <summary>
+            是否超时
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.SubmitCount">
+            <summary>
+            作业提交次数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.Message">
+            <summary>
+            作业附加留言
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.Comment">
+            <summary>
+            点评内容
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.CommentType">
+            <summary>
+            点评类型(1:文本 2.语音)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.FileCount">
+            <summary>
+            用户提交的答案文件数量
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.Status">
+            <summary>
+            0:未提交 1:暂存 2:已提交 3:已批改 4:退回
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.FileWorksContracts.WorkAnswers">
+            <summary>
+            单元作业做题答案
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.IndepPracticeContract">
+            <summary>
+            自主练习记录
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.Id">
+            <summary>
+            主键记录ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.ProductId">
+            <summary>
+            产品ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.AppId">
+            <summary>
+            平台ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.PackageId">
+            <summary>
+            资源包ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.PackageName">
+            <summary>
+            资源包名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.PackageType">
+            <summary>
+            资源包类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.TaskId">
+            <summary>
+            目录ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.ResourceType">
+            <summary>
+            资源模块类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.VersionId">
+            <summary>
+            资源版本ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.ResourceName">
+            <summary>
+            资源名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.ModuleId">
+            <summary>
+            资源类型ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.SubmitUserId">
+            <summary>
+            提交人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.SubmitUserName">
+            <summary>
+            提交人姓名
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.WorkScore">
+            <summary>
+            作业分值
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.ActualScore">
+            <summary>
+            实际得分
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.CorrectRate">
+            <summary>
+            正确率
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.WorkLong">
+            <summary>
+            作业时长
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.IndepPracticeContract.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.PublishRecordContract">
+            <summary>
+            作业打包记录
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.RecordId">
+            <summary>
+            打包ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.ProductId">
+            <summary>
+            所属产品ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.AppId">
+            <summary>
+            产品所属平台ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.PackageId">
+            <summary>
+            跟读资源包ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.PackageName">
+            <summary>
+            资源名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.PackageType">
+            <summary>
+            产品类型(1电子书,2课程,3电子报)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.UserId">
+            <summary>
+            创建人用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.UserName">
+            <summary>
+            创建人用户名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.PublishRecordContract.workResources">
+            <summary>
+            打包资源集合
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.UnitSummaryContract">
+            <summary>
+            单元完成情况汇总
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitSummaryContract.ContentId">
+            <summary>
+            内容ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitSummaryContract.WorkId">
+            <summary>
+            作业系统,作业ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitSummaryContract.RecordId">
+            <summary>
+            布置记录ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitSummaryContract.TotalNum">
+            <summary>
+            布置人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitSummaryContract.CompletedNum">
+            <summary>
+            完成人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitSummaryContract.MarkNum">
+            <summary>
+            批改人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitSummaryContract.CommentNum">
+            <summary>
+            点评人数
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.UnitWorksContract">
+            <summary>
+            单元作业详情
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.ContentId">
+            <summary>
+            布置资源内容ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.RecordId">
+            <summary>
+            布置记录ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.WorkId">
+            <summary>
+            作业ID(作业系统)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.DoWorkId">
+            <summary>
+            做作业ID(作业系统)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.SubmitUserId">
+            <summary>
+            提交人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.SubmitUserName">
+            <summary>
+            提交人姓名
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.WorkScore">
+            <summary>
+            作业分值
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.ActualScore">
+            <summary>
+            实际得分
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.CorrectRate">
+            <summary>
+            正确率  
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.WorkLong">
+            <summary>
+            /作业时长
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.SubmitDate">
+            <summary>
+            提交时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.IsTimeOut">
+            <summary>
+            是否超时
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.SubmitCount">
+            <summary>
+            作业提交次数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.Comment">
+            <summary>
+            点评内容
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.CommentType">
+            <summary>
+            点评类型(1:文本 2.语音)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.Status">
+            <summary>
+            0:未提交 1:暂存 2:已提交 3:已批改 4:退回
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.UnitWorksContract.WorkAnswers">
+            <summary>
+            单元作业做题答案
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.WorkAnswerContract">
+            <summary>
+            作业(自主练习)答案
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkAnswerContract.Id">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkAnswerContract.DoId">
+            <summary>
+            学生作业ID或自主练习ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkAnswerContract.SubmitUserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkAnswerContract.VersionId">
+            <summary>
+            资源版本ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkAnswerContract.AnswerType">
+            <summary>
+            答案类型(1:作业 2:自主练习)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkAnswerContract.AnswerContent">
+            <summary>
+            答案结果
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkAnswerContract.ResourceType">
+            <summary>
+            资源类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkAnswerContract.Score">
+            <summary>
+            得分
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkAnswerContract.Assess">
+            <summary>
+            1.正确 2.错误 3.半对 4:未知
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.WorkAnswerContract`1">
+            <summary>
+            作业(自主练习)答案
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkAnswerContract`1.Answers">
+            <summary>
+            个性化答案实体
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.WorkId">
+            <summary>
+            作业ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.WorkName">
+            <summary>
+            作业名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.WorkType">
+            <summary>
+            作业类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.SonWorkType">
+            <summary>
+            作业子应用
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.PublishUserId">
+            <summary>
+            布置人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.PublishUserName">
+            <summary>
+            布置人姓名
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.PublishDate">
+            <summary>
+            布置时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.SendDate">
+            <summary>
+            发送时间(实指学生收到作业时间)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.EffectiveDate">
+            <summary>
+            有效时间(实指学生作业过期时间) 注:当学生作业过期之后,该份作业只能当自主测试,不会再被提交到老师.
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.WorkStatus">
+            <summary>
+            作业状态
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.TotalNum">
+            <summary>
+            本次作业人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.CompletedNum">
+            <summary>
+            已完成作业人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.ReferLong">
+            <summary>
+            参考时长(分钟)/朗读次数/朗读分数 根据CompletedType决定
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.WorkScore">
+            <summary>
+            分数(默认为100分)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.ReviceUserId">
+            <summary>
+            布置对象ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.ReviceUserName">
+            <summary>
+            布置对象名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.MarkNum">
+            <summary>
+            已批改人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.MarkType">
+            <summary>
+            批改方式（1：手动批改 2：自动批改 ）
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.ExaminationId">
+            <summary>
+            试卷ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.WorkDesc">
+            <summary>
+            作业描述
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.RecordId">
+            <summary>
+            记录ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkBaseContract.RedirectParm">
+            <summary>
+            跳转参数
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.WorkCensusContract">
+            <summary>
+            作业统计实体
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkCensusContract.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkCensusContract.UserName">
+            <summary>
+            用户名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkCensusContract.TotalWorkNum">
+            <summary>
+            总提交作业份数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkCensusContract.TotalSubmitNum">
+            <summary>
+            作业总提交次数
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkCensusContract.TotalWorkLong">
+            <summary>
+            作业总用时
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.WorkFilePackageContract">
+            <summary>
+            作业附件打包
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFilePackageContract.RecordId">
+            <summary>
+            打包ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFilePackageContract.FilePackageName">
+            <summary>
+            附件资源包名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFilePackageContract.FilePackageType">
+            <summary>
+            附件资源包类型(1:普通附件包 2:作业快传)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFilePackageContract.UserId">
+            <summary>
+            创建人用户ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFilePackageContract.UserName">
+            <summary>
+            创建人用户名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFilePackageContract.CreateDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFilePackageContract.Status">
+            <summary>
+            状态(0:正常 1:删除)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFilePackageContract.WorkFileResources">
+            <summary>
+            作业附件资源集合
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.WorkFileResourceContract">
+            <summary>
+            作业附件资源
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFileResourceContract.RecordId">
+            <summary>
+            打包ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFileResourceContract.FileName">
+            <summary>
+            附件名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFileResourceContract.FileUrl">
+            <summary>
+            附件地址
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFileResourceContract.FileExt">
+            <summary>
+            附件格式(.png .mp4等)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFileResourceContract.FileType">
+            <summary>
+            文件类型(图片=1,音频=2,视频=3,Word文档=4)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkFileResourceContract.FileDesc">
+            <summary>
+            文件描述
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.WorkResourceContract">
+            <summary>
+            作业内容资源
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.ContentId">
+            <summary>
+            单元布置内容ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.RecordId">
+            <summary>
+            作业记录ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.PackageId">
+            <summary>
+            资源包ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.TaskId">
+            <summary>
+            资源目录层级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.ModuleId">
+            <summary>
+            目录模块ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.VersionId">
+            <summary>
+            资源版本ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.RelationPath">
+            <summary>
+            资源关联路径格式为:根版本ID/父版本ID/当前版本ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.SonModuleId">
+            <summary>
+            子模块ID(适用于子集没有版本ID的资源,例如跟读中的单词组)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.ResourceName">
+            <summary>
+            资源名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.ResourceType">
+            <summary>
+            基础资源类型ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.RequirementContent">
+            <summary>
+            作业要求
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.IsFull">
+            <summary>
+            支持选择子资源
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.WorkResourceContract.resourceParts">
+            <summary>
+            子资源集合
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.DataContracts.ResourcePartsContract">
+            <summary>
+            资源子集(筛选)
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ResourcePartsContract.ContentId">
+            <summary>
+            父内容ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ResourcePartsContract.VersionId">
+            <summary>
+            子资源版本ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.DataContracts.ResourcePartsContract.ResourceType">
+            <summary>
+            子资源类型ID
+            </summary>
+        </member>
+    </members>
+</doc>

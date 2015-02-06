@@ -1,0 +1,281 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiWong.Users</name>
+    </assembly>
+    <members>
+        <member name="M:CiWong.Users.CaptchaHelper.GenerateRandomText">
+            <summary>
+            验证码信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.ImageHelper.GetPart(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            获取图片指定部分
+            </summary>
+            <param name="pPath">图片路径</param>
+            <param name="pSavePath">保存路径</param>
+            <param name="pPartStartPointX">目标图片开始绘制处的坐标X值(通常为)</param>
+            <param name="pPartStartPointY">目标图片开始绘制处的坐标Y值(通常为)</param>
+            <param name="pPartWidth">目标图片的宽度</param>
+            <param name="pPartHeight">目标图片的高度</param>
+            <param name="pOrigStartPointX">原始图片开始截取处的坐标X值</param>
+            <param name="pOrigStartPointY">原始图片开始截取处的坐标Y值</param>
+            <param name="pFormat">保存格式，通常可以是jpeg</param>
+        </member>
+        <member name="M:CiWong.Users.ImageHelper.GetPart(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            获取按比例缩放的图片指定部分
+            </summary>
+            <param name="pPath">图片路径</param>
+            <param name="pSavePath">保存路径</param>
+            <param name="pPartStartPointX">目标图片开始绘制处的坐标X值(通常为)</param>
+            <param name="pPartStartPointY">目标图片开始绘制处的坐标Y值(通常为)</param>
+            <param name="pPartWidth">目标图片的宽度</param>
+            <param name="pPartHeight">目标图片的高度</param>
+            <param name="pOrigStartPointX">原始图片开始截取处的坐标X值</param>
+            <param name="pOrigStartPointY">原始图片开始截取处的坐标Y值</param>
+            <param name="imageWidth">缩放后的宽度</param>
+            <param name="imageHeight">缩放后的高度</param>
+        </member>
+        <member name="M:CiWong.Users.ImageHelper.GetImageInfo(System.String)">
+            <summary>
+            获得图像高宽信息
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.IUserManager.GetUserContact(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            获取用户的联系方式
+            </summary>
+        </member>
+        <member name="M:CiWong.Users.SearchUserInfo.GetUserInfoNewRoom(System.String)">
+            <summary>
+            用户搜索自动完成
+            </summary>
+            <param name="searchName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserService.Gets(System.String)">
+            <summary>
+            按姓名获取用户
+            </summary>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserService.GetSchoolInfo(System.Int32)">
+            <summary>
+            用户所在学校信息
+            </summary>
+            <param name="uin">用户ID</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:CiWong.Users.UserService.GetClassInfo(System.Int32)">
+            <summary>
+            用户所在班级信息
+            </summary>
+            <param name="uin">用户ID</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.GetAllLanguage">
+            <summary>
+            获取语言列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.UpdateUserInfo(CiWong.Users.Mapping.Entities.user_info)">
+            <summary>
+            修改用户基本资料
+            </summary>
+            <param name="userInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.UpdateUserClassOrSchoolInfo(CiWong.Users.Mapping.Entities.user_info)">
+            <summary>
+            修改用户班级学校资料
+            </summary>
+            <param name="userInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.GetUserInfo(System.Int32)">
+            <summary>
+            获取登陆用户的基本资料
+            </summary>
+            <param name="UserID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.GetUserLanguage(System.Int32)">
+            <summary>
+            获取用户的语言列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.SaveUserLanguage(System.Int32,System.String)">
+            <summary>
+            保存用户的语言列表信息
+            </summary>
+            <param name="UserID"></param>
+            <param name="LanguageID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.UpdateUserPhoto(System.Int32,System.String)">
+            <summary>
+            修改用户的头像信息
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="pSavePath">保存路径</param> 
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.SaveUserContact(CiWong.Users.Mapping.Entities.user_info_contact)">
+            <summary>
+            保存用户的联系方式
+            </summary>
+            <param name="userContact"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.GetUserContact(System.Int32)">
+            <summary>
+            获取用户的联系方式
+            </summary>
+            <param name="UserID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.GetUserContact(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            获取用户的联系方式
+            </summary>
+            <param name="UserID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.GetUserInterests(System.Int32)">
+            <summary>
+            获取用户的兴趣爱好信息
+            </summary>
+            <param name="UserID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.SaveUserInterests(System.Int32,System.String)">
+            <summary>
+            保存用户的兴趣爱好
+            </summary>
+            <param name="UserID"></param>
+            <param name="LanguageID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.GetUserSecurityLevelList(System.Int32)">
+            <summary>
+            获取用户的帐号安全级别信息
+            </summary>
+            <param name="UserID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.IsExistSecurity(System.String,System.Int32)">
+            <summary>
+            判断相应安全类型的值是否已经被其他用户给绑定了
+            </summary>
+            <param name="value"></param>
+            <param name="securityType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.SendMail(CiWong.Security.User,System.String)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="mail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.SaveUserLoginEmail(CiWong.Users.Mapping.Entities.user_login_email)">
+            <summary>
+            保存绑定的验证信息
+            </summary>
+            <param name="userLoginEmail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.UpdateUserLoginEmail(System.Int32,System.String,System.String)">
+            <summary>
+            更改用户的Email验证登录信息的状态
+            </summary>
+            <param name="userLoginEmail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.deleteUserLoginSecurity(System.Int32,System.String)">
+            <summary>
+            取消绑定的验证信息
+            </summary>
+            <param name="UserID"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.SaveUserName(CiWong.Users.Mapping.Entities.user_login_username)">
+            <summary>
+            保存个性登录名
+            </summary>
+            <param name="userName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.CheckPassword(CiWong.Users.Mapping.Entities.user_info)">
+            <summary>
+            确认用户输入密码是否正确
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.GetUserSecurityList(System.Int32)">
+            <summary>
+            获取用户的密保信息
+            </summary>
+            <param name="UerID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.SaveSecurity(System.Int32,System.String)">
+            <summary>
+            保存用户的密保问题
+            </summary>
+            <param name="userSecurity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.GetProblemByID(System.Int32)">
+            <summary>
+             根据密保问题ID获取相应的密保问题
+            </summary>
+            <param name="ProblemID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.UpdateUserPassWord(System.Int32,System.String,System.String,System.String)">
+            <summary>
+            修改用户密码
+            </summary>
+            <param name="UserID"></param>
+            <param name="oldPwd"></param>
+            <param name="newPwd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.UpdateUserPassWord(System.String,System.String)">
+            <summary>
+            修改用户密码
+            </summary>
+            <param name="UserID"></param>
+            <param name="oldPwd"></param>
+            <param name="newPwd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.UpdateUser(CiWong.Users.Mapping.Entities.user_info)">
+            <summary>
+            后台修改用户基本资料
+            </summary>
+            <param name="userInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Users.UserManager.SendMailByUrl(CiWong.Security.User,System.String,System.String)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="user"></param>
+            <param name="mail"></param>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

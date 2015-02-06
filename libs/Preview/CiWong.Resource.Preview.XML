@@ -1,0 +1,968 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiWong.Resource.Preview</name>
+    </assembly>
+    <members>
+        <member name="T:CiWong.Resource.Preview.Infrastructure.Data.EntityHelper">
+            <summary>
+            IDataReader转化实体（Entity）操作方法  
+            caoxilong
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Infrastructure.Data.EntityHelper.GetListEntityByReader``1(System.Data.IDataReader)">
+            <summary>
+            IDataReader实体转换为List实体对象 
+            使用说明：EntityHelper.GetEntityByReader(实体对象）(IDataReader对象)
+            </summary>
+            <param name="dr">IDataReader 对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Infrastructure.Data.EntityHelper.GetEntity``1(System.Data.IDataReader)">
+            <summary>
+            IDataReader实体转换为实体对象
+            使用说明：EntityHelper.GetEntity(实体对象）(IDataReader对象)
+            </summary>
+            <param name="dr">IDataReader 对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Infrastructure.Data.EntityHelper.GetEntityByReaderNoCache``1(System.Data.IDataReader)">
+            <summary>
+            IDataReader实体转换为List实体对象(未使用缓存，测试使用，不推荐使用) 
+            使用说明：EntityHelper.GetEntityByReader(实体对象）(IDataReader对象)
+            </summary>
+            <param name="dr">IDataReader 对象</param>
+            <returns></returns>
+        </member>
+        <member name="T:CiWong.Resource.Preview.Infrastructure.Data.IDataReaderEntityBuilder`1">
+            <summary>
+            IDataReader实体转换为实体 caoxilong
+            </summary>
+            <typeparam name="T">实体对象</typeparam>
+        </member>
+        <member name="F:CiWong.Resource.Preview.Infrastructure.Data.IDataReaderEntityBuilder`1.ConvertMethods">
+            <summary>
+            数据类型和对应的强制转换方法的methodinfo，供实体属性赋值时调用
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.Infrastructure.Data.DynamicPropertyCache">
+            <summary>
+            定义缓存实体操作类
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.EnumHelper.GetDescription(System.Reflection.ICustomAttributeProvider)">
+            <summary>
+            获取Description特性的说明
+            </summary>
+            <param name="provider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.EnumHelper.GetDescription(System.Enum)">
+            <summary>
+            获取指定枚举的描述内容
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.EnumHelper.ToEnum``1(System.String)">
+            <summary>
+            将一个枚举常数的名称转换成等效的枚举对象
+            </summary>
+            <typeparam name="TEnum"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.EnumHelper.ToEnum``1(System.Object)">
+            <summary>
+            将指定的32位整数转换为枚举成员
+            </summary>
+            <typeparam name="TEnum"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Extensions.Recursion``1(``0,System.Action{``0},System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            递归
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Extensions.Recursion``1(``0,System.Action{``0,System.Int32},System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            递归
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Extensions.Recursion``1(``0,``0,System.Action{``0,``0},System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            递归
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Extensions.Recursion``1(``0,``0,System.Int32,System.Action{``0,``0,System.Int32},System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            递归
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="col">需要进行递归处理的对象</param>
+            <param name="parent">当前对象的上一层级对象</param>
+            <param name="index"></param>
+            <param name="handler">处理函数，第一个参数T：上一层级对象,第二个参数T：当前要处理的对象，第三个参数为当前对象在集合中的索引位置</param>
+            <param name="acquireNextCollection">获取递归下一层级</param>
+        </member>
+        <member name="T:CiWong.Resource.Preview.EncryptHelper">
+            <summary>
+            加密帮助类
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.EncryptHelper.SHA512(System.String)">
+            <summary>
+            sha512加密
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.EncryptHelper.MD5(System.String)">
+            <summary>
+            MD5加密	
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.EncryptHelper.HMACSHA1(System.String,System.String)">
+            <summary>
+            hmac1加密
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.GuidConvert.ToString16">
+            <summary>
+            根据GUID获取16位的唯一字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.GuidConvert.ToLong">
+            <summary>
+            根据GUID获取19位的唯一数字序列
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.GuidConvert.ToUniqueId">
+            <summary>  
+            生成22位唯一的数字 并发可用  
+            </summary>  
+            <returns></returns>
+        </member>
+        <member name="T:CiWong.Resource.Preview.JSONHelper">
+            <summary>
+            JSON帮助类
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.JSONHelper.Encode``1(``0)">
+            <summary>
+            编码
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="t">要转换的类型数据</param>
+            <returns>json字符串</returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.JSONHelper.Encode``1(``0,Newtonsoft.Json.Formatting)">
+            <summary>
+            编码
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="t"></param>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.JSONHelper.Encode``1(``0,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            编码
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="t"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.JSONHelper.Decode``1(System.String)">
+            <summary>
+            解码
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="json">json字符串</param>
+            <returns>类型数据</returns>
+        </member>
+        <member name="P:CiWong.Resource.Preview.JSONHelper.Settings">
+            <summary>
+            公共序列化配置
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.BigintConverter">
+            <summary>
+            Bigint类型转换处理,方便javascript识别,长整形自动转换成string
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.PhotoHelper.key">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.PhotoHelper.GetReadUserPhotoConfig">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.PhotoHelper.GetUserPhoto(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="uin"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.PhotoHelper.GetUserPhoto(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="uin"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.PhotoHelper.Gravatar(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="uin"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.PhotoHelper.encrypt2(System.String)">
+            <summary>
+            md5Str=uid +""+sid 
+            </summary>
+            <param name="md5Str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.PhotoHelper.md5One(System.Byte[],System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="retByte"></param>
+            <param name="md5Len"></param>
+            <returns></returns>
+        </member>
+        <member name="F:CiWong.Resource.Preview.PhotoHelper.HexCode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.PhotoHelper.byteArrayToHexString(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.PhotoHelper.byteToHexString(System.Byte)">
+            <summary>
+            
+            </summary>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CiWong.Resource.Preview.Singleton`1">
+            <summary>
+            单例基类，集成自它的对象，都可以是单例对象。
+            要求必须有私有无参构造函数
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:CiWong.Resource.Preview.Repositories.RepositoryBase.AdoProvide">
+            <summary>
+            数据驱动对象
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.Repositories.RepositoryBase.ReadConnectionString">
+            <summary>
+            读数据库连接字符串
+            </summary>
+        </member>
+        <member name="P:CiWong.Resource.Preview.Repositories.RepositoryBase.WriteConnectionString">
+            <summary>
+            写数据库连接字符串
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.FileWorksRepository.Insert(CiWong.Resource.Preview.DataContracts.FileWorksContracts)">
+            <summary>
+            添加单元作业完成记录,返回自增id
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.FileWorksRepository.Update(CiWong.Resource.Preview.DataContracts.FileWorksContracts)">
+            <summary>
+            更新记录
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.FileWorksRepository.GetFileWorks(System.Int64,System.Int64)">
+            <summary>
+            获取附件作业完成详情集合
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.FileWorksRepository.GetUserFileWork(System.Int64)">
+            <summary>
+            获取用户附件作业完成详情
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.FileWorksRepository.CommentFileWorks(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.Int64,System.String,System.String,System.Int32)">
+            <summary>
+            批量作业点评
+            </summary>
+            <param name="userIds">用户更ID</param>
+            <param name="workId">作业ID</param>
+            <param name="recordId">附件资源包ID</param>
+            <param name="workLevel">作业评分</param>
+            <param name="content">点评内容</param>
+            <param name="commentType">点评类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.IndepPracticeRepository.Insert(CiWong.Resource.Preview.DataContracts.IndepPracticeContract)">
+            <summary>
+            添加自主练习记录，返回自增id
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.IndepPracticeRepository.UpDate(CiWong.Resource.Preview.DataContracts.IndepPracticeContract)">
+            <summary>
+            更新对象
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.IndepPracticeRepository.GetIndeppracticeCensus(System.Collections.Generic.IEnumerable{System.Int32},System.DateTime,System.DateTime,System.String[])">
+            <summary>
+            获取自主练习统计
+            </summary>
+            <param name="userIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.GetWorkPackage(System.Int64)">
+            <summary>
+            获取布置信息对像
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.GetWorkResource(System.Int64)">
+            <summary>
+            根据Id查询打包资源
+            </summary>
+            <param name="contentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.GetWorkResources(System.Int64)">
+            <summary>
+            根据打包记录id查询布置资源
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.GetResourceParts(System.Int64)">
+            <summary>
+            根据资源内容id查询子资源
+            </summary>
+            <param name="contentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.InsertPublishRecord(CiWong.Resource.Preview.DataContracts.PublishRecordContract)">
+            <summary>
+            添加资源打包布置总表
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.InsertWorkResource(CiWong.Resource.Preview.DataContracts.WorkResourceContract)">
+            <summary>
+            添加打包资源
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.InsertResourceParts(System.Collections.Generic.IEnumerable{CiWong.Resource.Preview.DataContracts.ResourcePartsContract})">
+            <summary>
+            批量添加试题子资源
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.Insert(CiWong.Resource.Preview.DataContracts.UnitWorksContract)">
+            <summary>
+            添加单元作业完成记录,返回自增id
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.GetUnitWorks(System.Int64,System.Int64)">
+            <summary>
+            获取完成详情集合
+            </summary>
+            <param name="contentId"></param>
+            <param name="workId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.GetUserUnitWorks(System.Int64)">
+            <summary>
+            获取用户完成详情集合
+            </summary>
+            <param name="doWorkId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.GetUserUnitWork(System.Int64,System.Int64)">
+            <summary>
+            获取用户单个单元完成详情
+            </summary>
+            <param name="contentId"></param>
+            <param name="doworkId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.GetUserUnitWork(System.Int64)">
+            <summary>
+            获取用户单个单元完成详情
+            </summary>
+            <param name="doId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.GetUserUnitWorks(System.Int64,System.Int64,System.Int32)">
+            <summary>
+            获取用户所有单元模块完成详情
+            </summary>
+            <param name="recordId"></param>
+            <param name="workId"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.Update(CiWong.Resource.Preview.DataContracts.UnitWorksContract)">
+            <summary>
+            更新记录
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.CommentUnitWorks(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.Int64,System.String,System.Int32)">
+            <summary>
+            作业点评
+            </summary>
+            <param name="userIds"></param>
+            <param name="workId"></param>
+            <param name="contentId"></param>
+            <param name="content"></param>
+            <param name="commentType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.IsCompletedAllUnits(System.Int64,System.Int64)">
+            <summary>
+            是否完成本次所有的单元作业
+            </summary>
+            <param name="recordId"></param>
+            <param name="doWorkId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.GetUnitSummary(System.Int64,System.Int64)">
+            <summary>
+            获取单元完成情况汇总
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.GetUnitSummarys(System.Int64,System.Int64)">
+            <summary>
+            获取单元完成情况汇总
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.SetUnitSummary(System.Int64,System.Int64,System.Int64,System.Int32)">
+            <summary>
+            更新单元汇总
+            </summary>
+            <param name="contentId"></param>
+            <param name="workId"></param>
+            <param name="recordId"></param>
+            <param name="totalNum"></param>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.GetWorkCensus(System.Collections.Generic.IEnumerable{System.Int32},System.DateTime,System.DateTime,System.Int32)">
+            <summary>
+            获取作业统计
+            </summary>
+            <param name="userIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkAnswerRepository.GetAnswer(System.Int64,System.Int32,System.Int64)">
+            <summary>
+            获取单个作业答案
+            </summary>
+            <param name="doId"></param>
+            <param name="answerType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkAnswerRepository.GetAnswers(System.Int64,System.Int32)">
+            <summary>
+            查询作业答案
+            </summary>
+            <param name="doId"></param>
+            <param name="answerType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkAnswerRepository.GetUnitWorkAnswers(System.Int64,System.Int64,System.Boolean)">
+            <summary>
+            批量获取作业答案
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkAnswerRepository.GetFileWorkAnswers(System.Int64,System.Int64,System.Boolean)">
+            <summary>
+            批量获取作业答案
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkAnswerRepository.Insert(System.Int64,System.Int32,System.Collections.Generic.IEnumerable{CiWong.Resource.Preview.DataContracts.WorkAnswerContract})">
+            <summary>
+            批量添加答案记录
+            </summary>
+            <param name="doId"></param>
+            <param name="answerType"></param>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkAnswerRepository.CorrectAnswer(CiWong.Resource.Preview.DataContracts.WorkAnswerContract)">
+            <summary>
+            保存批改答案
+            </summary>
+            <param name="workAnswer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkAnswerRepository.GetReadAnswers(System.Int64,System.Int32)">
+            <summary>
+            查询作业答案
+            </summary>
+            <param name="doId"></param>
+            <param name="answerType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CiWong.Resource.Preview.Repositories.WorkBaseRepository">
+            <summary>
+            作业基础表底层数据提供
+            此类只供内部调用.对外提供,请通过service文件下的具体接口提供
+            示例代码 余亮 2014-7-7
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.FindBy(System.Nullable{System.Int64},System.Nullable{System.Int32},System.Int32,System.Int32)">
+            <summary>
+            示例查询代码
+            </summary>
+            <param name="workId">作业ID</param>
+            <param name="publishUserId">布置人ID</param>
+            <param name="pageIndex">页码下标</param>
+            <param name="pageSize">每页数量</param>
+            底层提供类尽量考虑通用
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.getModelByRecordId(System.Int64)">
+            <summary>
+            根据资源打包布置Id查询对象
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.Upadte(System.Int64,System.DateTime)">
+            <summary>
+            示例更新数据代码
+            </summary>
+            <param name="workId"></param>
+            <param name="sendDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.Delete(System.Int64)">
+            <summary>
+            示例删除代码
+            </summary>
+            <param name="workId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.GetWorkBase(System.Int64)">
+            <summary>
+            获取基础作业信息
+            </summary>
+            <param name="workId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.GetDoWorkBase(System.Int64)">
+            <summary>
+            用户作业接收人信息
+            </summary>
+            <param name="doWorkId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.UpdateDoWorkStatus(System.Int64,System.DateTime,System.Int32)">
+            <summary>
+            更新做作业信息以及统计数据
+            </summary>
+            <param name="doworkId"></param>
+            <param name="submitDate"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CiWong.Resource.Preview.Repositories.SpeekingRepository">
+            <summary>
+            跟读作业内容查询，提交
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.SpeekingRepository.GetWorkRescoreVersionIdsByPackageId(System.Int64)">
+            <summary>
+            根据包ID获取作业资源内容ID
+            </summary>
+            <param name="contentId">作业包包ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.SpeekingRepository.GetWorkRescoreByPackageId(System.Int64)">
+            <summary>
+            获取作业包对象
+            </summary>
+            <param name="contentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.SpeekingRepository.GetWorkPublishByPublishId(System.Int64)">
+            <summary>
+            获取布置信息对像
+            </summary>
+            <param name="publishId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.SpeekingRepository.SubmitWork(CiWong.Resource.Preview.DataContracts.SpeekingAnswersEntity{CiWong.Resource.Preview.DataContracts.WorkAnswerContract})">
+            <summary>
+            提交作业
+            </summary>
+            <param name="publishId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkFilePackageRepository.GetWorkFilePackage(System.Int64)">
+            <summary>
+            获取布置信息对像
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkFilePackageRepository.GetWorkFileResource(System.Int64)">
+            <summary>
+            根据Id查询打包资源
+            </summary>
+            <param name="contentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkFilePackageRepository.GetWorkFileResources(System.Int64)">
+            <summary>
+            根据打包记录id查询布置资源
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkFilePackageRepository.GetWorkFileResources(System.Collections.Generic.IEnumerable{System.Int64})">
+            <summary>
+            根据打包记录id查询布置资源
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkFilePackageRepository.InsertWorkFilePackage(CiWong.Resource.Preview.DataContracts.WorkFilePackageContract)">
+            <summary>
+            添加资源打包布置总表
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkFilePackageRepository.InsertWorkFileResources(System.Collections.Generic.IEnumerable{CiWong.Resource.Preview.DataContracts.WorkFileResourceContract},System.Int64)">
+            <summary>
+            批量添加作业附件
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CiWong.Resource.Preview.ResourceModule">
+            <summary>
+            资源作业接口注入
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.Service.WorkBaseService">
+            <summary>
+            此处为对外业务接口
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.Service.WorkBaseService._workBase">
+            <summary>
+            可以考虑使用IOC进行实例化管理.待讨论
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkBaseService.GetWorkBase(System.Int64)">
+            <summary>
+            获取基础作业信息
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkBaseService.GetDoWorkBase(System.Int64)">
+            <summary>
+            获取用户作业信息
+            </summary>
+        </member>
+        <member name="T:CiWong.Resource.Preview.Service.SpeekingService">
+            <summary>
+            此处为对外业务接口
+            </summary>
+        </member>
+        <member name="F:CiWong.Resource.Preview.Service.SpeekingService._workBase">
+            <summary>
+            可以考虑使用IOC进行实例化管理.待讨论
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.SpeekingService.GetWorkRescoreVersionIdsByPackageId(System.Int64)">
+            <summary>
+            根据包ID获取作业资源内容ID
+            </summary>
+            <param name="contentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.SpeekingService.GetWorkRescoreByPackageId(System.Int64)">
+            <summary>
+            获取作业包对象
+            </summary>
+            <param name="contentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.SpeekingService.GetWorkPublishByPublishId(System.Int64)">
+            <summary>
+            获取作业布置对象
+            </summary>
+            <param name="publishId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.SpeekingService.SubmitWork(CiWong.Resource.Preview.DataContracts.SpeekingAnswersEntity{CiWong.Resource.Preview.DataContracts.WorkAnswerContract})">
+            <summary>
+            提交作业
+            </summary>
+            <param name="answers"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CiWong.Resource.Preview.Service.WorkService">
+            <summary>
+            电子报,电子书,附件作业业务处理类
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetWorkPackage(System.Int64)">
+            <summary>
+            获取打包信息
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetWorkFilePackage(System.Int64)">
+            <summary>
+            获取附件作业资源包
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetWorkResources(System.Int64)">
+            <summary>
+             根据打包ID获取资源集合
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetResourceParts(System.Int64)">
+            <summary>
+            根据内容ID获取筛选子资源
+            </summary>
+            <param name="contentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetUnitSummary(System.Int64,System.Int64)">
+            <summary>
+            获取单元汇总完成情况
+            </summary>
+            <param name="contentId"></param>
+            <param name="workId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetUnitSummarys(System.Int64,System.Int64)">
+            <summary>
+            获取单元完成情况汇总
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetUnitWorks(System.Int64,System.Int64)">
+            <summary>
+            获取完成详情集合
+            </summary>
+            <param name="contentId"></param>
+            <param name="workId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetUserUnitWork(System.Int64,System.Int64)">
+            <summary>
+            获取用户单个单元完成详情
+            </summary>
+            <param name="contentId"></param>
+            <param name="doWorkId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetUserUnitWorks(System.Int64)">
+            <summary>
+            获取一份作业的完成详情集合
+            </summary>
+            <param name="doWorkId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetUserUnitWork(System.Int64)">
+            <summary>
+            获取用户单个单元完成详情
+            </summary>
+            <param name="doId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetUserUnitWorks(System.Int64,System.Int64,System.Int32)">
+            <summary>
+            获取用户所有单元模块完成详情
+            </summary>
+            <param name="recordId"></param>
+            <param name="workId"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetFileWorks(System.Int64,System.Int64)">
+            <summary>
+            获取附件作业完成详情集合
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetUserFileWork(System.Int64)">
+            <summary>
+            获取用户附件作业完成详情
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetAnswer(System.Int64,System.Int32,System.Int64)">
+            <summary>
+            根据作业类型(1:作业 2:自主练习)获取答案
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetAnswers(System.Int64,System.Int32)">
+            <summary>
+            根据作业类型(1:作业 2:自主练习 3:作业快传)获取答案
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetUnitWorkAnswers(System.Int64,System.Int64,System.Boolean)">
+            <summary>
+            批量获取作业答案
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetFileWorkAnswers(System.Int64,System.Int64,System.Boolean)">
+            <summary>
+            批量获取附件作业答案
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetWorkResource(System.Int64)">
+            <summary>
+            获取打包资源集合
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetWorkFileResource(System.Int64)">
+            <summary>
+            获取打包的附件资源集合
+            </summary>
+            <param name="contentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.CreateWorkPackage(CiWong.Resource.Preview.DataContracts.PublishRecordContract)">
+            <summary>
+            创建作业打包记录
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.CreateWorkFilePackage(CiWong.Resource.Preview.DataContracts.WorkFilePackageContract)">
+            <summary>
+            创建作业附件包
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetWorkFileResources(System.Int64)">
+            <summary>
+            获取作业附件集
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetWorkFileResources(System.Collections.Generic.IEnumerable{System.Int64})">
+            <summary>
+            获取作业附件集
+            </summary>
+            <param name="recordIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.DoIndepPractice(CiWong.Resource.Preview.DataContracts.IndepPracticeContract,System.Collections.Generic.IEnumerable{CiWong.Resource.Preview.DataContracts.WorkAnswerContract})">
+            <summary>
+             自主练习
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.DoUnitWorks(CiWong.Resource.Preview.DataContracts.UnitWorksContract,System.Collections.Generic.IEnumerable{CiWong.Resource.Preview.DataContracts.WorkAnswerContract},System.Int32)">
+            <summary>
+            提交单元作业
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.DoFileWork(CiWong.Resource.Preview.DataContracts.FileWorksContracts,System.Collections.Generic.IEnumerable{CiWong.Resource.Preview.DataContracts.WorkAnswerContract})">
+            <summary>
+            提交附件作业
+            </summary>
+            <param name="model"></param>
+            <param name="userAnswer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.CommentUnitWorks(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.Int64,System.String,System.Int32)">
+            <summary>
+            作业点评
+            </summary>
+            <param name="userIds"></param>
+            <param name="workId"></param>
+            <param name="contentId"></param>
+            <param name="content"></param>
+            <param name="commentType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.CommentFileWorks(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.Int64,System.String,System.String,System.Int32)">
+            <summary>
+            批量作业点评
+            </summary>
+            <param name="userIds">用户更ID</param>
+            <param name="workId">作业ID</param>
+            <param name="recordId">附件资源包ID</param>
+            <param name="workLevel">作业评分</param>
+            <param name="content">点评内容</param>
+            <param name="commentType">点评类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetIndepPracticeById(System.Int64)">
+            <summary>
+            获取单个实体
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.UpdateDoWorkInfo(System.Int64,System.Int64,System.DateTime)">
+            <summary>
+            更新作业系统做作业信息
+            </summary>
+            <param name="doWorkId"></param>
+            <param name="recordId"></param>
+            <param name="submitDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetReadAnswers(System.Int64,System.Int32)">
+            <summary>
+            获取跟读答案
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetWorkCensus(System.Collections.Generic.IEnumerable{System.Int32},System.DateTime,System.DateTime,System.Int32)">
+            <summary>
+            获取使用情况统计
+            </summary>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.CorrectAnswer(CiWong.Resource.Preview.DataContracts.UnitWorksContract,CiWong.Resource.Preview.DataContracts.WorkAnswerContract)">
+            <summary>
+            批改作业答案
+            </summary>
+            <param name="workAnswer"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

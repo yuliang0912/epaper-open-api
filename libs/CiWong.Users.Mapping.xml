@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CiWong.Users.Mapping</name>
+    </assembly>
+    <members>
+        <member name="T:CiWong.Users.Mapping.Entities.SecurityType">
+            <summary>
+            安全级别类型
+            </summary>
+        </member>
+        <member name="F:CiWong.Users.Mapping.Entities.SecurityType.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="F:CiWong.Users.Mapping.Entities.SecurityType.Mobile">
+            <summary>
+            手机
+            </summary>
+        </member>
+        <member name="F:CiWong.Users.Mapping.Entities.SecurityType.UserName">
+            <summary>
+            个性登录名
+            </summary>
+        </member>
+        <member name="F:CiWong.Users.Mapping.Entities.SecurityType.Pwd">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="F:CiWong.Users.Mapping.Entities.SecurityType.Security">
+            <summary>
+            密保
+            </summary>
+        </member>
+    </members>
+</doc>

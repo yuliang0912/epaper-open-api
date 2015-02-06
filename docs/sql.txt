@@ -1,0 +1,45 @@
+CREATE TABLE `fileworks` (
+  `DoId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID,自增',
+  `RecordId` bigint(20) NOT NULL COMMENT '布置记录ID',
+  `WorkId` bigint(20) NOT NULL COMMENT '作业ID(作业系统)',
+  `DoWorkId` bigint(20) NOT NULL COMMENT '做作业ID(作业系统)',
+  `SubmitUserId` int(11) NOT NULL COMMENT '提交人ID',
+  `SubmitUserName` varchar(32) NOT NULL COMMENT '提交人姓名',
+  `WorkLevel` varchar(32) NOT NULL COMMENT '作业评级',
+  `WorkLong` int(11) NOT NULL COMMENT '作业时长(秒)',
+  `SubmitDate` datetime NOT NULL COMMENT '提交时间',
+  `IsTimeOut` bit(1) NOT NULL COMMENT '是否超时',
+  `SubmitCount` int(11) NOT NULL DEFAULT '1' COMMENT '作业提交次数',
+  `Message` varchar(512) NOT NULL DEFAULT '' COMMENT '附加留言',
+  `Comment` varchar(300) NOT NULL COMMENT '点评内容',
+  `CommentType` tinyint(4) NOT NULL DEFAULT '1' COMMENT '点评类型(1:文本 2.语音)',
+  `Status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '0:未提交 1:暂存 2:已提交 3:已批改 4:退回  5:延时提交',
+  `FileCount` int(11) NOT NULL COMMENT '学生提交的附件答案数量',
+  PRIMARY KEY (`DoId`),
+  UNIQUE KEY `unique_file_works` (`RecordId`,`DoWorkId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `workfilepackage` (
+  `recordId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '附件作业打包记录ID,主键',
+  `filePackageName` varchar(64) NOT NULL COMMENT '附件资源包名称',
+  `filePackageType` int(11) NOT NULL COMMENT '附件资源包类型(1:普通附件包 2:作业快传)',
+  `UserId` int(11) NOT NULL COMMENT '创建人用户ID',
+  `UserName` varchar(32) NOT NULL COMMENT '创建人用户名称',
+  `CreateDate` datetime NOT NULL COMMENT '创建时间',
+  `Status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态(0:正常 1:删除)',
+  PRIMARY KEY (`recordId`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='附件作业打包记录表';
+
+CREATE TABLE `workfileresource` (
+  `ContentId` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '附件ID',
+  `RecordId` bigint(20) NOT NULL COMMENT '附件资源包ID',
+  `FileName` varchar(128) NOT NULL COMMENT '附件名称',
+  `FileUrl` varchar(128) NOT NULL COMMENT '附件地址',
+  `FileExt` varchar(32) NOT NULL COMMENT '附件格式,后缀名',
+  `FileType` int(11) NOT NULL COMMENT '文件类型(图片=1,音频=2,视频=3,Word文档=4)',
+  `FileDesc` varchar(512) NOT NULL DEFAULT '0' COMMENT '文件描述',
+  PRIMARY KEY (`ContentId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='附件资源内容表';
+
+
+
