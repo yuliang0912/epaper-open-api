@@ -30,7 +30,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpPost, BasicAuthentication]
-		public List<long> publish()
+		public dynamic publish()
 		{
 			#region 参数赋值及验证
 			var request = ((System.Web.HttpContextBase)Request.Properties["MS_HttpContext"]).Request;
@@ -49,23 +49,23 @@ namespace CiWong.OpenAPI.Work.Controllers
 
 			if (!Enum.IsDefined(typeof(DictHelper.WorkTypeEnum), workType))
 			{
-				throw new ApiArgumentException("参数workType不在指定的范围之内", 1);
+				return new ApiArgumentException("参数workType不在指定的范围之内", 1);
 			}
 			if (sonWorkType < 0 || sonWorkType >= 100)
 			{
-				throw new ApiArgumentException("参数sonWorkType错误", 2);
+				return new ApiArgumentException("参数sonWorkType错误", 2);
 			}
 			if (!Enum.IsDefined(typeof(DictHelper.CurriculumEnum), curriculum))
 			{
-				throw new ApiArgumentException("参数curriculum不在指定的范围之内", 3);
+				return new ApiArgumentException("参数curriculum不在指定的范围之内", 3);
 			}
 			if (!Enum.IsDefined(typeof(PublishTypeEnum), (byte)publishType))
 			{
-				throw new ApiArgumentException("参数publishType不在指定的范围之内", 4);
+				return new ApiArgumentException("参数publishType不在指定的范围之内", 4);
 			}
 			if (string.IsNullOrWhiteSpace(workName))
 			{
-				throw new ApiArgumentException("参数workName不能为空", 5);
+				return new ApiArgumentException("参数workName不能为空", 5);
 			}
 
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
@@ -77,7 +77,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 			}
 			catch (Exception e)
 			{
-				throw new ApiArgumentException("receiveObject序列化失败,Message:" + e.ToString(), 5);
+				return new ApiArgumentException("receiveObject序列化失败,Message:" + e.ToString(), 5);
 			}
 			var userInfo = new UserManager().GetUserInfo(userId);
 
@@ -99,7 +99,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 				PublishType = (PublishTypeEnum)publishType,
 				WorkScore = 100,
 				MarkType = MarkType.Auto,
-				WorkDesc = workDesc,
+				WorkDesc = HttpUtility.UrlDecode(workDesc),
 				RedirectParm = string.Format("bid_{0}.sid_{1}.zuop_{2}", workPackageRecordId, 0, 0)
 			};
 			#endregion
@@ -108,23 +108,80 @@ namespace CiWong.OpenAPI.Work.Controllers
 		}
 
 		/// <summary>
+		/// 获取作业基础信息
+		/// </summary>
+		/// <param name="workId"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic work_info(long workId)
+		{
+			var workBase = new WorkBaseProvider().GetWorkBase(workId);
+
+			if (null == workBase)
+			{
+				return new ApiArgumentException("未找到指定的作业", 1);
+			}
+
+			return new
+			{
+				workId = workBase.WorkID,
+				workName = workBase.WorkName ?? string.Empty,
+				workType = workBase.WorkType,
+				sonWorkType = workBase.SonWorkType,
+				publishUserId = workBase.PublishUserID,
+				publishUserName = workBase.PublishUserName ?? string.Empty,
+				sendDate = workBase.SendDate,
+				effectiveDate = workBase.EffectiveDate,
+				totalNum = workBase.TotalNum,
+				completedNum = workBase.CompletedNum,
+				markNum = workBase.MarkNum,
+				reviceId = workBase.ReviceUserID,
+				reviceName = workBase.ReviceUserName,
+				recordId = new WorkPublisher().redirectParmsArray(workBase.RedirectParm),
+				isTimeout = DateTime.Now > workBase.EffectiveDate
+			};
+		}
+
+		/// <summary>
+		///  删除已布置的作业
+		/// </summary>
+		/// <param name="workId"></param>
+		/// <returns>0:失败 1:成功</returns>
+		[HttpGet, BasicAuthentication]
+		public dynamic delete_work(long workId)
+		{
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+
+			return new WorkBaseProvider().DeleteWorkBase(workId, userId);
+		}
+
+		/// <summary>
 		/// 获取做作业列表(我的作业)
 		/// </summary>
 		/// <param name="workStatus">作业状态: 待完成0, 已完成7, 已批阅:3</param>
-		/// <param name="from">请求来源: 1:安卓 2:IOS </param>
+		/// <param name="from">请求来源: 1:安卓 2:IOS 3:阳光英语服务频道</param>
 		[HttpGet, BasicAuthentication]
-		public dynamic my_doworks(int workStatus, int from, int versionId = 1, int page = 1, int pageSize = 10)
+		public dynamic my_doworks(int workStatus, int from, int sonWorkType = -1, int versionId = 1, int page = 1, int pageSize = 10)
 		{
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
 			var sonWorkTypes = new List<int>();
-			if (from == 1)
+
+			if (sonWorkType > 0)
+			{
+				sonWorkTypes.Add(sonWorkType);
+			}
+			else if (from == 1)
 			{
 				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
 			}
 			else if (from == 2)
 			{
 				sonWorkTypes = new List<int>() { 23 };
+			}
+			else if (from == 3)
+			{
+				sonWorkTypes = new List<int>() { 17, 24 };
 			}
 			int totalItem = 0;
 
@@ -150,7 +207,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 						sonWorkType = t.SonWorkType,
 						publishUserId = _workBase.PublishUserID,
 						publishUserName = _workBase.PublishUserName ?? string.Empty,
-						sendDate = _workBase.SendDate.Epoch(),
+						sendDate = _workBase.SendDate,
 						publishType = _workBase.PublishType,
 						reviceId = _workBase.ReviceUserID,
 						reviceName = _workBase.ReviceUserName ?? string.Empty,
@@ -160,12 +217,12 @@ namespace CiWong.OpenAPI.Work.Controllers
 						workDesc = _workBase.WorkDesc ?? string.Empty,
 						submitUserId = t.SubmitUserID,
 						submitUserName = t.SubmitUserName ?? string.Empty,
-						submitDate = _workBase.PublishDate.Epoch(),
+						submitDate = _workBase.PublishDate,
 						workStatus = t.WorkStatus,
 						workLong = t.WorkLong,
 						actualScore = t.ActualScore,
 						workScore = t.WorkScore,
-						effectiveDate = t.EffectiveDate.Epoch(),
+						effectiveDate = t.EffectiveDate,
 						isTimeout = t.EffectiveDate < DateTime.Now,
 						recordId = _workPublisher.redirectParmsArray(t.RedirectParm)
 					};
@@ -176,10 +233,10 @@ namespace CiWong.OpenAPI.Work.Controllers
 		/// <summary>
 		/// 老师获取自己布置的作业列表
 		/// </summary>
-		/// <param name="workStatus">作业状态:-1:全部 待完成:9  过期:10</param>
+		/// <param name="workStatus">作业状态:-1:全部  待完成:9  过期:10</param>
 		/// <param name="sonWorkType">子作业类型 -1 全部</param>
 		/// <param name="publishType">布置对象 -1:全部 0:个人布置 1班级布置 2孩子 4：班级小组</param>
-		/// <param name="from">请求来源: 1:安卓 2:IOS </param>
+		/// <param name="from">请求来源: 1:安卓 2:IOS 3:阳光英语服务频道 </param>
 		/// <param name="reviceId">接受对象ID(当选择班级时,此处为班级ID)</param>
 		[HttpGet, BasicAuthentication]
 		public dynamic my_publishs(int workStatus, int sonWorkType, int publishType, int from, int versionId = 1, long reviceId = 0, int page = 1, int pageSize = 10)
@@ -205,6 +262,10 @@ namespace CiWong.OpenAPI.Work.Controllers
 			{
 				sonWorkTypes = new List<int>() { 23 };
 			}
+			else if (from == 3)
+			{
+				sonWorkTypes = new List<int>() { 17, 24 };
+			}
 
 			int totalItem = 0;
 
@@ -225,8 +286,8 @@ namespace CiWong.OpenAPI.Work.Controllers
 					sonWorkType = t.SonWorkType,
 					publishUserId = t.PublishUserID,
 					publishUserName = t.PublishUserName ?? string.Empty,
-					sendDate = t.SendDate.Epoch(),
-					effectiveDate = t.EffectiveDate.Epoch(),
+					sendDate = t.SendDate,
+					effectiveDate = t.EffectiveDate,
 					totalNum = t.TotalNum,
 					completedNum = t.CompletedNum,
 					markNum = t.MarkNum,
@@ -253,7 +314,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 				workName = t.WorkName ?? string.Empty,
 				submitUserId = t.SubmitUserID,
 				submitUserName = t.SubmitUserName ?? string.Empty,
-				submitDate = t.SubmitDate.Epoch(),
+				submitDate = t.SubmitDate,
 				workStatus = t.WorkStatus,
 				workLong = t.WorkLong,
 				actualScore = t.ActualScore,

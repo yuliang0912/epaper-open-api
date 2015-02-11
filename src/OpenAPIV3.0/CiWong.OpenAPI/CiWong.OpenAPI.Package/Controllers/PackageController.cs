@@ -76,7 +76,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			}
 
 			var taskResultContent = packageCategoryContent.TaskModules.ToDictionary(c => c.ModuleId,
-				c => packageCategoryContent.ResultContents.Where(x => x.ModuleId == c.ModuleId).ToList()).Where(t => t.Value.Count > 0);
+				c => packageCategoryContent.ResultContents.Where(x => x.ModuleId == c.ModuleId).OrderBy(t => t.DisplayOrder).ToList()).Where(t => t.Value.Count > 0);
 
 			Func<List<TaskResultContentContract>, List<ResourceContract>> getResourceList = (resuletContents) =>
 			{

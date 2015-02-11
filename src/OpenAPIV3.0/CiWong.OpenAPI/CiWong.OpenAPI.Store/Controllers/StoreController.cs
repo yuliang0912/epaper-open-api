@@ -34,6 +34,7 @@ namespace CiWong.OpenAPI.Store.Controllers
 					productName = t.ProductName ?? string.Empty,
 					cover = t.CoverImgUrl ?? string.Empty,
 					packageId = t.PackageId,
+					packageType = t.ProductType,
 					appId = 200003
 				})
 			};
@@ -45,13 +46,14 @@ namespace CiWong.OpenAPI.Store.Controllers
 		/// <param name="provId">省ID,-1为所有</param>
 		/// <param name="cityId">市ID,-1为所有</param>
 		/// <param name="bookType">书籍分类,1教材同步 2课外拓展 -1为所有</param>
+		/// <param name="keyWords">关键字搜索</param>
 		/// <returns>阳光英语电子报服务书籍库(省市ID同时为0,则查询全国)</returns>
 		[HttpGet]
-		public dynamic sunshine_service_products(int provId = -1, int cityId = -1, int bookType = -1, int page = 1, int pageSize = 10)
+		public dynamic sunshine_service_products(int provId = -1, int cityId = -1, int bookType = -1, string keyWords = "", int page = 1, int pageSize = 10)
 		{
 			int totalItem = 0;
 
-			var list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, 1, bookType, provId, cityId);
+			var list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, 1, bookType, provId, cityId, keyWords);
 
 			return new ApiPageList<object>()
 			{
@@ -64,6 +66,8 @@ namespace CiWong.OpenAPI.Store.Controllers
 					productName = t.ProductName ?? string.Empty,
 					cover = t.CoverImgUrl ?? string.Empty,
 					packageId = t.PackageId,
+					packageType = t.ProductType,
+					bookType = t.BookType, //书籍分类,1教材同步 2课外拓展
 					appId = 200003
 				})
 			};

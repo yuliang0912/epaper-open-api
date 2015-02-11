@@ -42,10 +42,11 @@ namespace CiWong.OpenAPI.Web.App_Start
 		/// </summary>
 		public static void RegisterRoute()
 		{
-			
+
 			GlobalConfiguration.Configuration.Routes.MapHttpRoute(
 				name: "DefaultApi",
-				routeTemplate: "{controller}/{action}"
+				routeTemplate: "{controller}/{action}",
+				defaults: new { controller = "Home", action = "Index" }
 			);
 
 			//使web api支持namespace

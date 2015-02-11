@@ -545,18 +545,18 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				WorkLevel = t.WorkLevel ?? string.Empty,
 				isTimeOut = t.IsTimeOut,
 				submitCount = t.SubmitCount,
-				message = t.Message,
-				comment = t.Comment,
+				message = t.Message ?? string.Empty,
+				comment = t.Comment ?? string.Empty,
 				commentType = t.CommentType,
 				status = t.Status,
 				workAnswers = fileWorkAnswers.ContainsKey(t.DoId) ? JSONHelper.Decode<List<FileAnswer>>(fileWorkAnswers[t.DoId].AnswerContent).Select(m => new
 				{
 					sid = m.Sid,
-					fileName = m.FileName,
+					fileName = m.FileName ?? string.Empty,
 					fileUrl = m.FileUrl,
 					fileExt = m.FileExt,
 					fileType = m.FileType,
-					comment = m.Comment
+					comment = m.Comment ?? string.Empty
 				}) : Enumerable.Empty<object>()
 			});
 		}
@@ -631,6 +631,56 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 					fileDesc = x.FileDesc ?? string.Empty
 				})
 			});
+		}
+
+		/// <summary>
+		/// 快传作业答案
+		/// </summary>
+		/// <param name="doId"></param>
+		/// <returns></returns>
+		[HttpGet, BasicAuthentication]
+		public dynamic file_work_answers(long doWorkId)
+		{
+			var _workService = new WorkService();
+			var fileWork = _workService.GetUserFileWork(doWorkId);
+			if (null == fileWork)
+			{
+				return new ApiArgumentException("未找到指定的作业", 1);
+			}
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			if (fileWork.SubmitUserId != userId)
+			{
+				return new ApiArgumentException("没有查看权限", 2);
+			}
+			var workAnswer = _workService.GetAnswer(fileWork.DoId, 3, fileWork.RecordId);
+
+			return new
+			{
+				doId = fileWork.DoId,
+				workId = fileWork.WorkId,
+				doworkId = fileWork.DoWorkId,
+				recordId = fileWork.RecordId,
+				submitUserId = fileWork.SubmitUserId,
+				submitUserName = fileWork.SubmitUserName ?? string.Empty,
+				submitDate = fileWork.SubmitDate.Epoch(),
+				workLong = fileWork.WorkLong,
+				WorkLevel = fileWork.WorkLevel ?? string.Empty,
+				isTimeOut = fileWork.IsTimeOut,
+				submitCount = fileWork.SubmitCount,
+				message = fileWork.Message ?? string.Empty,
+				comment = fileWork.Comment ?? string.Empty,
+				commentType = fileWork.CommentType,
+				status = fileWork.Status,
+				workAnswers = workAnswer != null && !string.IsNullOrWhiteSpace(workAnswer.AnswerContent) ? JSONHelper.Decode<List<FileAnswer>>(workAnswer.AnswerContent).Select(m => new
+				{
+					sid = m.Sid,
+					fileName = m.FileName ?? string.Empty,
+					fileUrl = m.FileUrl,
+					fileExt = m.FileExt,
+					fileType = m.FileType,
+					comment = m.Comment ?? string.Empty
+				}) : Enumerable.Empty<object>()
+			};
 		}
 
 		/// <summary>
@@ -829,7 +879,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			}
 			catch (Exception e)
 			{
-				return new ApiException(RetEum.ApplicationError, 2, "序列化失败,message:" + e.Message);
+				return new ApiException(RetEum.ApplicationError, 2, "序列化失败,content:" + content);
 			}
 			if (!graffitiFileWork.GraffitiFiles.Any())
 			{

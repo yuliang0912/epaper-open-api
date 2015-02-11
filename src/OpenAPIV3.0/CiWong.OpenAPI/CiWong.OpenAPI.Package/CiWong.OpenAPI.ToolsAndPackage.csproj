@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\ToolsController.cs" />
+    <Compile Include="Helper\ToolsHelper.cs" />
     <Compile Include="ToolsAndPackageAreaRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
