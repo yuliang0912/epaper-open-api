@@ -2,6 +2,7 @@
 using CiWong.OpenAPI.Core;
 using CiWong.OpenAPI.Core.Extensions;
 using CiWong.OpenAPI.ExpandWork.DTO;
+using CiWong.Relation.WCFProxy;
 using CiWong.Resource.Preview.DataContracts;
 using CiWong.Resource.Preview.Service;
 using CiWong.Users;
@@ -17,6 +18,39 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 {
 	public class ExpandWorkController : ApiController
 	{
+
+		/// <summary>
+		/// 获取作业资源包中的资源所属书籍信息
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic work_package_info(long recordId)
+		{
+			var publishRecord = new WorkService().GetWorkPackage(recordId);
+
+			if (null == publishRecord)
+			{
+				return new ApiArgumentException("未找到指定的作业资源包", 1);
+			}
+
+			var package = new CiWong.Tools.Package.Services.PackageService().GetPackage(publishRecord.PackageId);
+
+			if (null == package)
+			{
+				return new ApiArgumentException("未找到指定的作业资源包", 2);
+			}
+
+			return new
+			{
+				appId = publishRecord.AppId,
+				productId = publishRecord.ProductId,
+				packageId = publishRecord.PackageId,
+				packageName = publishRecord.PackageName,
+				conver = package.Cover,
+				price = package.Price
+			};
+		}
+
 		/// <summary>
 		/// 创建电子书,电子报作业资源包
 		/// </summary>
@@ -206,6 +240,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			unitWork.SubmitUserId = doWorkBase.SubmitUserID;
 			unitWork.SubmitUserName = doWorkBase.SubmitUserName;
 			unitWork.ActualScore = unitWorkAnswer.WorkAnswers.Sum(t => t.Score) / unitWorkAnswer.WorkAnswers.SelectMany(t => t.Answers).Count();
+			unitWork.ActualScore = Math.Round(unitWork.ActualScore, 2);
 			unitWork.SubmitDate = DateTime.Now;
 			unitWork.IsTimeOut = unitWork.SubmitDate > doWorkBase.EffectiveDate;
 			unitWork.SubmitCount = unitWork.SubmitCount + 1;
@@ -285,7 +320,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiException(RetEum.ApplicationError, 5, "未找到指定的作业资源");
 			}
-			if (workResource.ModuleId != 10)
+			if (workResource.ModuleId != 15)
 			{
 				return new ApiException(RetEum.ApplicationError, 6, "错误的资源类型");
 			}
@@ -307,8 +342,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			unitWork.DoWorkId = doWorkBase.DoWorkID;
 			unitWork.SubmitUserId = doWorkBase.SubmitUserID;
 			unitWork.SubmitUserName = doWorkBase.SubmitUserName;
-			unitWork.ActualScore = unitWorkAnswer.WorkAnswers.Sum(t => t.Score) / unitWorkAnswer.WorkAnswers.SelectMany(t => t.Answers).Count();
-			unitWork.ActualScore = Math.Round(unitWork.ActualScore, 2);
+			unitWork.ActualScore = Math.Round(unitWorkAnswer.WorkAnswers.Sum(t => t.Score));
 			unitWork.SubmitDate = DateTime.Now;
 			unitWork.IsTimeOut = unitWork.SubmitDate > doWorkBase.EffectiveDate;
 			unitWork.SubmitCount = unitWork.SubmitCount + 1;
@@ -513,6 +547,8 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				actualScore = t.ActualScore,
 				isTimeOut = t.IsTimeOut,
 				submitCount = t.SubmitCount,
+				comment = t.Comment ?? string.Empty,
+				commentType = t.CommentType,
 				status = t.Status
 			});
 		}
@@ -542,7 +578,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				submitUserName = t.SubmitUserName ?? string.Empty,
 				submitDate = t.SubmitDate.Epoch(),
 				workLong = t.WorkLong,
-				WorkLevel = t.WorkLevel ?? string.Empty,
+				workLevel = t.WorkLevel ?? string.Empty,
 				isTimeOut = t.IsTimeOut,
 				submitCount = t.SubmitCount,
 				message = t.Message ?? string.Empty,
@@ -1008,6 +1044,43 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				versionId = x.VersionId ?? 0,
 				resourceModuleId = x.ModuleId ?? Guid.Empty,
 				name = x.Name ?? string.Empty,
+			});
+		}
+
+
+		/// <summary>
+		/// 班级提交情况统计
+		/// </summary>
+		/// <param name="classId"></param>
+		/// <param name="beginData"></param>
+		/// <param name="endData"></param>
+		/// <param name="moduleId"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic work_census(long classId, string beginDate, string endDate, int moduleId = 0)
+		{
+			DateTime _beginDate, _endDate;
+
+			if (!DateTime.TryParse(beginDate, out _beginDate))
+			{
+				return new ApiArgumentException("参数beginData格式错误", 1);
+			}
+			if (!DateTime.TryParse(endDate, out _endDate))
+			{
+				return new ApiArgumentException("参数endData格式错误", 2);
+			}
+
+			var studentList = ClassRelationProxy.GetClassStudentMember(classId);
+
+			var workCensus = new WorkService().GetWorkCensus(studentList.Select(t => t.RoomUserID), _beginDate, _endDate, moduleId);
+
+			return workCensus.Select(t => new
+			{
+				userId = t.UserId,
+				userName = t.UserName,
+				totalWorkNum = t.TotalWorkNum,
+				totalSubmitNum = t.TotalSubmitNum,
+				totalWorkLong = t.TotalWorkLong,
 			});
 		}
 

@@ -36,11 +36,26 @@
     <Reference Include="CiWong.Framework.Helper">
       <HintPath>..\..\..\..\libs\CiWong.Framework.Helper.dll</HintPath>
     </Reference>
+    <Reference Include="CiWong.Relation.Mapping">
+      <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.Mapping.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Relation.WCFContract">
+      <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.WCFContract.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Relation.WCFProxy">
+      <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.WCFProxy.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Resource.Preview">
       <HintPath>..\..\..\..\libs\Preview\CiWong.Resource.Preview.dll</HintPath>
     </Reference>
     <Reference Include="CiWong.Resource.Preview.DataContracts">
       <HintPath>..\..\..\..\libs\Preview\CiWong.Resource.Preview.DataContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Tools.Package">
+      <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Package.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Tools.Package.DataContracts">
+      <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Package.DataContracts.dll</HintPath>
     </Reference>
     <Reference Include="CiWong.Tools.Workshop">
       <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Workshop.dll</HintPath>

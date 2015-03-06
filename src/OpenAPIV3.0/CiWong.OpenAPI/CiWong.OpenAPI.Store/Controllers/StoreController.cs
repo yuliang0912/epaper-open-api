@@ -62,15 +62,24 @@ namespace CiWong.OpenAPI.Store.Controllers
 				TotalCount = totalItem,
 				PageList = list.Select(t => new
 				{
+					appId = 200003,
 					productId = t.ProductId.ToString(),
 					productName = t.ProductName ?? string.Empty,
 					cover = t.CoverImgUrl ?? string.Empty,
 					packageId = t.PackageId,
 					packageType = t.ProductType,
 					bookType = t.BookType, //书籍分类,1教材同步 2课外拓展
-					appId = 200003
+					teamId = t.TeamId,
+					teamName = t.TeamName, 
+					provId = t.ProvId,
+					provName = t.ProvName,//省级
+					cityId = t.CityId,
+					cityName = t.CityName,//市级
+					period = t.ProductPeriod,
+					grade = t.ProductGrade
 				})
 			};
 		}
 	}
-}
+}		 
+

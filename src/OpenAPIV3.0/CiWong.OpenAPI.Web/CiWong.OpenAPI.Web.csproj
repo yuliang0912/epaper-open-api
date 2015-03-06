@@ -152,6 +152,10 @@
       <Project>{de405df4-26a4-4949-a703-5d4cd81ba5d2}</Project>
       <Name>CiWong.OpenAPI.BookCase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.Class\CiWong.OpenAPI.Class.csproj">
+      <Project>{d20fdd0a-4c27-4e8a-8337-3e0eb0ae6277}</Project>
+      <Name>CiWong.OpenAPI.Class</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.ExpandWork\CiWong.OpenAPI.ExpandWork.csproj">
       <Project>{970c3639-46dc-48c2-9b41-5dd69467b995}</Project>
       <Name>CiWong.OpenAPI.ExpandWork</Name>

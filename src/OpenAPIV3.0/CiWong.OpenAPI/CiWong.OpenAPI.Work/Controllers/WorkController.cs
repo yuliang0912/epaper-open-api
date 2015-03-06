@@ -17,14 +17,6 @@ namespace CiWong.OpenAPI.Work.Controllers
 {
 	public class WorkController : ApiController
 	{
-
-		[HttpGet, BasicAuthentication]
-		public dynamic GetUserInfo()
-		{
-			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
-			var userInfo = new UserManager().GetUserInfo(userId);
-			return userInfo.RealName;
-		}
 		/// <summary>
 		/// 布置作业
 		/// </summary>
@@ -138,7 +130,8 @@ namespace CiWong.OpenAPI.Work.Controllers
 				reviceId = workBase.ReviceUserID,
 				reviceName = workBase.ReviceUserName,
 				recordId = new WorkPublisher().redirectParmsArray(workBase.RedirectParm),
-				isTimeout = DateTime.Now > workBase.EffectiveDate
+				isTimeout = DateTime.Now > workBase.EffectiveDate,
+				workDesc = workBase.WorkDesc
 			};
 		}
 
@@ -233,7 +226,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 		/// <summary>
 		/// 老师获取自己布置的作业列表
 		/// </summary>
-		/// <param name="workStatus">作业状态:-1:全部  待完成:9  过期:10</param>
+		/// <param name="workStatus">作业状态:-1:全部 1:未提交 8:已提交 9:待完成  10:过期</param>
 		/// <param name="sonWorkType">子作业类型 -1 全部</param>
 		/// <param name="publishType">布置对象 -1:全部 0:个人布置 1班级布置 2孩子 4：班级小组</param>
 		/// <param name="from">请求来源: 1:安卓 2:IOS 3:阳光英语服务频道 </param>
@@ -268,8 +261,21 @@ namespace CiWong.OpenAPI.Work.Controllers
 			}
 
 			int totalItem = 0;
-
 			var workBaseList = new WorkBaseProvider().GetWorkBaseListForApi(new List<int>() { userId }, publishTypes, sonWorkTypes, reviceId, DateTime.MinValue, DateTime.Now, workStatus, -1, ref totalItem, page, pageSize);
+
+			var doWorkBaseList = new Dictionary<long, List<DoWorkBase>>();
+			if ((from == 1 || from == 2) && workBaseList.Any())
+			{
+				if (workStatus == 1)
+				{
+					doWorkBaseList = new DoWorkBaseProvider().GetDoWorkList(workBaseList.Select(t => t.WorkID), new List<int>() { 0, 1, 4 }).GroupBy(t => t.WorkID).ToDictionary(c => c.Key, c => c.OrderByDescending(m => m.SubmitDate).ToList());
+				}
+				else if (workStatus == 8)
+				{
+					doWorkBaseList = new DoWorkBaseProvider().GetDoWorkList(workBaseList.Select(t => t.WorkID), new List<int>() { 2, 3, 5 }).GroupBy(t => t.WorkID).ToDictionary(c => c.Key, c => c.OrderByDescending(m => m.SubmitDate).ToList());
+				}
+			}
+
 
 			var _workPublisher = new WorkPublisher();
 
@@ -294,7 +300,14 @@ namespace CiWong.OpenAPI.Work.Controllers
 					reviceId = t.ReviceUserID,
 					reviceName = t.ReviceUserName,
 					recordId = _workPublisher.redirectParmsArray(t.RedirectParm),
-					isTimeout = DateTime.Now > t.EffectiveDate
+					isTimeout = DateTime.Now > t.EffectiveDate,
+					workDesc = t.WorkDesc,
+					userList = doWorkBaseList.ContainsKey(t.WorkID) ? doWorkBaseList[t.WorkID].Select(x => new
+					{
+						submitUserId = x.SubmitUserID,
+						submitUserName = x.SubmitUserName,
+						workStatus = x.WorkStatus
+					}) : Enumerable.Empty<object>()
 				})
 			};
 		}
