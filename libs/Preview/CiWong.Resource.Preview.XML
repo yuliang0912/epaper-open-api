@@ -297,6 +297,14 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.FileWorksRepository.UpdateStatus(System.Int64,System.Int32)">
+            <summary>
+            更新附件作业状态
+            </summary>
+            <param name="doWorkId"></param>
+            <param name="status"></param>
+            <returns></returns>
+        </member>
         <member name="M:CiWong.Resource.Preview.Repositories.FileWorksRepository.GetFileWorks(System.Int64,System.Int64)">
             <summary>
             获取附件作业完成详情集合
@@ -308,7 +316,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.FileWorksRepository.CommentFileWorks(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.Int64,System.String,System.String,System.Int32)">
+        <member name="M:CiWong.Resource.Preview.Repositories.FileWorksRepository.CommentFileWorks(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.Int64,System.Decimal,System.String,System.Int32)">
             <summary>
             批量作业点评
             </summary>
@@ -592,12 +600,20 @@
             <param name="doWorkId"></param>
             <returns></returns>
         </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.UpdateDoWorkStatus(System.Int64,System.DateTime,System.Int32)">
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.UpdateDoWorkStatus(System.Int64,System.DateTime,System.Int32,System.Int32,System.Decimal)">
             <summary>
             更新做作业信息以及统计数据
             </summary>
             <param name="doworkId"></param>
             <param name="submitDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.UpdateDoWorkStatus(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.Int32,System.Decimal)">
+            <summary>
+            批量批改作业
+            </summary>
+            <param name="workId"></param>
+            <param name="userIdList"></param>
             <returns></returns>
         </member>
         <member name="T:CiWong.Resource.Preview.Repositories.SpeekingRepository">
@@ -919,9 +935,9 @@
             <param name="commentType"></param>
             <returns></returns>
         </member>
-        <member name="M:CiWong.Resource.Preview.Service.WorkService.CommentFileWorks(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.Int64,System.String,System.String,System.Int32)">
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.CommentFileWorks(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.Int64,System.Decimal,System.String,System.Int32)">
             <summary>
-            批量作业点评
+            批量点评附件作业
             </summary>
             <param name="userIds">用户更ID</param>
             <param name="workId">作业ID</param>
@@ -961,6 +977,16 @@
             <summary>
             批改作业答案
             </summary>
+            <param name="workAnswer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.CorrectFileWorkAnswer(System.Int64,System.Int64,System.Int32,CiWong.Resource.Preview.DataContracts.WorkAnswerContract)">
+            <summary>
+            批改附件作业
+            </summary>
+            <param name="workId"></param>
+            <param name="doWorkId"></param>
+            <param name="userId"></param>
             <param name="workAnswer"></param>
             <returns></returns>
         </member>

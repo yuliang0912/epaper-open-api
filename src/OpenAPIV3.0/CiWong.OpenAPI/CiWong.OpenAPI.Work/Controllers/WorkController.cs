@@ -59,6 +59,10 @@ namespace CiWong.OpenAPI.Work.Controllers
 			{
 				return new ApiArgumentException("参数workName不能为空", 5);
 			}
+			if (completeDate < DateTime.Now.Epoch())
+			{
+				return new ApiArgumentException("作业截止时间不能小于当前时间", 6);
+			}
 
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
@@ -69,7 +73,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 			}
 			catch (Exception e)
 			{
-				return new ApiArgumentException("receiveObject序列化失败,Message:" + e.ToString(), 5);
+				return new ApiArgumentException("receiveObject序列化失败,Message:" + e.ToString(), 7);
 			}
 			var userInfo = new UserManager().GetUserInfo(userId);
 
@@ -154,9 +158,9 @@ namespace CiWong.OpenAPI.Work.Controllers
 		/// <param name="workStatus">作业状态: 待完成0, 已完成7, 已批阅:3</param>
 		/// <param name="from">请求来源: 1:安卓 2:IOS 3:阳光英语服务频道</param>
 		[HttpGet, BasicAuthentication]
-		public dynamic my_doworks(int workStatus, int from, int sonWorkType = -1, int versionId = 1, int page = 1, int pageSize = 10)
+		public dynamic my_doworks(int workStatus, int from, int userId = 0, int sonWorkType = -1, int versionId = 1, int page = 1, int pageSize = 10)
 		{
-			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			userId = userId == 0 ? Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name) : userId;
 
 			var sonWorkTypes = new List<int>();
 

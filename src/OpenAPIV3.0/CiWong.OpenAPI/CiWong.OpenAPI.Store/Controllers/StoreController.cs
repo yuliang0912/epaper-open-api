@@ -70,7 +70,7 @@ namespace CiWong.OpenAPI.Store.Controllers
 					packageType = t.ProductType,
 					bookType = t.BookType, //书籍分类,1教材同步 2课外拓展
 					teamId = t.TeamId,
-					teamName = t.TeamName, 
+					teamName = t.TeamName,
 					provId = t.ProvId,
 					provName = t.ProvName,//省级
 					cityId = t.CityId,
@@ -78,6 +78,36 @@ namespace CiWong.OpenAPI.Store.Controllers
 					period = t.ProductPeriod,
 					grade = t.ProductGrade
 				})
+			};
+		}
+
+		/// <summary>
+		/// 获取校园书店服务频道书籍详情
+		/// </summary>
+		/// <param name="packageId"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic service_product_detail(long packageId)
+		{
+			var product = PushProductProxy.GetApplicationService(packageId);
+
+			return new
+			{
+				appId = 200003,
+				productId = product.ProductId.ToString(),
+				productName = product.ProductName ?? string.Empty,
+				cover = product.CoverImgUrl ?? string.Empty,
+				packageId = product.PackageId,
+				packageType = product.ProductType,
+				bookType = product.BookType, //书籍分类,1教材同步 2课外拓展
+				teamId = product.TeamId,
+				teamName = product.TeamName,
+				provId = product.ProvId,
+				provName = product.ProvName,//省级
+				cityId = product.CityId,
+				cityName = product.CityName,//市级
+				period = product.ProductPeriod,
+				grade = product.ProductGrade
 			};
 		}
 	}

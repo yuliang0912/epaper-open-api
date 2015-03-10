@@ -5,7 +5,7 @@ CREATE TABLE `fileworks` (
   `DoWorkId` bigint(20) NOT NULL COMMENT '做作业ID(作业系统)',
   `SubmitUserId` int(11) NOT NULL COMMENT '提交人ID',
   `SubmitUserName` varchar(32) NOT NULL COMMENT '提交人姓名',
-  `WorkLevel` varchar(32) NOT NULL COMMENT '作业评级',
+  `WorkLevel` decimal(6,2) NOT NULL DEFAULT '0.00' COMMENT '作业评级',
   `WorkLong` int(11) NOT NULL COMMENT '作业时长(秒)',
   `SubmitDate` datetime NOT NULL COMMENT '提交时间',
   `IsTimeOut` bit(1) NOT NULL COMMENT '是否超时',

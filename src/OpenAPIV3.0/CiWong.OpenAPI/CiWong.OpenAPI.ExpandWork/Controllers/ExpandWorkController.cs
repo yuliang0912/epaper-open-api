@@ -18,7 +18,6 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 {
 	public class ExpandWorkController : ApiController
 	{
-
 		/// <summary>
 		/// 获取作业资源包中的资源所属书籍信息
 		/// </summary>
@@ -44,9 +43,9 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				appId = publishRecord.AppId,
 				productId = publishRecord.ProductId,
+				productName = publishRecord.PackageName,
+				cover = package.Cover,
 				packageId = publishRecord.PackageId,
-				packageName = publishRecord.PackageName,
-				conver = package.Cover,
 				price = package.Price
 			};
 		}
@@ -578,7 +577,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				submitUserName = t.SubmitUserName ?? string.Empty,
 				submitDate = t.SubmitDate.Epoch(),
 				workLong = t.WorkLong,
-				workLevel = t.WorkLevel ?? string.Empty,
+				workLevel = t.WorkLevel.ToString(),
 				isTimeOut = t.IsTimeOut,
 				submitCount = t.SubmitCount,
 				message = t.Message ?? string.Empty,
@@ -700,7 +699,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				submitUserName = fileWork.SubmitUserName ?? string.Empty,
 				submitDate = fileWork.SubmitDate.Epoch(),
 				workLong = fileWork.WorkLong,
-				WorkLevel = fileWork.WorkLevel ?? string.Empty,
+				WorkLevel = fileWork.WorkLevel.ToString(),
 				isTimeOut = fileWork.IsTimeOut,
 				submitCount = fileWork.SubmitCount,
 				message = fileWork.Message ?? string.Empty,
@@ -814,7 +813,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			int commentType = Convert.ToInt32(request["commentType"]);
 			string userIds = request["userIds"] ?? string.Empty;
 			string content = request["content"] ?? string.Empty;
-			string workLevel = request["workLevel"] ?? string.Empty;
+			decimal workLevel = Convert.ToDecimal(request["workLevel"] ?? "-1");
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
 			var workBase = new WorkBaseService().GetWorkBase(workId);
@@ -845,11 +844,6 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiArgumentException("未找到指定的被点评用户", 7);
 			}
-			if (workLevel.Length > 6)
-			{
-				return new ApiArgumentException("评分长度不能超过6个字符", 8);
-			}
-
 			return new WorkService().CommentFileWorks(studentList, workId, recordId, workLevel, content, commentType);
 		}
 
@@ -941,16 +935,16 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			}
 			if (doWorkBase.RedirectParm.IndexOf("bid_" + userFileWork.RecordId) == -1)
 			{
-				return new ApiException(RetEum.ApplicationError, 7, " 作业参数不匹配");
+				return new ApiException(RetEum.ApplicationError, 7, "作业参数不匹配");
 			}
 			if (userFileWork.DoId != graffitiFileWork.DoId)
 			{
-				return new ApiException(RetEum.ApplicationError, 8, " 作业参数不匹配");
+				return new ApiException(RetEum.ApplicationError, 8, "作业参数不匹配");
 			}
 			var userAnswer = _workService.GetAnswer(userFileWork.DoId, 3, userFileWork.RecordId);
 			if (null == userAnswer)
 			{
-				return new ApiException(RetEum.ApplicationError, 9, " 未找到作业答案");
+				return new ApiException(RetEum.ApplicationError, 9, "未找到作业答案");
 			}
 			var userFileAnswers = JSONHelper.Decode<List<FileAnswer>>(userAnswer.AnswerContent);
 			var graffitiFiles = graffitiFileWork.GraffitiFiles.ToDictionary(c => c.Sid, c => c.Comment);
@@ -963,7 +957,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			}
 			userAnswer.AnswerContent = JSONHelper.Encode<List<FileAnswer>>(userFileAnswers);
 
-			return _workService.CorrectAnswer(userAnswer);
+			return _workService.CorrectFileWorkAnswer(doWorkBase.WorkID, doWorkBase.DoWorkID, doWorkBase.SubmitUserID, userAnswer);
 		}
 
 		/// <summary>
@@ -1083,6 +1077,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				totalWorkLong = t.TotalWorkLong,
 			});
 		}
+
 
 		/// <summary>
 		/// 获取第一级资源版本ID

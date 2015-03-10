@@ -8,10 +8,10 @@ using System.Web.Http;
 
 namespace CiWong.OpenAPI.BookCase.Controllers
 {
-	[BasicAuthentication]
 	public class BookCaseController : ApiController
 	{
-		[HttpGet]
+
+		[HttpGet,BasicAuthentication]
 		public int is_can(long packageId, long versionId)
 		{
 			var resource = new PackageService().GetTaskResultContentsForApi(packageId, versionId);
