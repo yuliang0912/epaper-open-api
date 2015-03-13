@@ -69,7 +69,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		public dynamic book_resources(long packageId, string cId)
 		{
 
-			var packageCategoryContent = packageService.GetTaskResultForApi(packageId, cId, false).FirstOrDefault();
+			var packageCategoryContent = packageService.GetTaskResultForApi(packageId, cId, false,false).FirstOrDefault();
 
 			if (null == packageCategoryContent)
 			{
