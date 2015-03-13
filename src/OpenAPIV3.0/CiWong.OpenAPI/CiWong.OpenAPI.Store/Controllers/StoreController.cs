@@ -53,7 +53,8 @@ namespace CiWong.OpenAPI.Store.Controllers
 		{
 			int totalItem = 0;
 
-			var list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, 1, bookType, provId, cityId, keyWords);
+			//阳光英语服务类型ID:25
+			var list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, 25, bookType, provId, cityId, keyWords);
 
 			return new ApiPageList<object>()
 			{
@@ -112,4 +113,5 @@ namespace CiWong.OpenAPI.Store.Controllers
 		}
 	}
 }		 
+
 

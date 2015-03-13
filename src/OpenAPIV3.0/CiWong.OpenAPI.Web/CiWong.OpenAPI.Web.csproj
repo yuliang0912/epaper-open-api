@@ -152,6 +152,10 @@
       <Project>{9222bf76-85e3-4ff7-ba97-ddcfd1a10a1f}</Project>
       <Name>CiWong.OpenAPI.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.Agent\CiWong.OpenAPI.Agent.csproj">
+      <Project>{76b0f311-e501-47c2-9633-bc0ee0aabfae}</Project>
+      <Name>CiWong.OpenAPI.Agent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CiWong.OpenAPI\CiWong.OpenAPI.BookCase\CiWong.OpenAPI.BookCase.csproj">
       <Project>{de405df4-26a4-4949-a703-5d4cd81ba5d2}</Project>
       <Name>CiWong.OpenAPI.BookCase</Name>
@@ -188,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Log4net.config" />
+    <Content Include="Config\AppSettings.config" />
     <None Include="Properties\PublishProfiles\61.pubxml" />
   </ItemGroup>
   <PropertyGroup>

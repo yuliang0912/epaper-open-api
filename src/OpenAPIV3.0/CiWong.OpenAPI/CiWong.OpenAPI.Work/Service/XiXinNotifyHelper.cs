@@ -52,7 +52,7 @@ namespace CiWong.OpenAPI.Work.Service
                     break;
             }
                 //System.Threading.Tasks.Task.Factory.StartNew(() =>
-			new NotifyClient().PublishWorkRequst(workBase.PublishUserID, workBase.PublishUserName, workBase.WorkName, viewUrl, "http://w.ciwong.com/teacher/Redirect?workId=" + workBase.WorkID, workBase.SendDate, workBase.EffectiveDate, userList.Select(t => t.Key).ToArray());
+			new NotifyClient().PublishWorkRequst(workBase.PublishUserID, workBase.PublishUserName, workBase.WorkName, viewUrl, string.Format("http://w.ciwong.com/teacher/Redirect?workId={0}{1}", workBase.WorkID, workBase.SonWorkType == 23 ? "&jumpcode=zykc" : string.Empty), workBase.SendDate, workBase.EffectiveDate, userList.Select(t => t.Key).ToArray(), (int)workBase.WorkType, workBase.SonWorkType, 0, 3);
 				//);
         }
 

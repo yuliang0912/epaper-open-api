@@ -423,7 +423,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			if (null == workFilePackage)
 			{
 				return new ApiException(RetEum.ApplicationError, 6, "未找到指定的作业资源");
-			}
+			}	
 			if (doWorkBase.RedirectParm.IndexOf("bid_" + workFilePackage.RecordId) == -1)
 			{
 				return new ApiException(RetEum.ApplicationError, 7, " 作业参数不匹配");
@@ -447,6 +447,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			fileWork.Message = fileWorkAnswer.Message;
 			fileWork.SubmitCount = 1;
 			fileWork.Status = 2;
+			fileWork.WorkLevel = -1;
 
 			int sid = 0;
 			var workAnser = fileWorkAnswer.WorkAnswers.Select(t => new FileAnswer()
@@ -577,7 +578,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				submitUserName = t.SubmitUserName ?? string.Empty,
 				submitDate = t.SubmitDate.Epoch(),
 				workLong = t.WorkLong,
-				workLevel = t.WorkLevel.ToString(),
+				workLevel = t.WorkLevel,
 				isTimeOut = t.IsTimeOut,
 				submitCount = t.SubmitCount,
 				message = t.Message ?? string.Empty,
@@ -699,7 +700,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				submitUserName = fileWork.SubmitUserName ?? string.Empty,
 				submitDate = fileWork.SubmitDate.Epoch(),
 				workLong = fileWork.WorkLong,
-				WorkLevel = fileWork.WorkLevel.ToString(),
+				WorkLevel = fileWork.WorkLevel,
 				isTimeOut = fileWork.IsTimeOut,
 				submitCount = fileWork.SubmitCount,
 				message = fileWork.Message ?? string.Empty,
@@ -865,18 +866,20 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 2, Message = "暂无提醒权限" };
 			}
 
-			var allUserList = new DoWorkBaseProvider().GetDoWorkList(workId).Select(t => t.SubmitUserID);
-			var submitUserList = new List<int>();
+			var doWorkList=new DoWorkBaseProvider().GetDoWorkList(workId);
+
+			var allUserList = doWorkList.Select(t => t.SubmitUserID).ToList();
+			var sendUserList = new int[] { };
 			if (workBase.WorkType == DictHelper.WorkTypeEnum.电子报 || workBase.WorkType == DictHelper.WorkTypeEnum.电子报)
 			{
-				submitUserList = new WorkService().GetUnitWorks(contentId, workId).Where(t => t.Status == 2 || t.Status == 3).Select(t => t.SubmitUserId).ToList();
+				var submitUserList = new WorkService().GetUnitWorks(contentId, workId).Where(t => t.Status == 2 || t.Status == 3).Select(t => t.SubmitUserId).ToList();
+				sendUserList = allUserList.Except(submitUserList).ToArray();
 			}
-			else if (workBase.WorkType == DictHelper.WorkTypeEnum.电子报)
+			else
 			{
-				submitUserList = new WorkService().GetFileWorks(contentId, workId).Where(t => t.Status == 2 || t.Status == 3).Select(t => t.SubmitUserId).ToList();
+				sendUserList = doWorkList.Where(t => t.WorkStatus == Work.Entities.DoWorkStatusEnum.UnSubmit || t.WorkStatus == Work.Entities.DoWorkStatusEnum.Temporary || t.WorkStatus == Work.Entities.DoWorkStatusEnum.Back).Select(t => t.SubmitUserID).ToArray();
 			}
-			var sendUserList = allUserList.Except(submitUserList).ToArray();
-
+			
 			if (!sendUserList.Any())
 			{
 				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 3, Message = "所有人都已提交作业,无需提醒" };
