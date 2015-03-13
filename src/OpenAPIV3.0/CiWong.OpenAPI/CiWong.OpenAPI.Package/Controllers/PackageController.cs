@@ -41,7 +41,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		[HttpGet]
 		public dynamic catalogues(long packageId)
 		{
-			var result = packageService.GetCataloguesForApi(packageId, false);
+			var result = packageService.GetCataloguesForApi(packageId, true);
 			var catalogueTree = result.Where(item => item.Level.Equals(1));
 			foreach (var catalogue in catalogueTree)
 			{

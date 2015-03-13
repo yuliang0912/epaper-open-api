@@ -43,7 +43,7 @@ namespace CiWong.OpenAPI.Agent.Controllers
 		/// <param name="serviceType">服务类型,阳光英语:25</param>
 		/// <returns></returns>
 		[BasicAuthentication, HttpPost]
-		public dynamic apply_service(int classId, int serviceType)
+		public dynamic apply_service(long classId, int serviceType)
 		{
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 			var userInfo = new UserManager().GetUserInfo(userId);
@@ -72,7 +72,7 @@ namespace CiWong.OpenAPI.Agent.Controllers
 			return AppServiceProxy.GetOpenServiceList(classList, serviceType).Select(t => new
 			{
 				classId = t.ClassId,
-				classNamt = t.ClassName,
+				className = t.ClassName,
 				serviceType = t.ServiceType,
 				useDayNum = t.UseDayNum,
 				expireTime = t.ExpireTime,
