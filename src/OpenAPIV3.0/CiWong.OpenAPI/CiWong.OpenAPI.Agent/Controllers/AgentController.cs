@@ -42,7 +42,7 @@ namespace CiWong.OpenAPI.Agent.Controllers
 		/// <param name="classIds"></param>
 		/// <param name="serviceType">服务类型,阳光英语:25</param>
 		/// <returns></returns>
-		[BasicAuthentication, HttpPost]
+		[BasicAuthentication, HttpGet]
 		public dynamic apply_service(long classId, int serviceType)
 		{
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
@@ -76,7 +76,8 @@ namespace CiWong.OpenAPI.Agent.Controllers
 				serviceType = t.ServiceType,
 				useDayNum = t.UseDayNum,
 				expireTime = t.ExpireTime,
-				isDelay = t.IsDelay
+				isDelay = t.IsDelay,
+				isTimeOut = t.ExpireTime < DateTime.Now
 			});
 		}
 	}
