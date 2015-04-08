@@ -1,5 +1,6 @@
 ﻿using CiWong.OpenAPI.Core;
 using CiWong.Resource.BookRoom.Repository;
+using CiWong.Resource.BookRoom.Service;
 using CiWong.Tools.Package.Services;
 using System;
 using System.Linq;
@@ -10,6 +11,12 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 {
 	public class BookCaseController : ApiController
 	{
+		private ProductInfoService productInfoRepository;
+		public BookCaseController(ProductInfoService _productInfoRepository)
+		{
+			this.productInfoRepository = _productInfoRepository;
+		}
+
 		/// <summary>
 		/// 验证资源包中的资源使用权限(1:有 2:无 )
 		/// </summary>
@@ -59,7 +66,7 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 			int totalItem = 0;
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			var myBooks = new CiWong.Resource.BookRoom.Repository.ProductInfoRepository().GetMyListForApi(userId, productType, ref totalItem, gradeId, subjectId, page - 1, pageSize);
+			var myBooks = productInfoRepository.GetMyListForApi(userId, productType, ref totalItem, gradeId, subjectId, page - 1, pageSize);
 
 			return new ApiPageList<object>()
 			{

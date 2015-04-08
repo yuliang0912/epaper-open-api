@@ -5,7 +5,7 @@ using CiWong.Resource.BookRoom.Repository;
 
 namespace CiWong.OpenAPI.BookCase
 {
-	public class BookCaseModuleu : Autofac.Module
+	public class BookCaseModule : Autofac.Module
 	{
 		protected override void Load(ContainerBuilder builder)
 		{

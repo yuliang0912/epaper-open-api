@@ -764,6 +764,11 @@
             作业描述
             </summary>
         </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.WorkDescType">
+            <summary>
+            作业留言类型1:文本 2:语音(url地址)
+            </summary>
+        </member>
         <member name="P:CiWong.Work.Entities.WorkBase.RedirectParm">
             <summary>
             作业跳转所用参数
@@ -777,6 +782,26 @@
         <member name="P:CiWong.Work.Entities.WorkBase.RecordId">
             <summary>
             记录ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.SchoolId">
+            <summary>
+            布置人学校ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.SchoolName">
+            <summary>
+            布置人学校名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.AreaCode">
+            <summary>
+            学校所在区域
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkBase.SourceType">
+            <summary>
+            布置来源终端(0:默认 1:安卓 2:IOS 3:电子报区域站点)
             </summary>
         </member>
         <member name="T:CiWong.Work.Entities.WorkStatistics">

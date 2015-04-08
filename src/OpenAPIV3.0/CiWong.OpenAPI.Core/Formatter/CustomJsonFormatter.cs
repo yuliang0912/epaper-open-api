@@ -58,22 +58,27 @@ namespace CiWong.OpenAPI.Core
 					using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
 					{
 						ApiResult result;
-						if (value != null && value is ApiException)
+						if (null != value)
 						{
-							var apiException = (ApiException)value;
-							result = new ApiResult() { Ret = apiException.Ret, ErrorCode = apiException.ErrCode, Message = apiException.Message };
-						}
-						else if (value != null && value is ApiResult)
-						{
-							result = value as ApiResult;
-						}
-						else if (value != null && value is HttpError)
-						{
-							var exception = (HttpError)value;
-
-							string message = string.Join(",", exception.Select(t => string.Concat(t.Key, ":", t.Value)));
-
-							result = new ApiResult() { Ret = RetEum.HttpError, ErrorCode = 1, Message = message };
+							if (value is ApiException)
+							{
+								var apiException = (ApiException)value;
+								result = new ApiResult() { Ret = apiException.Ret, ErrorCode = apiException.ErrCode, Message = apiException.Message };
+							}
+							else if (value is ApiResult)
+							{
+								result = value as ApiResult;
+							}
+							else if (value is HttpError)
+							{
+								var exception = (HttpError)value;
+								string message = string.Join(",", exception.Select(t => string.Concat(t.Key, ":", t.Value)));
+								result = new ApiResult() { Ret = RetEum.HttpError, ErrorCode = 1, Message = message };
+							}
+							else
+							{
+								result = new ApiResult<object>() { Data = value, Message = "success" };
+							}
 						}
 						else
 						{

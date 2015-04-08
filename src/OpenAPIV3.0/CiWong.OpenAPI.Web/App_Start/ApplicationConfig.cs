@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
+using CiWong.Framework.Plugin;
 
 namespace CiWong.OpenAPI.Web.App_Start
 {
@@ -29,8 +30,16 @@ namespace CiWong.OpenAPI.Web.App_Start
 			builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 			builder.RegisterControllers(Assembly.GetExecutingAssembly());//注册mvc容器的实现
 
-			builder.RegisterModule(new CiWong.OpenAPI.BookCase.BookCaseModuleu());
-			
+			#region autoFac注入
+			builder.RegisterModule<CiWong.OpenAPI.BookCase.BookCaseModule>();
+			builder.RegisterModule<CiWong.OpenAPI.ExpandWork.ResourceModule>();
+			builder.RegisterModule<CiWong.OpenAPI.YiShang.YiShangModule>();
+			builder.RegisterModule<CiWong.OpenAPI.Work.WorkModule>();
+			#endregion
+
+			Assembly[] asm = PluginManager.GetAllAssembly("CiWong.OpenAPI.*.dll").ToArray();
+			builder.RegisterAssemblyTypes(asm);
+
 			var container = builder.Build();
 			GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 			DependencyResolver.SetResolver(new AutofacDependencyResolver(container));//注册MVC容器
@@ -42,7 +51,7 @@ namespace CiWong.OpenAPI.Web.App_Start
 		/// </summary>
 		public static void RegisterRoute()
 		{
-
+			System.Web.Routing.RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 			GlobalConfiguration.Configuration.Routes.MapHttpRoute(
 				name: "DefaultApi",
 				routeTemplate: "{controller}/{action}",

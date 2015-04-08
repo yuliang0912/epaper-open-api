@@ -91,7 +91,7 @@
             <param name="endDate">作业结束日期</param>
             <param name="workStatus">作业状态(-1:全部 0:待上交 2:待批改 3:已批改 4:已退回 5:延时完成 6:超时作业 7:已完成(2:待批改 3:已批改)) 8:待完成未过期</param>
         </member>
-        <member name="M:CiWong.Work.Service.DoWorkBaseProvider.GetDoWorkList(System.Collections.Generic.IEnumerable{System.Int64})">
+        <member name="M:CiWong.Work.Service.DoWorkBaseProvider.GetDoWorkList(System.Collections.Generic.IEnumerable{System.Int64},System.Collections.Generic.IEnumerable{System.Int32})">
             <summary>
             根据作业ID获取做作业列表(主要用户老师显示具体某份作业布置列表)
             </summary>

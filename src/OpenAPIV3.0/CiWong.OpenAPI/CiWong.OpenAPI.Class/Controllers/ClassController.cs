@@ -1,4 +1,5 @@
 ﻿using CiWong.Relation.WCFProxy;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
@@ -70,6 +71,12 @@ namespace CiWong.OpenAPI.Class.Controllers
 				userId = t.RoomUserID,
 				userName = t.RoomUserName
 			});
+		}
+
+		[HttpGet, HttpPost]
+		public List<long> list_school_id(int userId)
+		{
+			return ClassRelationProxy.GetRoomSchoolByUserList(new List<int>() { userId }).Select(t => t.SchoolID).ToList();
 		}
 	}
 }

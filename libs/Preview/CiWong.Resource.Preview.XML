@@ -990,5 +990,17 @@
             <param name="workAnswer"></param>
             <returns></returns>
         </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkServiceTest.GetWorkResources(System.Int64)">
+            <summary>
+             根据打包ID获取资源集合
+            </summary>
+            <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkServiceTest.GetUnitSummarys(System.Int64,System.Int64)">
+            <summary>
+            获取单元完成情况汇总
+            </summary>
+        </member>
     </members>
 </doc>

@@ -11,6 +11,12 @@ namespace CiWong.OpenAPI.YiShang.Controllers
 {
 	public class YiShangController : ApiController
 	{
+		private ProductRepository _productRepository;
+		public YiShangController(ProductRepository _productRepository)
+		{
+			this._productRepository = _productRepository;
+		}
+
 		/// <summary>
 		/// 6v68书城获取同步跟读和模考书籍
 		/// </summary>
@@ -34,7 +40,7 @@ namespace CiWong.OpenAPI.YiShang.Controllers
 			{
 				throw new ApiArgumentException("type不在指定的范围之内");
 			}
-			var list = new ProductRepository().GetProductListToBookCase(productId, 1001, 1, page - 1, pageSize, true, tearmId, categorytype);
+			var list = _productRepository.GetProductListToBookCase(productId, 1001, 1, page - 1, pageSize, true, tearmId, categorytype);
 
 			return new ApiPageList<object>()
 			{

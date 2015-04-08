@@ -18,6 +18,14 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 {
 	public class ExpandWorkController : ApiController
 	{
+		private WorkService _workService;
+		private WorkBaseService _workBaseService;
+		public ExpandWorkController(WorkService _workService, WorkBaseService _workBaseService)
+		{
+			this._workService = _workService;
+			this._workBaseService = _workBaseService;
+		}
+
 		/// <summary>
 		/// 获取作业资源包中的资源所属书籍信息
 		/// </summary>
@@ -25,7 +33,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic work_package_info(long recordId)
 		{
-			var publishRecord = new WorkService().GetWorkPackage(recordId);
+			var publishRecord = _workService.GetWorkPackage(recordId);
 
 			if (null == publishRecord)
 			{
@@ -126,7 +134,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				}).ToList()
 			}).ToList();
 
-			var recordId = new WorkService().CreateWorkPackage(publishRecord);
+			var recordId = _workService.CreateWorkPackage(publishRecord);
 			if (recordId < 1)
 			{
 				return new ApiException(RetEum.ApplicationError, 6, "创建作业资源包失败");
@@ -178,7 +186,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				FileDesc = t.FileDesc ?? string.Empty
 			}).ToList();
 
-			return new WorkService().CreateWorkFilePackage(workFilePackage);
+			return _workService.CreateWorkFilePackage(workFilePackage);
 		}
 
 		/// <summary>
@@ -204,8 +212,6 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiException(RetEum.ApplicationError, 2, "序列化失败,message:" + e.Message);
 			}
 
-			var _workBaseService = new WorkBaseService();
-			var _workService = new WorkService();
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
 			var doWorkBase = _workBaseService.GetDoWorkBase(unitWorkAnswer.DoWorkId);
@@ -301,8 +307,6 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiException(RetEum.ApplicationError, 2, "序列化失败,message:" + e.Message);
 			}
 
-			var _workBaseService = new WorkBaseService();
-			var _workService = new WorkService();
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
 			var doWorkBase = _workBaseService.GetDoWorkBase(unitWorkAnswer.DoWorkId);
@@ -407,8 +411,8 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiException(RetEum.ApplicationError, 3, "答案中不包含任何附件");
 			}
-			var _workService = new WorkService();
-			var doWorkBase = new WorkBaseService().GetDoWorkBase(fileWorkAnswer.DoWorkId);
+			
+			var doWorkBase = _workBaseService.GetDoWorkBase(fileWorkAnswer.DoWorkId);
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
 			if (null == doWorkBase || doWorkBase.SonWorkType != 23)
@@ -423,7 +427,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			if (null == workFilePackage)
 			{
 				return new ApiException(RetEum.ApplicationError, 6, "未找到指定的作业资源");
-			}	
+			}
 			if (doWorkBase.RedirectParm.IndexOf("bid_" + workFilePackage.RecordId) == -1)
 			{
 				return new ApiException(RetEum.ApplicationError, 7, " 作业参数不匹配");
@@ -479,16 +483,12 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic my_unitworks(long recordId, long doWorkId)
 		{
-			var _workService = new WorkService();
 			var workResources = _workService.GetWorkResources(recordId);
-
 			if (!workResources.Any())
 			{
 				return Enumerable.Empty<object>();
 			}
-
-			var doWorkBase = new WorkBaseService().GetDoWorkBase(doWorkId);
-
+			var doWorkBase = _workBaseService.GetDoWorkBase(doWorkId);
 			if (null == doWorkBase)
 			{
 				return new ApiArgumentException("未找到指定的作业", 1);
@@ -532,8 +532,9 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic unitworks(long workId, long contentId)
 		{
-			var unitWorks = new WorkService().GetUnitWorks(contentId, workId).Where(t => t.Status == 2 || t.Status == 3);
-			return unitWorks.Select(t => new
+			var unitWorks = _workService.GetUnitWorks(contentId, workId).Where(t => t.Status == 2 || t.Status == 3);
+
+			return unitWorks.OrderByDescending(t => t.ActualScore).ThenBy(t => t.SubmitDate).Select(t => new
 			{
 				doId = t.DoId,
 				contentId = t.ContentId,
@@ -542,15 +543,15 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				workId = t.WorkId,
 				submitUserId = t.SubmitUserId,
 				submitUserName = t.SubmitUserName ?? string.Empty,
-				submitDate = t.SubmitDate.Epoch(),
+				submitDate = t.SubmitDate,
 				workLong = t.WorkLong,
 				actualScore = t.ActualScore,
 				isTimeOut = t.IsTimeOut,
 				submitCount = t.SubmitCount,
 				comment = t.Comment ?? string.Empty,
 				commentType = t.CommentType,
-				status = t.Status
-			});
+				status = t.Status,
+			}).ToList();
 		}
 
 		/// <summary>
@@ -562,8 +563,6 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic fileworks(long workId, long recordId)
 		{
-			var _workService = new WorkService();
-
 			var list = _workService.GetFileWorks(recordId, workId);
 
 			var fileWorkAnswers = _workService.GetFileWorkAnswers(workId, recordId, true).ToDictionary(c => c.DoId, c => c);
@@ -600,23 +599,23 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		/// <summary>
 		/// 老师查看布置作业内容详情
 		/// </summary>
-		[HttpGet, BasicAuthentication]
+		[HttpGet]
 		public dynamic work_resources(long recordId, long workId)
 		{
-			var _workService = new WorkService();
 			var workResources = _workService.GetWorkResources(recordId);
-
 			if (!workResources.Any())
 			{
 				return Enumerable.Empty<object>();
 			}
-			var workBase = new WorkBaseService().GetWorkBase(workId);
-
+			var workBase = _workBaseService.GetWorkBase(workId);
 			if (null == workBase)
 			{
 				return new ApiArgumentException("参数workId错误,未找到指定的作业");
 			}
-
+			if (workBase.WorkType != 101 && workBase.WorkType != 102)
+			{
+				return new ApiArgumentException("当前作业不在查找范围之内");
+			}
 			var unitSummarys = _workService.GetUnitSummarys(recordId, workId).ToDictionary(c => c.ContentId, c => c);
 
 			return workResources.Select(t => new
@@ -652,7 +651,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiArgumentException("未能解析正确的记录ID", 1);
 			}
 
-			var list = new WorkService().GetWorkFileResources(recordIdList).GroupBy(t => t.RecordId);
+			var list = _workService.GetWorkFileResources(recordIdList).GroupBy(t => t.RecordId);
 
 			return list.Select(t => new
 			{
@@ -677,7 +676,6 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet, BasicAuthentication]
 		public dynamic file_work_answers(long doWorkId)
 		{
-			var _workService = new WorkService();
 			var fileWork = _workService.GetUserFileWork(doWorkId);
 			if (null == fileWork)
 			{
@@ -728,7 +726,8 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic followread_answers(long workId, long contentId)
 		{
-			var unitWorkAnswers = new WorkService().GetUnitWorkAnswers(workId, contentId, true).GroupBy(t => t.DoId).ToDictionary(c => c.Key, c => c.ToList());
+			var unitWorkAnswers = _workService.GetUnitWorkAnswers(workId, contentId, true)
+				 .GroupBy(t => t.DoId).ToDictionary(c => c.Key, c => c.ToList());
 
 			return unitWorkAnswers.Select(t => new
 			{
@@ -767,7 +766,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			string content = request["content"];
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			var workBase = new WorkBaseService().GetWorkBase(workId);
+			var workBase = _workBaseService.GetWorkBase(workId);
 
 			if (null == workBase || workBase.WorkType < 100)
 			{
@@ -796,7 +795,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiArgumentException("未找到指定的被点评用户", 7);
 			}
 
-			return new WorkService().CommentUnitWorks(studentList, workId, contentId, content, commentType);
+			return _workService.CommentUnitWorks(studentList, workId, contentId, content, commentType);
 		}
 
 		/// <summary>
@@ -817,7 +816,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			decimal workLevel = Convert.ToDecimal(request["workLevel"] ?? "-1");
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			var workBase = new WorkBaseService().GetWorkBase(workId);
+			var workBase = _workBaseService.GetWorkBase(workId);
 
 			if (null == workBase || workBase.SonWorkType != 23)
 			{
@@ -845,7 +844,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiArgumentException("未找到指定的被点评用户", 7);
 			}
-			return new WorkService().CommentFileWorks(studentList, workId, recordId, workLevel, content, commentType);
+			return _workService.CommentFileWorks(studentList, workId, recordId, workLevel, content, commentType);
 		}
 
 		/// <summary>
@@ -866,20 +865,20 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 2, Message = "暂无提醒权限" };
 			}
 
-			var doWorkList=new DoWorkBaseProvider().GetDoWorkList(workId);
+			var doWorkList = new DoWorkBaseProvider().GetDoWorkList(workId);
 
 			var allUserList = doWorkList.Select(t => t.SubmitUserID).ToList();
 			var sendUserList = new int[] { };
 			if (workBase.WorkType == DictHelper.WorkTypeEnum.电子报 || workBase.WorkType == DictHelper.WorkTypeEnum.电子报)
 			{
-				var submitUserList = new WorkService().GetUnitWorks(contentId, workId).Where(t => t.Status == 2 || t.Status == 3).Select(t => t.SubmitUserId).ToList();
+				var submitUserList = _workService.GetUnitWorks(contentId, workId).Where(t => t.Status == 2 || t.Status == 3).Select(t => t.SubmitUserId).ToList();
 				sendUserList = allUserList.Except(submitUserList).ToArray();
 			}
 			else
 			{
 				sendUserList = doWorkList.Where(t => t.WorkStatus == Work.Entities.DoWorkStatusEnum.UnSubmit || t.WorkStatus == Work.Entities.DoWorkStatusEnum.Temporary || t.WorkStatus == Work.Entities.DoWorkStatusEnum.Back).Select(t => t.SubmitUserID).ToArray();
 			}
-			
+
 			if (!sendUserList.Any())
 			{
 				return new ApiResult() { Ret = RetEum.ApplicationError, ErrorCode = 3, Message = "所有人都已提交作业,无需提醒" };
@@ -919,7 +918,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiException(RetEum.ApplicationError, 3, "数据中不包含任何涂鸦附件");
 			}
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
-			var doWorkBase = new WorkBaseService().GetDoWorkBase(graffitiFileWork.DoWorkId);
+			var doWorkBase = _workBaseService.GetDoWorkBase(graffitiFileWork.DoWorkId);
 
 			if (null == doWorkBase || doWorkBase.WorkType != 103)
 			{
@@ -930,7 +929,6 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiException(RetEum.ApplicationError, 5, "当前用户暂无操作权限");
 			}
 
-			var _workService = new WorkService();
 			var userFileWork = _workService.GetUserFileWork(graffitiFileWork.DoWorkId);
 			if (null == userFileWork || (userFileWork.Status != 2 && userFileWork.Status != 3))
 			{
@@ -970,7 +968,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic part_followread_word_details(long contentId)
 		{
-			var resourceParts = new WorkService().GetResourceParts(contentId).Where(t => t.ResourceType == ResourceModuleOptions.Word.ToString()).Select(t => t.VersionId).ToArray();
+			var resourceParts = _workService.GetResourceParts(contentId).Where(t => t.ResourceType == ResourceModuleOptions.Word.ToString()).Select(t => t.VersionId).ToArray();
 
 			var wordList = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Word, resourceParts);
 
@@ -1004,8 +1002,6 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic part_followread_text_sentences(long contentId)
 		{
-			var _workService = new WorkService();
-
 			var resourceParts = _workService.GetResourceParts(contentId).Where(t => t.ResourceType == ResourceModuleOptions.Phrase.ToString()).Select(t => t.VersionId).ToList();
 
 			if (!resourceParts.Any())
@@ -1069,7 +1065,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 
 			var studentList = ClassRelationProxy.GetClassStudentMember(classId);
 
-			var workCensus = new WorkService().GetWorkCensus(studentList.Select(t => t.RoomUserID), _beginDate, _endDate, moduleId);
+			var workCensus = _workService.GetWorkCensus(studentList.Select(t => t.RoomUserID), _beginDate, _endDate, moduleId).OrderByDescending(t => t.TotalSubmitNum);
 
 			return workCensus.Select(t => new
 			{

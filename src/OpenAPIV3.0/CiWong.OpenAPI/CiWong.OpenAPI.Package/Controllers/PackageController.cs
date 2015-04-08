@@ -39,9 +39,15 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		/// <param name="packageId">资源包ID,必选</param>
 		/// <returns></returns>
 		[HttpGet]
-		public dynamic catalogues(long packageId)
+		public dynamic catalogues(long packageId, bool isDesc = false)
 		{
 			var result = packageService.GetCataloguesForApi(packageId, true);
+
+			if (isDesc)
+			{
+				result = result.OrderByDescending(t => t.DisplayOrder).ToList();
+			}
+
 			var catalogueTree = result.Where(item => item.Level.Equals(1));
 			foreach (var catalogue in catalogueTree)
 			{
@@ -64,12 +70,13 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		/// </summary>
 		/// <param name="packageId">资源包ID,必选</param>
 		/// <param name="cId">目录ID(最末级目录id),必选</param>
+		/// <param name="isFilter">目是否过滤同步讲练</param>
 		/// <returns></returns>
 		[HttpGet]
-		public dynamic book_resources(long packageId, string cId)
+		public dynamic book_resources(long packageId, string cId, bool isFilter = true)
 		{
 
-			var packageCategoryContent = packageService.GetTaskResultForApi(packageId, cId, false,false).FirstOrDefault();
+			var packageCategoryContent = packageService.GetTaskResultForApi(packageId, cId, false, false).FirstOrDefault();
 
 			if (null == packageCategoryContent)
 			{
@@ -162,6 +169,37 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 						}
 					}
 				}
+				else if (resourceModuleId.Equals(ResourceModuleOptions.SyncTrain))
+				{
+					var syncTrainResult =
+						ResourceServices.Instance.GetByVersionIds<CiWong.Tools.Workshop.DataContracts.SyncTrainContract>(
+							resuletContents.Select(t => t.ResourceVersionId).ToArray());
+					if (null == syncTrainResult || !syncTrainResult.IsSucceed || !syncTrainResult.Data.Any())
+					{
+						return list;
+					}
+					foreach (var item in syncTrainResult.Data)
+					{
+						if (null == item.Parts || !item.Parts.Any())
+						{
+							continue;
+						}
+						foreach (var part in item.Parts)
+						{
+							if (null == part.List || !part.List.Any())
+							{
+								continue;
+							}
+							list.AddRange(part.List.Select(t => new ResourceContract()
+							{
+								Id = item.VersionId,
+								VersionId = t.VersionId,
+								Name = string.Format("【{0}】 {1}", part.Name, t.Name),
+								ModuleId = t.ModuleId
+							}));
+						}
+					}
+				}
 				else
 				{
 					list = resuletContents.Select(t => new ResourceContract()
@@ -175,7 +213,12 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 				return list;
 			};
 
-			var jsonData = taskResultContent.Where(t => t.Key != 9).Select(t => new
+			if (isFilter)
+			{
+				taskResultContent = taskResultContent.Where(t => t.Key != 9);
+			}
+
+			var jsonData = taskResultContent.Select(t => new
 			{
 				moduleInfo = new
 				{

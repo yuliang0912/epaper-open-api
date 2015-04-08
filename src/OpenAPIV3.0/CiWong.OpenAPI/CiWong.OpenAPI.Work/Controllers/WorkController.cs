@@ -3,8 +3,8 @@ using CiWong.OpenAPI.Core;
 using CiWong.OpenAPI.Core.Extensions;
 using CiWong.OpenAPI.Work.Service;
 using CiWong.Users;
+using CiWong.Work.Contract;
 using CiWong.Work.Entities;
-using CiWong.Work.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +17,16 @@ namespace CiWong.OpenAPI.Work.Controllers
 {
 	public class WorkController : ApiController
 	{
+		private IWorkBase _workBase;
+		private IDoWorkBase _doWorkBase;
+		private WorkPublisher _workPublisher;
+		public WorkController(IWorkBase _workBase, IDoWorkBase _doWorkBase, WorkPublisher _workPublisher)
+		{
+			this._workBase = _workBase;
+			this._doWorkBase = _doWorkBase;
+			this._workPublisher = _workPublisher;
+		}
+
 		/// <summary>
 		/// 布置作业
 		/// </summary>
@@ -31,13 +41,14 @@ namespace CiWong.OpenAPI.Work.Controllers
 			long workPackageRecordId = Convert.ToInt64(request["recordId"]);
 			string workName = request["workName"] ?? string.Empty;
 			string workDesc = request["workDesc"] ?? string.Empty;
-			int workDescType = Convert.ToInt32(request["workDescType"]);//作业留言类型1:文本 2:语音(url地址)
+			int workDescType = Convert.ToInt32(request["workDescType"] ?? "1");//作业留言类型1:文本 2:语音(url地址)
 			int completeDate = Convert.ToInt32(request["completeDate"]);
 			int workType = Convert.ToInt32(request["workType"]);
 			int sonWorkType = Convert.ToInt32(request["sonWorkType"]);
 			int curriculum = Convert.ToInt32(request["curriculum"]);
 			int publishType = Convert.ToInt32(request["publishType"]);
 			string receiveObject = request["receiveObject"] ?? string.Empty;
+			int sourceType = Convert.ToInt32(request["from"] ?? "0");
 
 			if (!Enum.IsDefined(typeof(DictHelper.WorkTypeEnum), workType))
 			{
@@ -96,11 +107,13 @@ namespace CiWong.OpenAPI.Work.Controllers
 				WorkScore = 100,
 				MarkType = MarkType.Auto,
 				WorkDesc = HttpUtility.UrlDecode(workDesc),
-				RedirectParm = string.Format("bid_{0}.sid_{1}.zuop_{2}", workPackageRecordId, 0, 0)
+				RedirectParm = string.Format("bid_{0}.sid_{1}.zuop_{2}", workPackageRecordId, 0, 0),
+				SourceType = sourceType,
+				WorkDescType = workDescType
 			};
 			#endregion
 
-			return new WorkPublisher().Publish(workBase, receiveObjects, null);
+			return _workPublisher.Publish(workBase, receiveObjects, null);
 		}
 
 		/// <summary>
@@ -111,7 +124,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 		[HttpGet]
 		public dynamic work_info(long workId)
 		{
-			var workBase = new WorkBaseProvider().GetWorkBase(workId);
+			var workBase = _workBase.GetWorkBase(workId);
 
 			if (null == workBase)
 			{
@@ -133,7 +146,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 				markNum = workBase.MarkNum,
 				reviceId = workBase.ReviceUserID,
 				reviceName = workBase.ReviceUserName,
-				recordId = new WorkPublisher().redirectParmsArray(workBase.RedirectParm),
+				recordId = _workPublisher.redirectParmsArray(workBase.RedirectParm),
 				isTimeout = DateTime.Now > workBase.EffectiveDate,
 				workDesc = workBase.WorkDesc
 			};
@@ -149,7 +162,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 		{
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			return new WorkBaseProvider().DeleteWorkBase(workId, userId);
+			return _workBase.DeleteWorkBase(workId, userId);
 		}
 
 		/// <summary>
@@ -182,11 +195,10 @@ namespace CiWong.OpenAPI.Work.Controllers
 			}
 			int totalItem = 0;
 
-			var list = new DoWorkBaseProvider().GetDoWorkListForApi(new List<int>() { userId }, null, sonWorkTypes, DateTime.MinValue, DateTime.Now, workStatus, -1, ref totalItem, page, pageSize);
+			var list = _doWorkBase.GetDoWorkListForApi(new List<int>() { userId }, null, sonWorkTypes, DateTime.MinValue, DateTime.Now, workStatus, -1, ref totalItem, page, pageSize);
 
-			var workBaseList = new WorkBaseProvider().GetWorkBaseList(list.Select(t => t.WorkID).Distinct(), -1).ToDictionary(c => c.WorkID, c => c);
+			var workBaseList = _workBase.GetWorkBaseList(list.Select(t => t.WorkID).Distinct(), -1).ToDictionary(c => c.WorkID, c => c);
 
-			var _workPublisher = new WorkPublisher();
 			return new ApiPageList<object>()
 			{
 				Page = page,
@@ -194,7 +206,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 				TotalCount = totalItem,
 				PageList = list.Where(t => workBaseList.Keys.Contains(t.WorkID)).Select(t =>
 				{
-					var _workBase = workBaseList[t.WorkID];
+					var currWorkBase = workBaseList[t.WorkID];
 					return new
 					{
 						workId = t.WorkID,
@@ -202,19 +214,19 @@ namespace CiWong.OpenAPI.Work.Controllers
 						workName = t.WorkName,
 						workType = t.WorkType,
 						sonWorkType = t.SonWorkType,
-						publishUserId = _workBase.PublishUserID,
-						publishUserName = _workBase.PublishUserName ?? string.Empty,
-						sendDate = _workBase.SendDate,
-						publishType = _workBase.PublishType,
-						reviceId = _workBase.ReviceUserID,
-						reviceName = _workBase.ReviceUserName ?? string.Empty,
-						totalNum = _workBase.TotalNum,
-						completedNum = _workBase.CompletedNum,
-						markNum = _workBase.MarkNum,
-						workDesc = _workBase.WorkDesc ?? string.Empty,
+						publishUserId = currWorkBase.PublishUserID,
+						publishUserName = currWorkBase.PublishUserName ?? string.Empty,
+						sendDate = currWorkBase.SendDate,
+						publishType = currWorkBase.PublishType,
+						reviceId = currWorkBase.ReviceUserID,
+						reviceName = currWorkBase.ReviceUserName ?? string.Empty,
+						totalNum = currWorkBase.TotalNum,
+						completedNum = currWorkBase.CompletedNum,
+						markNum = currWorkBase.MarkNum,
+						workDesc = currWorkBase.WorkDesc ?? string.Empty,
 						submitUserId = t.SubmitUserID,
 						submitUserName = t.SubmitUserName ?? string.Empty,
-						submitDate = _workBase.PublishDate,
+						submitDate = currWorkBase.PublishDate,
 						workStatus = t.WorkStatus,
 						workLong = t.WorkLong,
 						actualScore = t.ActualScore,
@@ -254,7 +266,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 			else if (from == 1)
 			{
 				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
-			}
+			} 
 			else if (from == 2)
 			{
 				sonWorkTypes = new List<int>() { 23 };
@@ -265,23 +277,21 @@ namespace CiWong.OpenAPI.Work.Controllers
 			}
 
 			int totalItem = 0;
-			var workBaseList = new WorkBaseProvider().GetWorkBaseListForApi(new List<int>() { userId }, publishTypes, sonWorkTypes, reviceId, DateTime.MinValue, DateTime.Now, workStatus, -1, ref totalItem, page, pageSize);
+			var workBaseList = _workBase.GetWorkBaseListForApi(new List<int>() { userId }, publishTypes, sonWorkTypes, reviceId, DateTime.MinValue, DateTime.Now, workStatus, -1, ref totalItem, page, pageSize);
 
 			var doWorkBaseList = new Dictionary<long, List<DoWorkBase>>();
 			if ((from == 1 || from == 2) && workBaseList.Any())
 			{
 				if (workStatus == 1)
 				{
-					doWorkBaseList = new DoWorkBaseProvider().GetDoWorkList(workBaseList.Select(t => t.WorkID), new List<int>() { 0, 1, 4 }).GroupBy(t => t.WorkID).ToDictionary(c => c.Key, c => c.OrderByDescending(m => m.SubmitDate).ToList());
+					doWorkBaseList = _doWorkBase.GetDoWorkList(workBaseList.Select(t => t.WorkID), new List<int>() { 0, 1, 4 }).GroupBy(t => t.WorkID).ToDictionary(c => c.Key, c => c.OrderByDescending(m => m.SubmitDate).ToList());
 				}
 				else if (workStatus == 8)
 				{
-					doWorkBaseList = new DoWorkBaseProvider().GetDoWorkList(workBaseList.Select(t => t.WorkID), new List<int>() { 2, 3, 5 }).GroupBy(t => t.WorkID).ToDictionary(c => c.Key, c => c.OrderByDescending(m => m.SubmitDate).ToList());
+					doWorkBaseList = _doWorkBase.GetDoWorkList(workBaseList.Select(t => t.WorkID), new List<int>() { 2, 3, 5 }).GroupBy(t => t.WorkID).ToDictionary(c => c.Key, c => c.OrderByDescending(m => m.SubmitDate).ToList());
 				}
 			}
 
-
-			var _workPublisher = new WorkPublisher();
 
 			return new ApiPageList<object>()
 			{
@@ -322,7 +332,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 		[HttpGet]
 		public dynamic doworks(long workId)
 		{
-			var doWorkList = new DoWorkBaseProvider().GetDoWorkList(workId);
+			var doWorkList = _doWorkBase.GetDoWorkList(workId);
 
 			return doWorkList.Select(t => new
 			{

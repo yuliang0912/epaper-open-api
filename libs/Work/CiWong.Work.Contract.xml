@@ -119,7 +119,7 @@
             根绝作业ID和用户ID获取做作业ID集合(一份作业包含多套试卷的备课作业)
             </summary>
         </member>
-        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetDoWorkList(System.Collections.Generic.IEnumerable{System.Int64})">
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetDoWorkList(System.Collections.Generic.IEnumerable{System.Int64},System.Collections.Generic.IEnumerable{System.Int32})">
             <summary>
             根据作业ID获取做作业列表(主要用户老师显示具体某份作业布置列表)
             </summary>
@@ -136,6 +136,17 @@
             <summary>
             获取作业提交排名
             </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IDoWorkBase.GetDoWorkListForApi(System.Collections.Generic.IEnumerable{System.Int32},System.Collections.Generic.IEnumerable{CiWong.Work.Entities.PublishTypeEnum},System.Collections.Generic.IEnumerable{System.Int32},System.DateTime,System.DateTime,System.Int32,System.Int32,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据条件获取做作业记录
+            </summary>
+            <param name="userIds">提交人ID,空集则忽略</param>
+            <param name="publishTypes">布置方式.空集则忽略</param>
+            <param name="sonWorkTypes">子作业类型,空集则忽略</param>
+            <param name="beginDate">作业开始日期</param>
+            <param name="endDate">作业结束日期</param>
+            <param name="workStatus">作业状态(-1:全部 0:待上交 2:待批改 3:已批改 4:已退回 5:延时完成 6:超时作业 7:已完成(2:待批改 3:已批改)) 8:待完成未过期</param>
         </member>
         <member name="T:CiWong.Work.Contract.IWorkCustom">
             <summary>
@@ -312,6 +323,19 @@
             <summary>
             根据指定的班级ID集合获取班级完成情况汇总
             </summary>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetWorkBaseListForApi(System.Collections.Generic.IEnumerable{System.Int32},System.Collections.Generic.List{CiWong.Work.Entities.PublishTypeEnum},System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.DateTime,System.DateTime,System.Int32,System.Int32,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="publishUserIds">布置人用户ID,空集则忽略</param>
+            <param name="publishTypes">布置方式.空集则忽略</param>
+            <param name="sonWorkTypes">子作业类型,空集则忽略</param>
+            <param name="reviceID">接收者ID,小于1则忽略</param>
+            <param name="beginDate">开始日期</param>
+            <param name="endDate">结束日期</param>
+            <param name="workStatus">作业状态( -1:全部未取消的 0:全部 1:待上交 2:正在完成 3:已提交 4.已取消 5:待发送 6:待批改)</param>
+            <param name="curriculum">科目ID,小于1则忽略</param>
         </member>
         <member name="M:CiWong.Work.Contract.IWorkStatisticsProvider.GetWorkStatistics">
             <summary>

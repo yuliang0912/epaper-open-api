@@ -2,12 +2,9 @@
 using CiWong.Relation.WCFProxy;
 using CiWong.Work.Contract;
 using CiWong.Work.Entities;
-using CiWong.Work.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CiWong.OpenAPI.Work.Service
 {
@@ -16,12 +13,12 @@ namespace CiWong.OpenAPI.Work.Service
     /// </summary>
     public class WorkPublisher
     {
-        private readonly IWorkBase _workBase;
-        private IClassGroupProvider _iClassGroupProvider;
-		public WorkPublisher()
+        private IWorkBase _workBase;
+        private IClassGroupProvider _classGroupProvider;
+		public WorkPublisher(IWorkBase _workBase, IClassGroupProvider _classGroupProvider)
 		{
-			this._workBase = new WorkBaseProvider();
-			this._iClassGroupProvider = new ClassGroupProvider();
+			this._workBase = _workBase;
+			this._classGroupProvider = _classGroupProvider;
 		}
     
 
@@ -36,6 +33,15 @@ namespace CiWong.OpenAPI.Work.Service
             var userList = new List<KeyValuePair<int, string>>();
 
             List<long> workIdList = new List<long>();
+
+			var userSchool = ClassRelationProxy.GetRoomSchoolByUserList(new List<int>() { workBase.PublishUserID }).FirstOrDefault();
+
+			if (userSchool != null)
+			{
+				workBase.SchoolId = userSchool.SchoolID;
+				workBase.SchoolName = userSchool.SchoolName;
+				workBase.AreaCode = userSchool.SchoolArea;
+			}
 
 			if (workBase.PublishType == PublishTypeEnum.User)
 			{
@@ -89,7 +95,7 @@ namespace CiWong.OpenAPI.Work.Service
 				workBase.ReviceUserName = listPublishObject.Count <= 3 ? workBase.ReviceUserName : workBase.ReviceUserName + "等";
 				foreach (var item in listPublishObject)
 				{
-					var stuList = _iClassGroupProvider.getClassGroupMemberByGroupId(Convert.ToInt32(item.Key));
+					var stuList = _classGroupProvider.getClassGroupMemberByGroupId(Convert.ToInt32(item.Key));
 					if (!stuList.Any())
 					{
 						continue;
