@@ -472,7 +472,7 @@
         </member>
         <member name="P:CiWong.Resource.Preview.DataContracts.RequirementContentContract`1.SpeekingType">
             <summary>
-            跟读类型 1逐句 2选段 3全文
+            跟读类型 1逐句跟读 2独立通读 3选段背诵
             </summary>
         </member>
         <member name="P:CiWong.Resource.Preview.DataContracts.RequirementContentContract`1.Attchment">
@@ -776,11 +776,6 @@
             实际得分
             </summary>
         </member>
-        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.ExaminationID">
-            <summary>
-            试卷ID(没有试卷的作业类型,为0)
-            </summary>
-        </member>
         <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkScore">
             <summary>
             作业总分
@@ -811,11 +806,6 @@
             作业跳转所用参数
             </summary>
         </member>
-        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.IsWiki">
-            <summary>
-            是否维基库中的作业
-            </summary>
-        </member>
         <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.TotalNum">
             <summary>
             当前作业布置人数(兼容统计数据,数据来源于workBase)
@@ -831,7 +821,7 @@
             布置人姓名
             </summary>
         </member>
-        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.workBaseStatus">
+        <member name="P:CiWong.Resource.Preview.DataContracts.DoWorkBaseContract.WorkBaseStatus">
             <summary>
             主表状态
             </summary>

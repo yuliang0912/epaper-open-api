@@ -15,6 +15,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 	public class PackageController : ApiController
 	{
 		private readonly PackageService packageService;
+		public static readonly List<int> newsPaperModuleSortArray = new List<int> { 7, 10, 15, 18, 9, 5, 8 };
 		public PackageController()
 		{
 			packageService = new PackageService();
@@ -30,6 +31,34 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 					m.Children != null
 						? m.Children.Select(t => CatalogueFunc(t))
 						: Enumerable.Empty<PackageCatalogueContract>()
+			};
+		}
+
+		/// <summary>
+		/// 获取资源包信息
+		/// </summary>
+		/// <param name="packageId"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic package_info(long packageId)
+		{
+			var package = packageService.GetPackageForApi(packageId);
+
+			if (null == package)
+			{
+				return new ApiArgumentException("未找到指定的资源包", 1);
+			}
+
+			return new
+			{
+				packageId = package.PackageId,
+				packageName = package.BookName,
+				packageType = package.GroupType,
+				cover = package.Cover,
+				price = package.Price,
+				subjectId = package.SubjectId,
+				periodId = package.PeriodId,
+				gradeId = package.GradeId
 			};
 		}
 
@@ -75,24 +104,27 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		[HttpGet]
 		public dynamic book_resources(long packageId, string cId, bool isFilter = true)
 		{
-
 			var packageCategoryContent = packageService.GetTaskResultForApi(packageId, cId, false, false).FirstOrDefault();
 
-			if (null == packageCategoryContent)
+			if (null == packageCategoryContent || !packageCategoryContent.ResultContents.Any())
 			{
 				return new ApiException(RetEum.ApplicationError, 1, "未找到资源");
 			}
 
-			var taskResultContent = packageCategoryContent.TaskModules.ToDictionary(c => c.ModuleId,
-				c => packageCategoryContent.ResultContents.Where(x => x.ModuleId == c.ModuleId).OrderBy(t => t.DisplayOrder).ToList()).Where(t => t.Value.Count > 0);
+			if (isFilter)
+			{
+				packageCategoryContent.ResultContents = packageCategoryContent.ResultContents.Where(t => t.ModuleId != 9).ToList();
+			}
+
+			var taskResultContent = packageCategoryContent.ResultContents.
+									OrderBy(t => newsPaperModuleSortArray.IndexOf(t.ModuleId)).
+									ThenBy(t => t.DisplayOrder).
+									GroupBy(t => t.ModuleId).
+									ToDictionary(c => c.Key, c => c.ToList());
 
 			Func<List<TaskResultContentContract>, List<ResourceContract>> getResourceList = (resuletContents) =>
 			{
 				var list = new List<ResourceContract>();
-				if (resuletContents == null || !resuletContents.Any())
-				{
-					return list;
-				}
 
 				var resourceModuleId = new Guid(resuletContents.First().ResourceModuleId);
 
@@ -213,17 +245,12 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 				return list;
 			};
 
-			if (isFilter)
-			{
-				taskResultContent = taskResultContent.Where(t => t.Key != 9);
-			}
-
 			var jsonData = taskResultContent.Select(t => new
 			{
 				moduleInfo = new
 				{
-					packageCatalogueId = t.Value.First().PackageCatalogueId ?? string.Empty,
-					moduleId = t.Value.First().ModuleId,
+					packageCatalogueId = cId ?? string.Empty,
+					moduleId = t.Key,
 					moduleName = t.Value.First().ModuleName ?? string.Empty
 				},
 				resourceList = getResourceList(t.Value).Select(m => new

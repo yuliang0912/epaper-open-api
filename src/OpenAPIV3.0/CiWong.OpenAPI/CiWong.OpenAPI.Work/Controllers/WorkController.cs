@@ -49,6 +49,11 @@ namespace CiWong.OpenAPI.Work.Controllers
 			int publishType = Convert.ToInt32(request["publishType"]);
 			string receiveObject = request["receiveObject"] ?? string.Empty;
 			int sourceType = Convert.ToInt32(request["from"] ?? "0");
+			var sendDate = DateTime.Now;
+			if (!string.IsNullOrEmpty(request["sendDate"]))
+			{
+				sendDate = DateTimeExtensions.FromEpoch(Convert.ToInt32(request["sendDate"]));
+			}
 
 			if (!Enum.IsDefined(typeof(DictHelper.WorkTypeEnum), workType))
 			{
@@ -96,7 +101,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 				PublishUserID = userId,
 				PublishUserName = userInfo.RealName,
 				PublishDate = DateTime.Now,
-				SendDate = DateTime.Now,
+				SendDate = sendDate,
 				EffectiveDate = DateTimeExtensions.FromEpoch(completeDate),
 				IsSubmit = true,
 				ViewStatus = ViewStatus.AllUsers,
@@ -185,9 +190,13 @@ namespace CiWong.OpenAPI.Work.Controllers
 			{
 				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
 			}
-			else if (from == 2)
+			else if (from == 2 && versionId == 1)
 			{
 				sonWorkTypes = new List<int>() { 23 };
+			}
+			else if (from == 2 && versionId == 2)
+			{
+				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
 			}
 			else if (from == 3)
 			{
@@ -218,7 +227,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 						publishUserName = currWorkBase.PublishUserName ?? string.Empty,
 						sendDate = currWorkBase.SendDate,
 						publishType = currWorkBase.PublishType,
-						reviceId = currWorkBase.ReviceUserID,
+						reviceId = currWorkBase.ReviceUserID,	
 						reviceName = currWorkBase.ReviceUserName ?? string.Empty,
 						totalNum = currWorkBase.TotalNum,
 						completedNum = currWorkBase.CompletedNum,
@@ -263,15 +272,15 @@ namespace CiWong.OpenAPI.Work.Controllers
 			{
 				sonWorkTypes.Add(sonWorkType);
 			}
-			else if (from == 1)
+			else if (from == 1)//安卓客户端支持的类型
 			{
 				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
 			} 
-			else if (from == 2)
+			else if (from == 2)//IOS客户端支持的类型
 			{
 				sonWorkTypes = new List<int>() { 23 };
 			}
-			else if (from == 3)
+			else if (from == 3)//电子报服务专区支持的类型
 			{
 				sonWorkTypes = new List<int>() { 17, 24 };
 			}
@@ -291,7 +300,6 @@ namespace CiWong.OpenAPI.Work.Controllers
 					doWorkBaseList = _doWorkBase.GetDoWorkList(workBaseList.Select(t => t.WorkID), new List<int>() { 2, 3, 5 }).GroupBy(t => t.WorkID).ToDictionary(c => c.Key, c => c.OrderByDescending(m => m.SubmitDate).ToList());
 				}
 			}
-
 
 			return new ApiPageList<object>()
 			{
@@ -313,7 +321,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 					markNum = t.MarkNum,
 					reviceId = t.ReviceUserID,
 					reviceName = t.ReviceUserName,
-					recordId = _workPublisher.redirectParmsArray(t.RedirectParm),
+					recordId = _workPublisher.redirectParmsArray(t.RedirectParm),//此处是作业资源包记录ID
 					isTimeout = DateTime.Now > t.EffectiveDate,
 					workDesc = t.WorkDesc,
 					userList = doWorkBaseList.ContainsKey(t.WorkID) ? doWorkBaseList[t.WorkID].Select(x => new

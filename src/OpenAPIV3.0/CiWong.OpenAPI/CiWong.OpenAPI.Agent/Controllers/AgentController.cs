@@ -80,5 +80,12 @@ namespace CiWong.OpenAPI.Agent.Controllers
 				isTimeOut = t.ExpireTime < DateTime.Now
 			});
 		}
+
+		[BasicAuthentication, HttpGet]
+		public dynamic open_service_info(long packageId)
+		{
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			return AppServiceProxy.GetOpenServiceList(userId, packageId);
+		}
 	}
 }

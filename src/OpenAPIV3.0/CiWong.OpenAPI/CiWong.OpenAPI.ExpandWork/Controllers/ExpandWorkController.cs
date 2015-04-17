@@ -39,8 +39,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiArgumentException("未找到指定的作业资源包", 1);
 			}
-
-			var package = new CiWong.Tools.Package.Services.PackageService().GetPackage(publishRecord.PackageId);
+			var package = new CiWong.Tools.Package.Services.PackageService().GetPackageForApi(publishRecord.PackageId);
 
 			if (null == package)
 			{
@@ -131,8 +130,8 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				{
 					VersionId = x.VersionId,
 					ResourceType = x.ResourceType
-				}).ToList()
-			}).ToList();
+				})
+			});
 
 			var recordId = _workService.CreateWorkPackage(publishRecord);
 			if (recordId < 1)
@@ -433,10 +432,10 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiException(RetEum.ApplicationError, 7, " 作业参数不匹配");
 			}
 			var fileWork = _workService.GetUserFileWork(fileWorkAnswer.DoWorkId) ?? new FileWorksContracts();
-			if (fileWork.Status == 2 || fileWork.Status == 3)
-			{
-				return new ApiException(RetEum.ApplicationError, 8, "作业已经完成,不允许重复提交");
-			}
+			//if (fileWork.Status == 2 || fileWork.Status == 3)
+			//{
+			//	return new ApiException(RetEum.ApplicationError, 8, "作业已经完成,不允许重复提交");
+			//}
 			#endregion
 
 			fileWork.WorkId = doWorkBase.WorkID;
@@ -1036,7 +1035,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				audioUrl = x.AudioUrl ?? string.Empty,
 				versionId = x.VersionId ?? 0,
 				resourceModuleId = x.ModuleId ?? Guid.Empty,
-				name = x.Name ?? string.Empty,
+				name = x.Name ?? string.Empty
 			});
 		}
 

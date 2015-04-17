@@ -10,7 +10,7 @@
             caoxilong
             </summary>
         </member>
-        <member name="M:CiWong.Resource.Preview.Infrastructure.Data.EntityHelper.GetListEntityByReader``1(System.Data.IDataReader)">
+        <member name="M:CiWong.Resource.Preview.Infrastructure.Data.EntityHelper.GetList``1(System.Data.IDataReader)">
             <summary>
             IDataReader实体转换为List实体对象 
             使用说明：EntityHelper.GetEntityByReader(实体对象）(IDataReader对象)
@@ -540,7 +540,7 @@
         </member>
         <member name="M:CiWong.Resource.Preview.Repositories.WorkAnswerRepository.GetReadAnswers(System.Int64,System.Int32)">
             <summary>
-            查询作业答案
+            查询作业答案(无效方法)
             </summary>
             <param name="doId"></param>
             <param name="answerType"></param>
@@ -552,39 +552,6 @@
             此类只供内部调用.对外提供,请通过service文件下的具体接口提供
             示例代码 余亮 2014-7-7
             </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.FindBy(System.Nullable{System.Int64},System.Nullable{System.Int32},System.Int32,System.Int32)">
-            <summary>
-            示例查询代码
-            </summary>
-            <param name="workId">作业ID</param>
-            <param name="publishUserId">布置人ID</param>
-            <param name="pageIndex">页码下标</param>
-            <param name="pageSize">每页数量</param>
-            底层提供类尽量考虑通用
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.getModelByRecordId(System.Int64)">
-            <summary>
-            根据资源打包布置Id查询对象
-            </summary>
-            <param name="recordId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.Upadte(System.Int64,System.DateTime)">
-            <summary>
-            示例更新数据代码
-            </summary>
-            <param name="workId"></param>
-            <param name="sendDate"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.Delete(System.Int64)">
-            <summary>
-            示例删除代码
-            </summary>
-            <param name="workId"></param>
-            <returns></returns>
         </member>
         <member name="M:CiWong.Resource.Preview.Repositories.WorkBaseRepository.GetWorkBase(System.Int64)">
             <summary>
@@ -989,18 +956,6 @@
             <param name="userId"></param>
             <param name="workAnswer"></param>
             <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Service.WorkServiceTest.GetWorkResources(System.Int64)">
-            <summary>
-             根据打包ID获取资源集合
-            </summary>
-            <param name="recordId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Service.WorkServiceTest.GetUnitSummarys(System.Int64,System.Int64)">
-            <summary>
-            获取单元完成情况汇总
-            </summary>
         </member>
     </members>
 </doc>

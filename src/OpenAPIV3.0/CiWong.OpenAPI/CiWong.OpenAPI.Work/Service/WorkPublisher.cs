@@ -123,6 +123,9 @@ namespace CiWong.OpenAPI.Work.Service
                                     workType == DictHelper.WorkTypeEnum.英语听写 || workType == DictHelper.WorkTypeEnum.语文听写;
         }
 
+		/// <summary>
+		/// 获取作业资源包ID
+		/// </summary>
 		internal string redirectParmsArray(string redirectParm, int index = 0)
 		{
 			if (string.IsNullOrEmpty(redirectParm) || redirectParm.IndexOf(".") == -1)
