@@ -130,8 +130,8 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				{
 					VersionId = x.VersionId,
 					ResourceType = x.ResourceType
-				})
-			});
+				}).ToList()
+			}).ToList(); //此处2个ToList不可以省略
 
 			var recordId = _workService.CreateWorkPackage(publishRecord);
 			if (recordId < 1)

@@ -275,10 +275,14 @@ namespace CiWong.OpenAPI.Work.Controllers
 			else if (from == 1)//安卓客户端支持的类型
 			{
 				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
-			} 
-			else if (from == 2)//IOS客户端支持的类型
+			}
+			else if (from == 2 && versionId == 1)//IOS客户端支持的类型
 			{
 				sonWorkTypes = new List<int>() { 23 };
+			}
+			else if (from == 2 && versionId == 2)//IOS客户端支持的类型
+			{
+				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
 			}
 			else if (from == 3)//电子报服务专区支持的类型
 			{
