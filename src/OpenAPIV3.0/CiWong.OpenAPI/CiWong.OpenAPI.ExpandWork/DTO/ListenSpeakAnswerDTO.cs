@@ -11,7 +11,7 @@ namespace CiWong.OpenAPI.ExpandWork.DTO
 		/// <summary>
 		/// 选择题选项ID
 		/// </summary>
-		public long OptionId { get; set; }
+		public string OptionId { get; set; }
 
 		/// <summary>
 		/// 录音文件URL 情景对话录音文件

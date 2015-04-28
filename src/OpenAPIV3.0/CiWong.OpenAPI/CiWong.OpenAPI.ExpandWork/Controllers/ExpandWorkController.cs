@@ -358,7 +358,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				string answerContent = JSONHelper.Encode<IEnumerable<ListenAnswerEntity>>(t.Answers.Select(x => new ListenAnswerEntity()
 				{
 					Sid = sid++,
-					OptionId = x.OptionId,
+					OptionId = x.OptionId ?? string.Empty,
 					AudioUrl = x.AudioUrl ?? string.Empty,
 					BlankContent = x.BlankContent ?? string.Empty
 				}));
