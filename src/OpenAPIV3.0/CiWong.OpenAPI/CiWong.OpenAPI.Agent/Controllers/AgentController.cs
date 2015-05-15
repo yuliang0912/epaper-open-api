@@ -81,11 +81,25 @@ namespace CiWong.OpenAPI.Agent.Controllers
 			});
 		}
 
+		/// <summary>
+		/// 获取用户是否拥有资源包的使用服务权限
+		/// </summary>
+		/// <param name="packageId"></param>
+		/// <param name="userId"></param>
+		/// <returns></returns>
 		[BasicAuthentication, HttpGet]
-		public dynamic open_service_info(long packageId)
+		public dynamic open_service_list(long packageId, int userId)
 		{
-			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
-			return AppServiceProxy.GetOpenServiceList(userId, packageId);
+			return AppServiceProxy.GetOpenServiceList(userId, packageId).Select(t => new
+			{
+				userId = t.UseId,
+				userName = t.UseName,
+				serviceType = t.ServiceType,
+				serviceTypeName = t.ServiceTypeName,
+				price = t.Price,
+				expireTime = t.ExpireTime,
+				isTimeOut = Convert.ToDateTime(t.ExpireTime) < DateTime.Now
+			});
 		}
 	}
 }

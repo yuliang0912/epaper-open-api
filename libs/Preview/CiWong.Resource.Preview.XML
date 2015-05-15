@@ -356,6 +356,17 @@
             <param name="recordId"></param>
             <returns></returns>
         </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.GetPublishRecord(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.String,System.Int32,System.Int32)">
+            <summary>
+            获取资源包创建记录
+            </summary>
+            <param name="userIds"></param>
+            <param name="packageId"></param>
+            <param name="cid"></param>
+            <param name="moduleId"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
         <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.GetWorkResource(System.Int64)">
             <summary>
             根据Id查询打包资源
@@ -745,6 +756,17 @@
              根据打包ID获取资源集合
             </summary>
             <param name="recordId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetPublishRecord(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.String,System.Int32,System.Int32)">
+            <summary>
+            获取资源包创建记录
+            </summary>
+            <param name="userIds"></param>
+            <param name="packageId"></param>
+            <param name="cid"></param>
+            <param name="moduleId"></param>
+            <param name="pageSize"></param>
             <returns></returns>
         </member>
         <member name="M:CiWong.Resource.Preview.Service.WorkService.GetResourceParts(System.Int64)">

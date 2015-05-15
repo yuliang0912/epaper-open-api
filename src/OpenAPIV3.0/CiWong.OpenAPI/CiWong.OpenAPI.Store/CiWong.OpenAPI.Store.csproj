@@ -35,6 +35,12 @@
     <Reference Include="CiWong.Agent.ApiCore">
       <HintPath>..\..\..\..\libs\Store\CiWong.Agent.ApiCore.dll</HintPath>
     </Reference>
+    <Reference Include="CiWong.Tools.Package">
+      <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Package.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Tools.Package.DataContracts">
+      <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Package.DataContracts.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>

@@ -680,11 +680,13 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiArgumentException("未找到指定的作业", 1);
 			}
-			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
-			if (fileWork.SubmitUserId != userId)
-			{
-				return new ApiArgumentException("没有查看权限", 2);
-			}
+
+			//int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			//if (fileWork.SubmitUserId != userId)
+			//{
+			//	return new ApiArgumentException("没有查看权限", 2);
+			//}
+
 			var workAnswer = _workService.GetAnswer(fileWork.DoId, 3, fileWork.RecordId);
 
 			return new

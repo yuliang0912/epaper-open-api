@@ -1,4 +1,5 @@
-﻿using CiWong.OpenAPI.Core;
+﻿using CiWong.Agent.ApiCore;
+using CiWong.OpenAPI.Core;
 using CiWong.Resource.BookRoom.Repository;
 using CiWong.Resource.BookRoom.Service;
 using CiWong.Tools.Package.Services;
@@ -24,36 +25,47 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 		/// <param name="versionId"></param>
 		/// <returns></returns>
 		[HttpGet, BasicAuthentication]
-		public int is_can(long packageId, long versionId)
+		public int is_can(long packageId, long versionId = 0)
 		{
-			var resource = new PackageService().GetTaskResultContentsForApi(packageId, versionId);
-
-			if (null == resource || !resource.Any())
+			//是否资源被设置成免费
+			if (versionId > 0)
 			{
-				throw new ApiArgumentException("参数versionId错误，未找到指定资源");
-			}
+				var resource = new PackageService().GetTaskResultContentsForApi(packageId, versionId);
 
-			if (resource.Any(t => t.IsFree))
-			{
-				return 4;
+				if (null != resource && resource.Any(t => t.IsFree))
+				{
+					return 4;
+				}
 			}
-
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
-
+			//是否购买过书籍
 			var packagePermission = new PackagePermissionRepository().GetEntity(packageId, userId);
-
-			if (null == packagePermission)
-			{
-				return 2;
-			}
-			else if (packagePermission.ExpirationDate > DateTime.Now)
+			if (null != packagePermission && packagePermission.ExpirationDate > DateTime.Now)
 			{
 				return 1;
 			}
-			else
+
+			//是否购买过服务
+			var lastOpenService = AppServiceProxy.GetOpenServiceList(userId, packageId).OrderByDescending(t => Convert.ToDateTime(t.ExpireTime)).FirstOrDefault();
+			if (lastOpenService != null && !lastOpenService.bExpired)
+			{
+				return 5;
+			}
+
+			//已购买书籍,但是过期
+			if (null != packagePermission)
 			{
 				return 3;
 			}
+
+			//已开通服务,但是过期
+			if (null != lastOpenService)
+			{
+				return 6;
+			}
+
+			//不可用
+			return 2;
 		}
 
 		/// <summary>

@@ -35,6 +35,9 @@
     <Reference Include="Autofac">
       <HintPath>..\..\..\..\libs\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="CiWong.Agent.ApiCore">
+      <HintPath>..\..\..\..\libs\Store\CiWong.Agent.ApiCore.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Resource.BookRoom">
       <HintPath>..\..\..\..\libs\BookCase\CiWong.Resource.BookRoom.dll</HintPath>
     </Reference>

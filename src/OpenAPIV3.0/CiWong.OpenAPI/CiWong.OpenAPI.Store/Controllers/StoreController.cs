@@ -83,7 +83,7 @@ namespace CiWong.OpenAPI.Store.Controllers
 		}
 
 		/// <summary>
-		/// 获取阳光英语服务书籍
+		/// 获取服务书籍
 		/// </summary>
 		/// <param name="serviceId">25:阳光英语电子报 26:乐享英语</param>
 		/// <param name="provId">省ID,-1为所有</param>
@@ -151,6 +151,27 @@ namespace CiWong.OpenAPI.Store.Controllers
 				cityName = product.CityName,//市级
 				period = product.ProductPeriod,
 				grade = product.ProductGrade
+			};
+		}
+
+		[HttpGet]
+		public dynamic product_info(long packageId)
+		{
+			var package = new CiWong.Tools.Package.Services.PackageService().GetPackageForApi(packageId);
+
+			if (null == package)
+			{
+				return new ApiArgumentException("未找到指定的资源包", 1);
+			}
+
+			return new
+			{
+				appId = 200003,
+				productId = package.PackageId.ToString(),
+				productName = package.BookName ?? string.Empty,
+				cover = package.Cover ?? string.Empty,
+				packageId = package.PackageId,
+				packageType = package.GroupType,
 			};
 		}
 	}

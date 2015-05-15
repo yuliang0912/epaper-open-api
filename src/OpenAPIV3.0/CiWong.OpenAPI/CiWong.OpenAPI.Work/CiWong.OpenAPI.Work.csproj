@@ -50,6 +50,12 @@
     <Reference Include="CiWong.Relation.WCFProxy">
       <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.WCFProxy.dll</HintPath>
     </Reference>
+    <Reference Include="CiWong.Resource.Preview">
+      <HintPath>..\..\..\..\libs\Preview\CiWong.Resource.Preview.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Resource.Preview.DataContracts">
+      <HintPath>..\..\..\..\libs\Preview\CiWong.Resource.Preview.DataContracts.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Users">
       <HintPath>..\..\..\..\libs\CiWong.Users.dll</HintPath>
     </Reference>

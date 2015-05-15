@@ -68,14 +68,19 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		/// <param name="packageId">资源包ID,必选</param>
 		/// <returns></returns>
 		[HttpGet]
-		public dynamic catalogues(long packageId, bool isDesc = false)
+		public dynamic catalogues(long packageId, string cid = null, bool isDesc = false)
 		{
 			var result = packageService.GetCataloguesForApi(packageId, true);
 
-			if (isDesc)
+			if (!string.IsNullOrWhiteSpace(cid))
+			{
+				result = result.Where(t => t.ID == cid).ToList();
+			}
+			else if (isDesc)
 			{
 				result = result.OrderByDescending(t => t.DisplayOrder).ToList();
 			}
+			
 
 			var catalogueTree = result.Where(item => item.Level.Equals(1));
 			foreach (var catalogue in catalogueTree)
@@ -102,21 +107,25 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		/// <param name="isFilter">目是否过滤同步讲练</param>
 		/// <returns></returns>
 		[HttpGet]
-		public dynamic book_resources(long packageId, string cId, bool isFilter = true)
+		public dynamic book_resources(long packageId, string cId, int moduleId = 0, bool isFilter = true)
 		{
-			var packageCategoryContent = packageService.GetTaskResultForApi(packageId, cId, false, false).FirstOrDefault();
+			var packageCategoryContent = packageService.GetTaskResultContentsForApi(packageId, cId, false);
 
-			if (null == packageCategoryContent || !packageCategoryContent.ResultContents.Any())
+			if (null == packageCategoryContent || !packageCategoryContent.Any())
 			{
 				return new ApiException(RetEum.ApplicationError, 1, "未找到资源");
 			}
 
+			if (moduleId > 0)
+			{
+				packageCategoryContent = packageCategoryContent.Where(t => t.ModuleId != moduleId).ToList();
+			}
 			if (isFilter)
 			{
-				packageCategoryContent.ResultContents = packageCategoryContent.ResultContents.Where(t => t.ModuleId != 9).ToList();
+				packageCategoryContent = packageCategoryContent.Where(t => t.ModuleId != 9).ToList();
 			}
 
-			var taskResultContent = packageCategoryContent.ResultContents.
+			var taskResultContent = packageCategoryContent.
 									OrderBy(t => newsPaperModuleSortArray.IndexOf(t.ModuleId)).
 									ThenBy(t => t.DisplayOrder).
 									GroupBy(t => t.ModuleId).
@@ -170,7 +179,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 						}
 					}
 				}
-				else if (resourceModuleId.Equals(ResourceModuleOptions.News))
+				else if (resourceModuleId.Equals(ResourceModuleOptions.News))//新闻
 				{
 					var newsResult =
 						ResourceServices.Instance.GetByVersionIds<NewsContract>(
@@ -201,7 +210,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 						}
 					}
 				}
-				else if (resourceModuleId.Equals(ResourceModuleOptions.SyncTrain))
+				else if (resourceModuleId.Equals(ResourceModuleOptions.SyncTrain))//同步讲练
 				{
 					var syncTrainResult =
 						ResourceServices.Instance.GetByVersionIds<CiWong.Tools.Workshop.DataContracts.SyncTrainContract>(
@@ -232,7 +241,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 						}
 					}
 				}
-				else
+				else //其他不查询子模块内容的
 				{
 					list = resuletContents.Select(t => new ResourceContract()
 					{
