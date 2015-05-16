@@ -1,0 +1,460 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CApi.Client</name>
+    </assembly>
+    <members>
+        <member name="F:CApi.Client.Endpoints.CLASS_CREATE_URL">
+            <summary>
+            创建班级
+            </summary>
+        </member>
+        <member name="F:CApi.Client.Endpoints.CLASS_UPGRADE_URL">
+            <summary>
+            班级升级
+            </summary>
+        </member>
+        <member name="F:CApi.Client.Endpoints.CLASS_JOIN_URL">
+            <summary>
+            加入班级
+            </summary>
+        </member>
+        <member name="F:CApi.Client.Endpoints.CLASS_JOINS_URL">
+            <summary>
+            加入班级批量
+            </summary>
+        </member>
+        <member name="F:CApi.Client.Endpoints.CLASS_QUIT_URL">
+            <summary>
+            退出班级
+            </summary>
+        </member>
+        <member name="F:CApi.Client.Endpoints.CLASS_QUITS_URL">
+            <summary>
+            退出班级批量
+            </summary>
+        </member>
+        <member name="F:CApi.Client.Endpoints.CLASS_UPDATE_URL">
+            <summary>
+            更新班级信息
+            </summary>
+        </member>
+        <member name="T:CApi.Client.NotifyClient">
+            <summary>
+            习信通知接口
+            </summary>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.PublishWorkRequst(System.Int32,System.String,System.String,System.String,System.String,System.DateTime,System.DateTime,System.Int32[])">
+            <summary>
+            发送作业通知
+            </summary>
+            <param name="sendUserID">发送者ID</param>
+            <param name="sendUserName">发送者名称</param>
+            <param name="title">作业标题</param>
+            <param name="viewurl">作业url</param>
+            <param name="dourl">做作业url</param>
+            <param name="publishDateTime">发布时间</param>
+            <param name="submitDateTime">完成时间</param>
+            <param name="receiveUser">接收者</param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.PublishWorkRequst(System.Int32,System.String,System.String,System.String,System.String,System.DateTime,System.DateTime,System.Int32[],System.Int32,System.Int32,System.Int32,System.Int64)">
+            <summary>
+            发送作业通知
+            </summary>
+            <param name="sendUserID">发送者ID</param>
+            <param name="sendUserName">发送者名称</param>
+            <param name="title">作业标题</param>
+            <param name="viewurl">作业url</param>
+            <param name="dourl">做作业url</param>
+            <param name="publishDateTime">发布时间</param>
+            <param name="submitDateTime">完成时间</param>
+            <param name="receiveUser">接收者</param>
+            <param name="worktype">作业类型</param>
+            <param name="subworktype">作业类型-子类型</param>
+            <param name="sonSubWorkType">作业类型-孙子类型</param>
+            <param name="appid"></param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.AddFriendRequst(System.Int32,System.String,System.Int32,System.DateTime,System.Int32,System.Int64)">
+            <summary>
+            请求添加好友
+            </summary>
+            <param name="sendUserID">发送者ID</param>
+            <param name="sendUserName">发送者名称</param>
+            <param name="friendID">接收者ID</param> 
+            <param name="createDate">添加时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.AddFriendRequst(System.Int32,System.String,System.Int32,System.String,System.DateTime,System.Int32,System.Int64)">
+            <summary>
+            请求添加好友
+            </summary>
+            <param name="sendUserID">发送者ID</param>
+            <param name="sendUserName">发送者名称</param>
+            <param name="friendID">接收者ID</param> 
+            <param name="verifyMsg">验证信息</param>
+            <param name="createDate">添加时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.AddFriendVerification(System.Int32,System.String,System.Int32,System.Int32,System.DateTime,System.Int64)">
+            <summary>
+            好友请求验证
+            </summary>
+            <param name="sendUserID">验证者ID</param>
+            <param name="sendUserName">验证者名称</param>
+            <param name="friendID">接收者ID</param>
+            <param name="friendStatus">习友邀请状态:0：同意  1：拒绝</param>
+            <param name="createDate">验证时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.RemoveFriendRequst(System.Int32,System.String,System.Int32,System.String,System.Int64)">
+            <summary>
+            删除好友
+            </summary>
+            <param name="sendUserID">发送者ID</param>
+            <param name="sendUserName">发送者名称</param>
+            <param name="friendID">接收者ID</param>
+            <param name="friendName">接收者名称</param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.ApplyJionClass(System.Int32,System.String,System.Int64,System.Byte,System.String,System.Int32[],System.String,System.Int32,System.Int64)">
+            <summary>
+            申请加班
+            </summary>
+            <param name="userID">用户ID</param>
+            <param name="userName">用户名</param>
+            <param name="classID">班级ID</param>
+            <param name="userRole">申请加班角色</param>
+            <param name="classInfo">班级信息(学校名称+班级名称)</param>
+            <param name="teacherID">接收老师ID</param>
+            <param name="verifyMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.ApplyJionClass(System.Int32,System.String,System.Int64,System.Byte,System.String,System.Int32[],System.DateTime,System.String,System.Int32,System.Int64)">
+            <summary>
+            
+            </summary>
+            <param name="userID"></param>
+            <param name="userName"></param>
+            <param name="classID"></param>
+            <param name="userRole"></param>
+            <param name="classInfo"></param>
+            <param name="teacherID"></param>
+            <param name="createDate"></param>
+            <param name="verifyMsg"></param>
+            <param name="msgid"></param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.AutitClass(System.Int32,System.String,System.Int64,System.Int32,System.String,System.Byte,System.Byte,System.String,System.Int32[],System.DateTime,System.Int64)">
+            <summary>
+            审核加班
+            </summary>
+            <param name="teacherID">审核老师ID</param>
+            <param name="teacherName">审核老师名称</param>
+            <param name="classID">班级ID</param>
+            <param name="userID">申请人ID</param>
+            <param name="userName">申请人名称</param>
+            <param name="userRole">申请加班角色</param>
+            <param name="autitState">审核状态:2同意，0拒绝</param>
+            <param name="classInfo">班级信息(学校名称+班级名称)</param>
+            <param name="classUserID">全班人员</param>
+            <param name="createDate">审核时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.InvitationClass(System.Int32,System.String,System.Int64,System.Byte,System.String,System.Int32,System.DateTime,System.Int32,System.Int64)">
+            <summary>
+            邀请加班
+            </summary>
+            <param name="teacherID">邀请老师ID</param>
+            <param name="teacherName">邀请老师名称</param>
+            <param name="classID">班级ID</param>
+            <param name="userRole">邀请加班角色</param>
+            <param name="classInfo">班级信息(学校名称+班级名称)</param>
+            <param name="invitationUserID">被邀请用户ID</param>
+            <param name="createDate">邀请时间</param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.AutitInvitation(System.Int32,System.String,System.Int64,System.Byte,System.Byte,System.String,System.Int32[],System.Int32,System.DateTime,System.Int64)">
+            <summary>
+            审核邀请
+            </summary>
+            <param name="userID">审核用户ID</param>
+            <param name="userName">审核用户名</param>
+            <param name="classID">班级ID</param>
+            <param name="userRole">审核加班角色</param>
+            <param name="autitState">审核状态:2同意，0拒绝</param>
+            <param name="classInfo">班级信息(学校名称+班级名称)</param>
+            <param name="classUserID">全班人员</param>
+            <param name="TeacherID">邀请老师ID</param>
+            <param name="createDate">审核时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.QuitClass(System.Int32,System.String,System.Int64,System.Byte,System.String,System.Int32[],System.Int64)">
+            <summary>
+            退出班级
+            </summary>
+            <param name="userID">用户Id</param>
+            <param name="userName">用户名称</param>
+            <param name="userRole">用户在班级的角色</param>
+            <param name="classID">班级id</param>
+            <param name="classInfo">班级名称</param>
+            <param name="classUserID">消息接受者，班级所有人员</param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.RemoveClassUser(System.Int32,System.String,System.Int64,System.String,System.Int32,System.String,System.Byte,System.Int32[],System.Int64)">
+            <summary>
+            踢出班级
+            </summary>
+            <param name="userID">踢人者id</param>
+            <param name="userName">踢人者名称</param>
+            <param name="classID">班级id</param>
+            <param name="classInfo">班级名称</param>
+            <param name="tagerID">被踢者id</param>
+            <param name="tagerName">被踢者名称</param>
+            <param name="tagerRole">被踢者角色</param>
+            <param name="classUserID">消息接受者，班级所有人员包括被踢者</param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.SendMessage(System.Int32,System.String,System.String,System.String,System.String,System.Int32[],System.Int32,System.Int64)">
+            <summary>
+            发送系统消息
+            </summary>
+            <param name="userID">发送者id</param>
+            <param name="username">发送者姓名</param>
+            <param name="title">消息标题</param>
+            <param name="content">消息内容</param>
+            <param name="url">查看网址</param>
+            <param name="Receive">接收者列表</param>
+            <param name="type">
+            发送类型：
+            1.只发送给接受者
+            2.只发送给接收者家长
+            3.同时发送给接收者和家长
+            </param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.CreateGroup(System.Int32,System.String,System.Int64,System.String,System.Int64)">
+            <summary>
+            创建群
+            </summary>
+            <param name="userID">用户id</param>
+            <param name="userName">用户名称</param>
+            <param name="GroupId">群id</param>
+            <param name="GroupName">群名称</param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.DestroyGroup(System.Int32,System.String,System.Int64,System.String,System.Int32[],System.Int64)">
+            <summary>
+            解散群
+            </summary>
+            <param name="userID">用户id</param>
+            <param name="userName">用户名</param>
+            <param name="GroupId">群id</param>
+            <param name="GroupName">群名称</param>
+            <param name="GroupUsers">群成员</param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.RequestJoinGroup(System.Int32,System.String,System.Int64,System.String,System.Int64,System.Int32[],System.String,System.Int64)">
+            <summary>
+            请求加入群
+            </summary>
+            <param name="userID">用户id</param>
+            <param name="userName">用户名称</param>
+            <param name="GroupId">群id</param>
+            <param name="GroupName">群名称</param>
+            <param name="MsgId">消息id</param>
+            <param name="AdminUserID">群管理员列表</param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.AutitGroup(System.Int32,System.String,System.Int32,System.String,System.Int64,System.String,System.Int32,System.Int32[],System.Int64)">
+            <summary>
+            同意和拒绝加入群
+            </summary>
+            <param name="userID">用户id</param>
+            <param name="userName">用户名</param>
+            <param name="tagerID">申请人id</param>
+            <param name="tagerName">申请人姓名</param>
+            <param name="GroupId">群id</param>
+            <param name="GroupName">群名称</param>
+            <param name="action">同意 0 ，拒绝 1</param>
+            <param name="GroupUsers">群成员列表</param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.AutitGroup(System.Int32,System.String,System.Int64,System.String,System.Int32[],System.Int64)">
+            <summary>
+            不通过申请加入群
+            </summary>
+            <param name="userID"></param>
+            <param name="userName"></param>
+            <param name="GroupId"></param>
+            <param name="GroupName"></param>
+            <param name="GroupUsers"></param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.QuitGroup(System.Int32,System.String,System.Int64,System.String,System.Int32[],System.Int64)">
+            <summary>
+            退出群
+            </summary>
+            <param name="userID"></param>
+            <param name="userName"></param>
+            <param name="GroupId"></param>
+            <param name="GroupName"></param>
+            <param name="GroupUsers"></param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.AddFamily(System.Int32,System.String,System.Int32,System.String,System.Int32,System.String,System.String,System.Int32,System.Int64)">
+            <summary>
+            申请家庭关系
+            </summary>
+            <param name="userID">申请用户ID</param>
+            <param name="userName">申请用户名</param>
+            <param name="familyUserID">被申请用户ID</param>
+            <param name="familyUserName">被申请用户名</param>
+            <param name="relationTypeID">申请关系ID</param>
+            <param name="relationTypeName">申请关系名称</param>
+            <param name="msgid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.AddFamily(System.Int32,System.String,System.Int32,System.String,System.Int32,System.String,System.DateTime,System.String,System.Int32,System.Int64)">
+            <summary>
+            申请家庭关系
+            </summary>
+            <param name="userID">申请用户ID</param>
+            <param name="userName">申请用户名</param>
+            <param name="familyUserID">被申请用户ID</param>
+            <param name="familyUserName">被申请用户名</param>
+            <param name="relationTypeID">申请关系ID</param>
+            <param name="relationTypeName">申请关系名称</param>
+            <param name="createDate">申请时间</param>
+            <param name="msgid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.AutiFamily(System.Int32,System.String,System.Int32,System.String,System.Int32,System.String,System.Byte,System.DateTime,System.Int64)">
+            <summary>
+            审核家庭关系
+            </summary>
+            <param name="userID">审核用户ID</param>
+            <param name="userName">审核用户名</param>
+            <param name="familyUserID">申请用户ID</param>
+            <param name="familyUserName">申请用户名</param>
+            <param name="relationTypeID">申请关系ID</param>
+            <param name="relationTypeName">申请关系名称</param>
+            <param name="AutitState">审核状态:0同意，1拒绝</param>
+            <param name="createDate">审核时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.RemoveFamilyRequst(System.Int32,System.String,System.Int32,System.String,System.Int32,System.Int64)">
+            <summary>
+            解绑家人
+            </summary>
+            <param name="sendUserID">发送者ID</param>
+            <param name="sendUserName">发送者名称</param>
+            <param name="familyUserID">接收者ID</param>
+            <param name="familyName">接收者名称</param>
+            <param name="relationTypeID"></param>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.SchoolNotes(System.Int32,System.String,System.String,System.String,System.Collections.Generic.IEnumerable{System.Int32},System.Int64)">
+            <summary>
+            校园公告
+            </summary>
+            <param name="userID">申请用户ID</param>
+            <param name="userName">申请用户名</param>
+            <param name="title"></param>
+            <param name="viewurl"></param>
+            <param name="groupUsers"></param>
+            <param name="appid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.QuanMessage(System.Int32,System.String,System.Int32,System.String,System.String,System.Collections.Generic.IEnumerable{System.Int32},System.Int64)">
+            <summary>
+            申请家庭关系
+            </summary>
+            <param name="userID">申请用户ID</param>
+            <param name="userName">申请用户名</param>
+            <param name="type"></param>
+            <param name="title"></param>
+            <param name="viewurl"></param>
+            <param name="groupUsers"></param>
+            <param name="appid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.JingSai(System.Int32,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            竞赛成绩通知
+            </summary>
+            <param name="userID"></param>
+            <param name="userName"></param>
+            <param name="role"></param>
+            <param name="title"></param>
+            <param name="score"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.LiWu(System.Int32,System.String,System.Int32,System.String,System.Int32,System.String)">
+            <summary>
+            领取礼物
+            </summary>
+            <param name="userID">领取人ID</param>
+            <param name="userName">领取人姓名</param>
+            <param name="role">领取人角色</param>
+            <param name="fuwuname">服务名称</param>
+            <param name="cid">班级id</param>
+            <param name="cname">班级名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:CApi.Client.NotifyClient.LiWu(System.Int32,System.String,System.Int32,System.String,System.Int32,System.String,System.Int32,System.String)">
+            <summary>
+            领取礼物
+            </summary>
+            <param name="userID">领取人ID</param>
+            <param name="userName">领取人姓名</param>
+            <param name="role">领取人角色</param>
+            <param name="fuwuname">服务名称</param>
+            <param name="cid">班级id</param>
+            <param name="cname">班级名称</param>
+            <param name="rid">孩子id</param>
+            <param name="rname">孩子姓名</param>
+        </member>
+        <member name="T:CApi.Client.XiXinClient">
+            <summary>
+            习信消息接口
+            </summary>
+        </member>
+        <member name="M:CApi.Client.XiXinClient.Send(System.Int32,System.Int32,System.String)">
+            <summary>
+            发送习信消息给一个用户
+            </summary>
+            <param name="sendUserID"></param>
+            <param name="receiveUserID"></param>
+            <param name="msgContent"></param>
+        </member>
+        <member name="M:CApi.Client.XiXinClient.Send(System.Int32,System.Int32[],System.String)">
+            <summary>
+            发送习信消息给一批个用户
+            </summary>
+            <param name="sendUserID"></param>
+            <param name="receiveUser"></param>
+            <param name="msgContent"></param>
+        </member>
+        <member name="M:CApi.Client.XiXinClient.SendSystem(System.Int32,System.Int32[],System.String,System.String)">
+            <summary>
+            发送系统消息
+            </summary>
+            <param name="sendUserID">发送者ID</param>
+            <param name="receiveUser">接收者</param>
+            <param name="Title">标题：如系统消息，作业通知</param>
+            <param name="msgContent">消息内容</param>
+        </member>
+        <member name="M:CApi.Client.XiXinClient.SendSystem(System.Int32,System.Int32[],System.String,System.String,System.String)">
+            <summary>
+            发送系统消息
+            </summary>
+            <param name="sendUserID">发送者ID</param>
+            <param name="receiveUser">接收者</param>
+            <param name="Title">标题：如系统消息，作业通知</param>
+            <param name="msgContent">消息内容</param>
+            <param name="Url">详情地址</param>
+        </member>
+        <member name="M:CApi.Client.XiXinClient.SendToFamily(System.Int32,System.String)">
+            <summary>
+            发送习信消息给发送者的家长
+            </summary>
+            <param name="sendUserID"></param>
+            <param name="msgContent"></param>
+        </member>
+        <member name="M:CApi.Client.XiXinClient.SendToFamily(System.Int32,System.Int32[],System.String)">
+            <summary>
+            发送习信消息给接收者的家长
+            </summary>
+            <param name="sendUserID"></param>
+            <param name="receiveUser">接收者</param>
+            <param name="msgContent"></param>
+        </member>
+    </members>
+</doc>

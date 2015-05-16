@@ -2,6 +2,7 @@
 using CiWong.OpenAPI.Core;
 using CiWong.Users;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web.Http;
@@ -100,6 +101,82 @@ namespace CiWong.OpenAPI.Agent.Controllers
 				expireTime = t.ExpireTime,
 				isTimeOut = Convert.ToDateTime(t.ExpireTime) < DateTime.Now
 			});
+		}
+
+
+		/// <summary>
+		/// 书籍所属服务列表
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic service_list(long packageId)
+		{
+			var priceList = new List<Tuple<decimal, string, int, decimal>>();
+			priceList.Add(new Tuple<decimal, string, int, decimal>(200m, "半年(6个月)", 6, 10m));
+			priceList.Add(new Tuple<decimal, string, int, decimal>(360m, "一年(12个月)", 12, 9m));
+			priceList.Add(new Tuple<decimal, string, int, decimal>(720m, "三年(36个月)", 36, 6m));
+
+			return AppServiceProxy.GetServiceList(packageId).Select(t => new
+			{
+				serviceId = t.ID,
+				serviceName = t.Name,
+				priceList = priceList.Select(x => new
+				{
+					price = x.Item1,
+					unitName = x.Item2,
+					months = x.Item3,
+					discount = x.Item4
+				})
+			});
+		}
+
+		/// <summary>
+		/// 获取服务书籍
+		/// </summary>
+		/// <param name="serviceId">25:阳光英语电子报 26:乐享英语</param>
+		/// <param name="schoolId">学校ID</param>
+		/// <param name="bookType">书籍分类,1教材同步 2课外拓展 -1为所有</param>
+		/// <param name="keyWords">关键字搜索</param>
+		/// <returns>阳光英语电子报服务书籍库(省市ID同时为0,则查询全国)</returns>
+		[HttpGet]
+		public dynamic service_products(int serviceId, long schoolId = 0, int bookType = -1, string keyWords = "", int page = 1, int pageSize = 10)
+		{
+			int provId = -1, cityId = -1, totalItem = 0;
+
+			var school = CiWong.Relation.WCFProxy.ClassRelationProxy.GetRoomSchool(schoolId);
+
+			if (null != school && !string.IsNullOrEmpty(school.SchoolArea))
+			{
+				provId = school.SchoolArea.Length >= 2 ? Convert.ToInt32(school.SchoolArea.Substring(0, 2)) : -1;
+				cityId = school.SchoolArea.Length >= 4 ? Convert.ToInt32(school.SchoolArea.Substring(0, 4)) : -1;
+			}
+
+			var list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, provId, cityId, keyWords);
+
+			return new ApiPageList<object>()
+			{
+				Page = page,
+				PageSize = pageSize,
+				TotalCount = totalItem,
+				PageList = list.Select(t => new
+				{
+					appId = 200003,
+					productId = t.ProductId.ToString(),
+					productName = t.ProductName ?? string.Empty,
+					cover = t.CoverImgUrl ?? string.Empty,
+					packageId = t.PackageId,
+					packageType = t.ProductType,
+					bookType = t.BookType, //书籍分类,1教材同步 2课外拓展
+					teamId = t.TeamId,
+					teamName = t.TeamName,
+					provId = t.ProvId,
+					provName = t.ProvName,//省级
+					cityId = t.CityId,
+					cityName = t.CityName,//市级
+					period = t.ProductPeriod,
+					grade = t.ProductGrade
+				})
+			};
 		}
 	}
 }

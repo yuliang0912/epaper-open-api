@@ -73,12 +73,12 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet, BasicAuthentication]
-		public dynamic my_books(int productType = -1, int gradeId = -1, int subjectId = -1, int page = 1, int pageSize = 20)
+		public dynamic my_books(int productType = -1, int actionType = -1, int gradeId = -1, int subjectId = -1, int page = 1, int pageSize = 20)
 		{
 			int totalItem = 0;
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			var myBooks = productInfoRepository.GetMyListForApi(userId, productType, ref totalItem, gradeId, subjectId, page - 1, pageSize);
+			var myBooks = productInfoRepository.GetMyListForApi(userId, productType, actionType, ref totalItem, gradeId, subjectId, page - 1, pageSize);
 
 			return new ApiPageList<object>()
 			{
