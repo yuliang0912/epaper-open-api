@@ -99,7 +99,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 
 			var workBase = new WorkBase()
 			{
-				WorkName = workName,
+				WorkName = System.Web.HttpUtility.UrlDecode(workName),
 				WorkType = (DictHelper.WorkTypeEnum)workType,
 				SonWorkType = sonWorkType,
 				PublishUserID = userId,
@@ -115,7 +115,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 				PublishType = (PublishTypeEnum)publishType,
 				WorkScore = 100,
 				MarkType = MarkType.Auto,
-				WorkDesc = workDesc,
+				WorkDesc = System.Web.HttpUtility.UrlDecode(workDesc),
 				RedirectParm = string.Format("bid_{0}.sid_{1}.zuop_{2}", workPackageRecordId, 0, 0),
 				SourceType = sourceType,
 				WorkDescType = workDescType

@@ -118,7 +118,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 
 			if (moduleId > 0)
 			{
-				packageCategoryContent = packageCategoryContent.Where(t => t.ModuleId != moduleId).ToList();
+				packageCategoryContent = packageCategoryContent.Where(t => t.ModuleId == moduleId).ToList();
 			}
 			if (isFilter)
 			{

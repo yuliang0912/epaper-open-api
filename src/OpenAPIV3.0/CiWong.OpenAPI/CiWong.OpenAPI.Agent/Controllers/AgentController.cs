@@ -112,9 +112,9 @@ namespace CiWong.OpenAPI.Agent.Controllers
 		public dynamic service_list(long packageId)
 		{
 			var priceList = new List<Tuple<decimal, string, int, decimal>>();
-			priceList.Add(new Tuple<decimal, string, int, decimal>(200m, "半年(6个月)", 6, 10m));
-			priceList.Add(new Tuple<decimal, string, int, decimal>(360m, "一年(12个月)", 12, 9m));
-			priceList.Add(new Tuple<decimal, string, int, decimal>(720m, "三年(36个月)", 36, 6m));
+			priceList.Add(new Tuple<decimal, string, int, decimal>(200m, "半年", 6, 10m));
+			priceList.Add(new Tuple<decimal, string, int, decimal>(360m, "一年", 12, 9m));
+			priceList.Add(new Tuple<decimal, string, int, decimal>(720m, "三年", 36, 6m));
 
 			return AppServiceProxy.GetServiceList(packageId).Select(t => new
 			{
