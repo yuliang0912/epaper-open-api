@@ -145,7 +145,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 				workId = workBase.WorkID,
 				workName = workBase.WorkName ?? string.Empty,
 				workType = workBase.WorkType,
-				sonWorkType = workBase.SonWorkType,
+				sonWorkType = ConvertSonWorkType((int)workBase.WorkType, workBase.SonWorkType),
 				publishUserId = workBase.PublishUserID,
 				publishUserName = workBase.PublishUserName ?? string.Empty,
 				sendDate = workBase.SendDate,
@@ -192,7 +192,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 			}
 			else if (from == 1)
 			{
-				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
+				sonWorkTypes = new List<int>() { 11, 17, 18, 19, 23 };
 			}
 			else if (from == 2 && versionId == 1)
 			{
@@ -200,7 +200,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 			}
 			else if (from == 2 && versionId == 2)
 			{
-				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
+				sonWorkTypes = new List<int>() { 11, 17, 18, 19, 23 };
 			}
 			else if (from == 3)
 			{
@@ -226,7 +226,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 						doworkId = t.DoWorkID,
 						workName = t.WorkName,
 						workType = t.WorkType,
-						sonWorkType = t.SonWorkType,
+						sonWorkType = ConvertSonWorkType((int)t.WorkType, t.SonWorkType),
 						publishUserId = currWorkBase.PublishUserID,
 						publishUserName = currWorkBase.PublishUserName ?? string.Empty,
 						sendDate = currWorkBase.SendDate,
@@ -278,7 +278,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 			}
 			else if (from == 1)//安卓客户端支持的类型
 			{
-				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
+				sonWorkTypes = new List<int>() { 11, 17, 18, 19, 23 };
 			}
 			else if (from == 2 && versionId == 1)//IOS客户端支持的类型
 			{
@@ -286,7 +286,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 			}
 			else if (from == 2 && versionId == 2)//IOS客户端支持的类型
 			{
-				sonWorkTypes = new List<int>() { 17, 18, 19, 23 };
+				sonWorkTypes = new List<int>() { 11, 17, 18, 19, 23 };
 			}
 			else if (from == 3)//电子报服务专区支持的类型
 			{
@@ -319,7 +319,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 					workId = t.WorkID,
 					workName = t.WorkName ?? string.Empty,
 					workType = t.WorkType,
-					sonWorkType = t.SonWorkType,
+					sonWorkType = ConvertSonWorkType((int)t.WorkType, t.SonWorkType),
 					publishUserId = t.PublishUserID,
 					publishUserName = t.PublishUserName ?? string.Empty,
 					sendDate = t.SendDate,
@@ -373,11 +373,18 @@ namespace CiWong.OpenAPI.Work.Controllers
 		/// <param name="moduleId"></param>
 		/// <returns></returns>
 		[HttpGet, BasicAuthentication]
-		public dynamic last_publishs(long packageId, string cid, int moduleId)
+		public dynamic last_publishs(long packageId, string cid, string moduleIds = "")
 		{
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			var redirectParms = _workService.GetPublishRecord(new List<int>() { userId }, packageId, cid, moduleId, 5).Select(t => string.Format("bid_{0}.sid_0.zuop_0", t.RecordId));
+			var moduleIdList = new List<int>();
+
+			if (!string.IsNullOrWhiteSpace(moduleIds))
+			{
+				moduleIdList = moduleIds.Split(',').Select(t => Convert.ToInt32(t)).ToList();
+			}
+
+			var redirectParms = _workService.GetPublishRecord(new List<int>() { userId }, moduleIdList, packageId, cid, 5).Select(t => string.Format("bid_{0}.sid_0.zuop_0", t.RecordId));
 
 			if (null == redirectParms || !redirectParms.Any())
 			{
@@ -391,7 +398,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 				workId = t.WorkID,
 				workName = t.WorkName ?? string.Empty,
 				workType = t.WorkType,
-				sonWorkType = t.SonWorkType,
+				sonWorkType = ConvertSonWorkType((int)t.WorkType, t.SonWorkType),
 				publishUserId = t.PublishUserID,
 				publishUserName = t.PublishUserName ?? string.Empty,
 				sendDate = t.SendDate,
@@ -415,11 +422,11 @@ namespace CiWong.OpenAPI.Work.Controllers
 		/// <param name="moduleId"></param>
 		/// <returns></returns>
 		[HttpGet, BasicAuthentication]
-		public dynamic last_doworks(long packageId, string cid, int moduleId)
+		public dynamic last_doworks(long packageId, string cid, string moduleIds = "")
 		{
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			var classList = CiWong.Relation.WCFProxy.ClassRelationProxy.GetClassByUserId(userId);
+			var classList = CiWong.Relation.WCFProxy.ClassRelationProxy.GetClassByUserId(userId).Take(15);
 
 			var teacherList = new List<int>();
 
@@ -430,7 +437,13 @@ namespace CiWong.OpenAPI.Work.Controllers
 
 			teacherList = teacherList.Distinct().ToList();
 
-			var redirectParms = _workService.GetPublishRecord(teacherList, packageId, cid, moduleId, 5).Select(t => string.Format("bid_{0}.sid_0.zuop_0", t.RecordId));
+			var moduleIdList = new List<int>();
+			if (!string.IsNullOrWhiteSpace(moduleIds))
+			{
+				moduleIdList = moduleIds.Split(',').Select(t => Convert.ToInt32(t)).ToList();
+			}
+
+			var redirectParms = _workService.GetPublishRecord(teacherList, moduleIdList, packageId, cid, 5).Select(t => string.Format("bid_{0}.sid_0.zuop_0", t.RecordId));
 
 			if (null == redirectParms || !redirectParms.Any())
 			{
@@ -445,7 +458,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 				doworkId = t.DoWorkID,
 				workName = t.WorkName,
 				workType = t.WorkType,
-				sonWorkType = t.SonWorkType,
+				sonWorkType = ConvertSonWorkType((int)t.WorkType, t.SonWorkType),
 				publishUserId = t.WorkBase.PublishUserID,
 				publishUserName = t.WorkBase.PublishUserName ?? string.Empty,
 				sendDate = t.WorkBase.SendDate,
@@ -467,6 +480,26 @@ namespace CiWong.OpenAPI.Work.Controllers
 				isTimeout = t.EffectiveDate < DateTime.Now,
 				recordId = _workPublisher.redirectParmsArray(t.RedirectParm)
 			});
+		}
+
+		/// <summary>
+		/// 转换作业类型,支持安卓端
+		/// </summary>
+		/// <returns></returns>
+		private int ConvertSonWorkType(int workType, int sonWorkType)
+		{
+			if (workType == 101 && sonWorkType == 11)
+			{
+				return 17;
+			}
+			else if (workType == 102 && sonWorkType == 11)
+			{
+				return 18;
+			}
+			else
+			{
+				return sonWorkType;
+			}
 		}
 	}
 }

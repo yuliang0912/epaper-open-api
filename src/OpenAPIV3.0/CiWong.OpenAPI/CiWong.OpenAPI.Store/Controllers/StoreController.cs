@@ -1,5 +1,6 @@
 ﻿using CiWong.Agent.ApiCore;
 using CiWong.OpenAPI.Core;
+using CiWong.Tools.Package.Services;
 using System.Linq;
 using System.Web.Http;
 
@@ -7,6 +8,12 @@ namespace CiWong.OpenAPI.Store.Controllers
 {
 	public class StoreController : ApiController
 	{
+		private PackageService packageService;
+		public StoreController(PackageService _packageService)
+		{
+			this.packageService = _packageService;
+		}
+
 		/// <summary>
 		/// 获取校园书店的电子报
 		/// </summary>
@@ -30,12 +37,12 @@ namespace CiWong.OpenAPI.Store.Controllers
 				TotalCount = totalItem,
 				PageList = list.Select(t => new
 				{
+					appId = t.ProductId == t.PackageId ? 200003 : 200002,
 					productId = t.ProductId.ToString(),
 					productName = t.ProductName ?? string.Empty,
 					cover = t.CoverImgUrl ?? string.Empty,
 					packageId = t.PackageId,
-					packageType = t.ProductType,
-					appId = 200003
+					packageType = t.ProductType
 				})
 			};
 		}
@@ -63,7 +70,7 @@ namespace CiWong.OpenAPI.Store.Controllers
 				TotalCount = totalItem,
 				PageList = list.Select(t => new
 				{
-					appId = 200003,
+					appId = t.ProductId == t.PackageId ? 200003 : 200002,
 					productId = t.ProductId.ToString(),
 					productName = t.ProductName ?? string.Empty,
 					cover = t.CoverImgUrl ?? string.Empty,
@@ -105,7 +112,7 @@ namespace CiWong.OpenAPI.Store.Controllers
 				TotalCount = totalItem,
 				PageList = list.Select(t => new
 				{
-					appId = 200003,
+					appId = t.ProductId == t.PackageId ? 200003 : 200002,
 					productId = t.ProductId.ToString(),
 					productName = t.ProductName ?? string.Empty,
 					cover = t.CoverImgUrl ?? string.Empty,
@@ -136,7 +143,7 @@ namespace CiWong.OpenAPI.Store.Controllers
 
 			return new
 			{
-				appId = 200003,
+				appId = product.ProductId == product.PackageId ? 200003 : 200002,
 				productId = product.ProductId.ToString(),
 				productName = product.ProductName ?? string.Empty,
 				cover = product.CoverImgUrl ?? string.Empty,
@@ -154,10 +161,15 @@ namespace CiWong.OpenAPI.Store.Controllers
 			};
 		}
 
+		/// <summary>
+		/// 基础产品信息
+		/// </summary>
+		/// <param name="packageId"></param>
+		/// <returns></returns>
 		[HttpGet]
 		public dynamic product_info(long packageId)
 		{
-			var package = new CiWong.Tools.Package.Services.PackageService().GetPackageForApi(packageId);
+			var package = packageService.GetPackageForApi(packageId);
 
 			if (null == package)
 			{

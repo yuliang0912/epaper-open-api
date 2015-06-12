@@ -1,9 +1,10 @@
 ﻿using CiWong.Agent.ApiCore;
 using CiWong.OpenAPI.Core;
-using CiWong.Resource.BookRoom.Repository;
+using CiWong.Resource.BookRoom.DataContracts;
 using CiWong.Resource.BookRoom.Service;
 using CiWong.Tools.Package.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web.Http;
@@ -12,10 +13,17 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 {
 	public class BookCaseController : ApiController
 	{
-		private ProductInfoService productInfoRepository;
-		public BookCaseController(ProductInfoService _productInfoRepository)
+		private PackageService packageService;
+		private ProductInfoService productInfoService;
+		private UserproductService userproductService;
+		private PackagePermissionService packagePermissionService;
+
+		public BookCaseController(ProductInfoService _productInfoService, UserproductService _userproductService, PackagePermissionService _packagePermissionService, PackageService _packageService)
 		{
-			this.productInfoRepository = _productInfoRepository;
+			this.packageService = _packageService;
+			this.productInfoService = _productInfoService;
+			this.userproductService = _userproductService;
+			this.packagePermissionService = _packagePermissionService;
 		}
 
 		/// <summary>
@@ -30,7 +38,7 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 			//是否资源被设置成免费
 			if (versionId > 0)
 			{
-				var resource = new PackageService().GetTaskResultContentsForApi(packageId, versionId);
+				var resource = packageService.GetTaskResultContentsForApi(packageId, versionId);
 
 				if (null != resource && resource.Any(t => t.IsFree))
 				{
@@ -39,7 +47,7 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 			}
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 			//是否购买过书籍
-			var packagePermission = new PackagePermissionRepository().GetEntity(packageId, userId);
+			var packagePermission = packagePermissionService.GetEntity(packageId, userId);
 			if (null != packagePermission && packagePermission.ExpirationDate > DateTime.Now)
 			{
 				return 1;
@@ -73,12 +81,13 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet, BasicAuthentication]
-		public dynamic my_books(int productType = -1, int actionType = -1, int gradeId = -1, int subjectId = -1, int page = 1, int pageSize = 20)
+		public dynamic my_books(int productType = -1, int actionType = -1, int gradeId = -1, int subjectId = -1, int isPublish = -1, int page = 1, int pageSize = 20)
 		{
 			int totalItem = 0;
+
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			var myBooks = productInfoRepository.GetMyListForApi(userId, productType, actionType, ref totalItem, gradeId, subjectId, page - 1, pageSize);
+			var myBooks = productInfoService.GetMyListForApi(userId, productType, actionType, ref totalItem, gradeId, subjectId, page - 1, pageSize, isPublish);
 
 			return new ApiPageList<object>()
 			{
@@ -95,6 +104,114 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 					cover = t.Cover
 				})
 			};
+		}
+
+		/// <summary>
+		/// 添加书籍到书柜
+		/// </summary>
+		/// <param name="appId"></param>
+		/// <param name="productId"></param>
+		/// <param name="packageId"></param>
+		/// <param name="addType">添加类型(2:自主添加 4:老师推荐 8:代理商推荐)</param>
+		/// <param name="isPublish">是否在电子作业中显示</param>
+		/// <returns></returns>
+		[HttpGet, HttpPost, BasicAuthentication]
+		public dynamic add_book(int appId, long productId, long packageId, int isPublish = 0)
+		{
+			var package = packageService.GetPackageForApi(packageId);
+
+			if (null == package)
+			{
+				return new ApiArgumentException("未找到指定的资源包", 1);
+			}
+
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			var userInfo = new CiWong.Users.UserManager().GetUserInfo(userId);
+
+			if (null == userInfo)
+			{
+				return new ApiArgumentException("错误的用户", 2);
+			}
+
+			#region 参数实体构建
+			var productInfo = new ProductInfoContract();
+			productInfo.ProductId = productId.ToString();
+			productInfo.AppId = appId;
+			productInfo.AppName = appId == 200002 ? "6v68教育商城" : appId == 200003 ? "校园书店" : "未知";
+			productInfo.PackageId = packageId;
+			productInfo.ProductName = package.BookName;
+			productInfo.Type = package.GroupType;
+			productInfo.Author = package.TeamName;
+			productInfo.Cover = package.Cover;
+			productInfo.Summary = package.Description;
+			productInfo.Price = Convert.ToDecimal(package.Price);
+			productInfo.CreateDate = package.CreateTime;
+			productInfo.AreaType = package.AreaType;
+			productInfo.ProvinceId = package.ProvinceId;
+			productInfo.ProvinceName = package.ProvincelName;
+			productInfo.CityId = package.CityId;
+			productInfo.CityName = package.CityName;
+			productInfo.PeriodId = package.PeriodId;
+			productInfo.GradeId = package.GradeId;
+			productInfo.SubjectId = package.SubjectId;
+			productInfo.SemestreId = package.SemesterId;
+			productInfo.VersionId = package.BookVersion;
+			productInfo.TeamId = (int)package.TeamId;
+			productInfo.TeamName = package.TeamName;
+			productInfo.CreateUserId = package.CreateUserId;
+			productInfo.CreateUserName = package.CreateUserName;
+			productInfo.IsDisplay = isPublish == 1 ? 1 : 0;
+
+			var userProduct = new UserproductContract();
+			userProduct.ProductId = productId.ToString();
+			userProduct.AppId = appId;
+			userProduct.PackageId = packageId;
+			userProduct.UserId = userId;
+			userProduct.UserName = userInfo.RealName;
+			userProduct.AddType = 2;
+			userProduct.AddUserId = userId;
+			userProduct.AddUserName = userInfo.RealName;
+			userProduct.CreateDate = DateTime.Now;
+			userProduct.LastUpdateDate = DateTime.Now;
+			#endregion
+
+			var result = productInfoService.Add(new List<ProductInfoContract>() { productInfo }, new List<UserproductContract>() { userProduct }, DateTime.Now, productInfo.IsDisplay);
+
+			return result.IsSucceed;
+		}
+
+		/// <summary>
+		/// 设置书籍是否在电子作业中显示
+		/// </summary>
+		/// <param name="appId"></param>
+		/// <param name="productId"></param>
+		/// <param name="isPublish"></param>
+		/// <returns></returns>
+		[HttpGet, HttpPost, BasicAuthentication]
+		public dynamic set_book_to_work(int appId, long productId, int isPublish = 1)
+		{
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+
+			if (!productInfoService.ExistsProduct(appId, productId.ToString(), userId))
+			{
+				return new ApiArgumentException("书柜中不存在指定的书籍", 1);
+			}
+
+			var productInfo = productInfoService.GetEntity(appId, productId.ToString());
+
+			if (null == productInfo)
+			{
+				return new ApiArgumentException("未找到指定的书籍", 2);
+			}
+
+			var package = packageService.GetPackageForApi(productInfo.PackageId);
+
+			if (package.AreaType == -1)
+			{
+				return new ApiArgumentException("当前书籍不允许添加到电子作业", 3);
+			}
+
+			return userproductService.SetIsDisplay(userId, appId, productId.ToString(), isPublish == 1 ? 1 : 0);
 		}
 	}
 }

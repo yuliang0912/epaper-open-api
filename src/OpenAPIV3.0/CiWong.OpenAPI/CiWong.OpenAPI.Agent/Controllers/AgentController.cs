@@ -160,7 +160,7 @@ namespace CiWong.OpenAPI.Agent.Controllers
 				TotalCount = totalItem,
 				PageList = list.Select(t => new
 				{
-					appId = 200003,
+					appId = t.ProductId == t.PackageId ? 200003 : 200002,
 					productId = t.ProductId.ToString(),
 					productName = t.ProductName ?? string.Empty,
 					cover = t.CoverImgUrl ?? string.Empty,
@@ -173,6 +173,44 @@ namespace CiWong.OpenAPI.Agent.Controllers
 					provName = t.ProvName,//省级
 					cityId = t.CityId,
 					cityName = t.CityName,//市级
+					period = t.ProductPeriod,
+					grade = t.ProductGrade
+				})
+			};
+		}
+
+		/// <summary>
+		/// 习网大书库书柜书籍列表
+		/// </summary>
+		/// <param name="subjectId"></param>
+		/// <param name="periodId"></param>
+		/// <param name="gradeId"></param>
+		/// <param name="keyWords"></param>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		[HttpGet, HttpPost]
+		public dynamic list_ciwong_shelf_book(int subjectId = 0, int periodId = 0, int gradeId = 0, string keyWords = "", int page = 1, int pageSize = 10)
+		{
+			int totalItem = 0;
+
+			var productList = PushProductProxy.GetCiWongBookList(ref totalItem, periodId, gradeId, subjectId, keyWords, page, pageSize);
+
+			return new ApiPageList<object>()
+			{
+				Page = page,
+				PageSize = pageSize,
+				TotalCount = totalItem,
+				PageList = productList.Select(t => new
+				{
+					appId = t.ProductId == t.PackageId ? 200003 : 200002,
+					productId = t.ProductId.ToString(),
+					productName = t.ProductName ?? string.Empty,
+					cover = t.CoverImgUrl ?? string.Empty,
+					packageId = t.PackageId,
+					packageType = t.ProductType,
+					teamId = t.TeamId,
+					teamName = t.TeamName,
 					period = t.ProductPeriod,
 					grade = t.ProductGrade
 				})

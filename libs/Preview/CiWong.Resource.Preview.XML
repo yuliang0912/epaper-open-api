@@ -356,14 +356,14 @@
             <param name="recordId"></param>
             <returns></returns>
         </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.GetPublishRecord(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.String,System.Int32,System.Int32)">
+        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.GetPublishRecord(System.Collections.Generic.IEnumerable{System.Int32},System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.String,System.Int32)">
             <summary>
             获取资源包创建记录
             </summary>
             <param name="userIds"></param>
             <param name="packageId"></param>
             <param name="cid"></param>
-            <param name="moduleId"></param>
+            <param name="moduleIds"></param>
             <param name="pageSize"></param>
             <returns></returns>
         </member>
@@ -594,39 +594,6 @@
             <param name="userIdList"></param>
             <returns></returns>
         </member>
-        <member name="T:CiWong.Resource.Preview.Repositories.SpeekingRepository">
-            <summary>
-            跟读作业内容查询，提交
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.SpeekingRepository.GetWorkRescoreVersionIdsByPackageId(System.Int64)">
-            <summary>
-            根据包ID获取作业资源内容ID
-            </summary>
-            <param name="contentId">作业包包ID</param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.SpeekingRepository.GetWorkRescoreByPackageId(System.Int64)">
-            <summary>
-            获取作业包对象
-            </summary>
-            <param name="contentId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.SpeekingRepository.GetWorkPublishByPublishId(System.Int64)">
-            <summary>
-            获取布置信息对像
-            </summary>
-            <param name="publishId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Repositories.SpeekingRepository.SubmitWork(CiWong.Resource.Preview.DataContracts.SpeekingAnswersEntity{CiWong.Resource.Preview.DataContracts.WorkAnswerContract})">
-            <summary>
-            提交作业
-            </summary>
-            <param name="publishId"></param>
-            <returns></returns>
-        </member>
         <member name="M:CiWong.Resource.Preview.Repositories.WorkFilePackageRepository.GetWorkFilePackage(System.Int64)">
             <summary>
             获取布置信息对像
@@ -652,7 +619,7 @@
             <summary>
             根据打包记录id查询布置资源
             </summary>
-            <param name="recordId"></param>
+            <param name="recordIds"></param>
             <returns></returns>
         </member>
         <member name="M:CiWong.Resource.Preview.Repositories.WorkFilePackageRepository.InsertWorkFilePackage(CiWong.Resource.Preview.DataContracts.WorkFilePackageContract)">
@@ -694,44 +661,6 @@
             获取用户作业信息
             </summary>
         </member>
-        <member name="T:CiWong.Resource.Preview.Service.SpeekingService">
-            <summary>
-            此处为对外业务接口
-            </summary>
-        </member>
-        <member name="F:CiWong.Resource.Preview.Service.SpeekingService._workBase">
-            <summary>
-            可以考虑使用IOC进行实例化管理.待讨论
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Service.SpeekingService.GetWorkRescoreVersionIdsByPackageId(System.Int64)">
-            <summary>
-            根据包ID获取作业资源内容ID
-            </summary>
-            <param name="contentId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Service.SpeekingService.GetWorkRescoreByPackageId(System.Int64)">
-            <summary>
-            获取作业包对象
-            </summary>
-            <param name="contentId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Service.SpeekingService.GetWorkPublishByPublishId(System.Int64)">
-            <summary>
-            获取作业布置对象
-            </summary>
-            <param name="publishId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Service.SpeekingService.SubmitWork(CiWong.Resource.Preview.DataContracts.SpeekingAnswersEntity{CiWong.Resource.Preview.DataContracts.WorkAnswerContract})">
-            <summary>
-            提交作业
-            </summary>
-            <param name="answers"></param>
-            <returns></returns>
-        </member>
         <member name="T:CiWong.Resource.Preview.Service.WorkService">
             <summary>
             电子报,电子书,附件作业业务处理类
@@ -758,14 +687,14 @@
             <param name="recordId"></param>
             <returns></returns>
         </member>
-        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetPublishRecord(System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.String,System.Int32,System.Int32)">
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetPublishRecord(System.Collections.Generic.IEnumerable{System.Int32},System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.String,System.Int32)">
             <summary>
             获取资源包创建记录
             </summary>
             <param name="userIds"></param>
             <param name="packageId"></param>
             <param name="cid"></param>
-            <param name="moduleId"></param>
+            <param name="moduleIds"></param>
             <param name="pageSize"></param>
             <returns></returns>
         </member>

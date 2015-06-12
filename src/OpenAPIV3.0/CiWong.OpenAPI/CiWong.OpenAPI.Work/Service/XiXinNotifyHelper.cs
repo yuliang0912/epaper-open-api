@@ -52,7 +52,7 @@ namespace CiWong.OpenAPI.Work.Service
                     break;
             }
                 //System.Threading.Tasks.Task.Factory.StartNew(() =>
-			new NotifyClient().PublishWorkRequst(workBase.PublishUserID, workBase.PublishUserName, workBase.WorkName, viewUrl, string.Format("http://w.ciwong.com/teacher/Redirect?workId={0}{1}", workBase.WorkID, workBase.SonWorkType == 23 ? "&jumpcode=zykc" : string.Empty), workBase.SendDate, workBase.EffectiveDate, userList.Select(t => t.Key).ToArray(), (int)workBase.WorkType, workBase.SonWorkType, 0, 3);
+			new NotifyClient().PublishWorkRequst(workBase.PublishUserID, workBase.PublishUserName, workBase.WorkName, viewUrl, string.Format("http://w.ciwong.com/teacher/Redirect?workId={0}{1}", workBase.WorkID, workBase.SonWorkType == 23 ? "&jumpcode=zykc" : string.Empty), workBase.SendDate, workBase.EffectiveDate, userList.Select(t => t.Key).ToArray(), (int)workBase.WorkType, ConvertSonWorkType((int)workBase.WorkType, workBase.SonWorkType), 0, 3);
 				//);
         }
 
@@ -70,5 +70,26 @@ namespace CiWong.OpenAPI.Work.Service
 
             return _parmList.Length > index ? _parmList[index] : string.Empty;
         }
+
+
+		/// <summary>
+		/// 转换作业类型,支持安卓端
+		/// </summary>
+		/// <returns></returns>
+		private static int ConvertSonWorkType(int workType, int sonWorkType)
+		{
+			if (workType == 101 && sonWorkType == 11)
+			{
+				return 17;
+			}
+			else if (workType == 102 && sonWorkType == 11)
+			{
+				return 18;
+			}
+			else
+			{
+				return sonWorkType;
+			}
+		}
     }
 }

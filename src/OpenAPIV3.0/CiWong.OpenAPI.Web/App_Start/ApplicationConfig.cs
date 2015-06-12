@@ -35,6 +35,7 @@ namespace CiWong.OpenAPI.Web.App_Start
 			builder.RegisterModule<CiWong.OpenAPI.ExpandWork.ResourceModule>();
 			builder.RegisterModule<CiWong.OpenAPI.YiShang.YiShangModule>();
 			builder.RegisterModule<CiWong.OpenAPI.Work.WorkModule>();
+			builder.RegisterModule<CiWong.OpenAPI.ToolsAndPackage.ToolsAndPackageModule>();
 			#endregion
 
 			Assembly[] asm = PluginManager.GetAllAssembly("CiWong.OpenAPI.*.dll").ToArray();

@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\..\..\libs\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Framework.Helper">
+      <HintPath>..\..\..\..\libs\CiWong.Framework.Helper.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Helper">
       <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Helper.dll</HintPath>
     </Reference>
@@ -88,6 +94,7 @@
     <Compile Include="Helper\ToolsHelper.cs" />
     <Compile Include="ToolsAndPackageAreaRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToolsAndPackageModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CiWong.OpenAPI.Core\CiWong.OpenAPI.Core.csproj">

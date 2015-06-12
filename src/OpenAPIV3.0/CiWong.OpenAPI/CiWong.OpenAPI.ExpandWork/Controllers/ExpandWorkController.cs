@@ -5,6 +5,7 @@ using CiWong.OpenAPI.ExpandWork.DTO;
 using CiWong.Relation.WCFProxy;
 using CiWong.Resource.Preview.DataContracts;
 using CiWong.Resource.Preview.Service;
+using CiWong.Tools.Package.Services;
 using CiWong.Users;
 using CiWong.Work.Service;
 using System;
@@ -19,10 +20,12 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 	public class ExpandWorkController : ApiController
 	{
 		private WorkService _workService;
+		private PackageService _packageService;
 		private WorkBaseService _workBaseService;
-		public ExpandWorkController(WorkService _workService, WorkBaseService _workBaseService)
+		public ExpandWorkController(WorkService _workService, WorkBaseService _workBaseService, PackageService _packageService)
 		{
 			this._workService = _workService;
+			this._packageService = _packageService;
 			this._workBaseService = _workBaseService;
 		}
 
@@ -39,7 +42,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiArgumentException("未找到指定的作业资源包", 1);
 			}
-			var package = new CiWong.Tools.Package.Services.PackageService().GetPackageForApi(publishRecord.PackageId);
+			var package = _packageService.GetPackageForApi(publishRecord.PackageId);
 
 			if (null == package)
 			{
@@ -87,7 +90,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiException(RetEum.ApplicationError, 3, "序列化失败,message:" + e.Message);
 			}
-			if (workPackage.PackageId < 1)
+			if (workPackage.PackageId < 1)	
 			{
 				return new ApiArgumentException("参数packageInfo.packageId不正确", 5);
 			}
@@ -145,7 +148,8 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		/// 创建附件作业资源包
 		/// </summary>
 		/// <returns></returns>
-		[BasicAuthentication, HttpPost]
+		//[BasicAuthentication, HttpPost]
+		[HttpPost]
 		public dynamic create_filework()
 		{
 			var content = Request.GetBodyContent();
@@ -167,7 +171,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiException(RetEum.ApplicationError, 3, "集合中不包含任何元素");
 			}
-			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name); ;
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 			var userInfo = new UserManager().GetUserInfo(userId);
 			var workFilePackage = new WorkFilePackageContract();
 			workFilePackage.FilePackageName = "作业快传附件资源包";
@@ -969,9 +973,47 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic part_followread_word_details(long contentId)
 		{
-			var resourceParts = _workService.GetResourceParts(contentId).Where(t => t.ResourceType == ResourceModuleOptions.Word.ToString()).Select(t => t.VersionId).ToArray();
+			var workResource = _workService.GetWorkResource(contentId);
 
-			var wordList = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Word, resourceParts);
+			if (null == workResource || workResource.ModuleId != 10)
+			{
+				return new ApiException(RetEum.ApplicationError, 1, "未找到指定资源");
+			}
+
+			var resourceParts = new List<long>();
+			var wordList = new CiWong.Tools.Workshop.DataContracts.ReturnResult<IEnumerable<CiWong.Tools.Workshop.DataContracts.ResourceContract>>();
+
+			if (workResource.IsFull)
+			{
+				resourceParts = _workService.GetResourceParts(contentId).Select(t => t.VersionId).ToList();
+
+				if (!resourceParts.Any())
+				{
+					return new ApiException(RetEum.ApplicationError, 1, "当前资源中不包含任何筛选的句子");
+				}
+
+				wordList = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Word, resourceParts.ToArray());
+			}
+			else
+			{
+				var result = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowRead, workResource.VersionId);
+				if (!result.IsSucceed)
+				{
+					return new ApiException(RetEum.ApplicationError, 2, "内部代码异常");
+				}
+				var data = (CiWong.Tools.Workshop.DataContracts.SyncFollowReadContract)result.Data.FirstOrDefault();
+				if (data == null)
+				{
+					return new ApiArgumentException("参数versionId错误，未找到指定资源");
+				}
+				var wordVersionList =
+					data.Parts.Where(t => t.ModuleId == ResourceModuleOptions.Word)
+						.SelectMany(t => t.List).Select(t => t.VersionId)
+						.Where(t => t != null)
+						.OfType<long>();
+
+				wordList = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Word, wordVersionList.ToArray());
+			}
 
 			if (!wordList.IsSucceed)
 			{
@@ -1003,18 +1045,23 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 		[HttpGet]
 		public dynamic part_followread_text_sentences(long contentId)
 		{
-			var resourceParts = _workService.GetResourceParts(contentId).Where(t => t.ResourceType == ResourceModuleOptions.Phrase.ToString()).Select(t => t.VersionId).ToList();
-
-			if (!resourceParts.Any())
-			{
-				return new ApiException(RetEum.ApplicationError, 1, "当前资源中不包含任何筛选的句子");
-			}
-
 			var workResource = _workService.GetWorkResource(contentId);
 
 			if (null == workResource || workResource.ModuleId != 10 && workResource.ResourceType != ResourceModuleOptions.SyncFollowReadText.ToString())
 			{
 				return new ApiException(RetEum.ApplicationError, 1, "未找到指定资源");
+			}
+
+			var resourceParts = new List<long>();
+
+			if (workResource.IsFull)
+			{
+				resourceParts = _workService.GetResourceParts(contentId).Where(t => t.ResourceType == ResourceModuleOptions.Phrase.ToString()).Select(t => t.VersionId).ToList();
+
+				if (!resourceParts.Any())
+				{
+					return new ApiException(RetEum.ApplicationError, 1, "当前资源中不包含任何筛选的句子");
+				}
 			}
 
 			var result = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowReadText, workResource.VersionId);
@@ -1031,7 +1078,14 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiArgumentException("参数versionId错误，未找到指定资源");
 			}
 
-			return data.Sections.SelectMany(t => t.Sentences).Where(t => t.VersionId.HasValue && resourceParts.Contains(t.VersionId.Value)).Select(x => new
+			var sentences = data.Sections.SelectMany(t => t.Sentences).ToList();
+
+			if (resourceParts.Any())
+			{
+				sentences = sentences.Where(t => t.VersionId.HasValue && resourceParts.Contains(t.VersionId.Value)).ToList();
+			}
+
+			return sentences.Select(x => new
 			{
 				content = x.Content ?? string.Empty,
 				audioUrl = x.AudioUrl ?? string.Empty,

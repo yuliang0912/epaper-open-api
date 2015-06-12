@@ -14,11 +14,11 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 {
 	public class PackageController : ApiController
 	{
-		private readonly PackageService packageService;
+		private PackageService packageService;
 		public static readonly List<int> newsPaperModuleSortArray = new List<int> { 7, 10, 15, 18, 9, 5, 8 };
-		public PackageController()
+		public PackageController(PackageService _packageService)
 		{
-			packageService = new PackageService();
+			this.packageService = _packageService;
 		}
 
 		private object CatalogueFunc(PackageCatalogueContract m)
@@ -58,7 +58,8 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 				price = package.Price,
 				subjectId = package.SubjectId,
 				periodId = package.PeriodId,
-				gradeId = package.GradeId
+				gradeId = package.GradeId,
+				areaType = package.AreaType
 			};
 		}
 
@@ -80,7 +81,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			{
 				result = result.OrderByDescending(t => t.DisplayOrder).ToList();
 			}
-			
+
 
 			var catalogueTree = result.Where(item => item.Level.Equals(1));
 			foreach (var catalogue in catalogueTree)
@@ -107,7 +108,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		/// <param name="isFilter">目是否过滤同步讲练</param>
 		/// <returns></returns>
 		[HttpGet]
-		public dynamic book_resources(long packageId, string cId, int moduleId = 0, bool isFilter = true)
+		public dynamic book_resources(long packageId, string cId, string moduleIds = "", string versionIds = "", bool isFilter = true)
 		{
 			var packageCategoryContent = packageService.GetTaskResultContentsForApi(packageId, cId, false);
 
@@ -116,9 +117,23 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 				return new ApiException(RetEum.ApplicationError, 1, "未找到资源");
 			}
 
-			if (moduleId > 0)
+			var moduleIdList = new List<int>();
+			var versionIdList = new List<long>();
+			if (!string.IsNullOrWhiteSpace(moduleIds))
 			{
-				packageCategoryContent = packageCategoryContent.Where(t => t.ModuleId == moduleId).ToList();
+				moduleIdList = moduleIds.Split(',').Select(t => Convert.ToInt32(t)).ToList();
+			}
+			if (!string.IsNullOrEmpty(versionIds))
+			{
+				versionIdList = versionIds.Split(',').Select(t => Convert.ToInt64(t)).ToList();
+			}
+			if (moduleIdList.Any())
+			{
+				packageCategoryContent = packageCategoryContent.Where(t => moduleIdList.Contains(t.ModuleId)).ToList();
+			}
+			if (versionIdList.Any())
+			{
+				packageCategoryContent = packageCategoryContent.Where(t => versionIdList.Contains(t.ResourceVersionId)).ToList();
 			}
 			if (isFilter)
 			{
@@ -152,6 +167,10 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 					{
 						foreach (var part in syncFollowRead.Parts)
 						{
+							if (null == part.List || !part.List.Any())
+							{
+								continue;
+							}
 							if (part.ModuleId == ResourceModuleOptions.Word)
 							{
 								list.Add(new ResourceContract()
@@ -164,10 +183,6 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 							}
 							else if (part.ModuleId == ResourceModuleOptions.SyncFollowReadText)
 							{
-								if (null == part.List || !part.List.Any())
-								{
-									continue;
-								}
 								list.AddRange(part.List.Select(t => new ResourceContract()
 								{
 									Id = syncFollowRead.VersionId,
