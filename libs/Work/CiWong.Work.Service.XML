@@ -246,6 +246,49 @@
             <param name="pageSize"></param>
             <returns></returns>
         </member>
+        <member name="M:CiWong.Work.Service.WorkBaseProvider.GetWorkStatisticals(System.Int32,System.Int32,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            获取作业统计记录基本信息
+            </summary>
+            <param name="year">查询的年份</param>
+            <param name="month">查询的月份</param>
+            <param name="totalItem">查询的总记录数</param>
+            <param name="pageIndex">查询的页面</param>
+            <param name="pageSize">查询的页面大小</param>
+            <returns>匹配的统计信息的记录</returns>
+        </member>
+        <member name="M:CiWong.Work.Service.WorkBaseProvider.GetWorkStatisticalDetail(System.Collections.Generic.List{System.Int64},System.DateTime,System.Int32@,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            获取作业统计记录的学生完成情况作业详情
+            </summary>
+            <param name="workIds">作业Id</param>
+            <param name="filterDate">过滤的日期</param>
+            <param name="totalItem">总记录数</param>
+            <param name="pageIndex">页面数</param>
+            <param name="pageSize">页面大小</param>
+            <param name="isFilterByIds">是否根据Id过滤</param>
+            <returns>学生的具体完成情况作业详情</returns>
+        </member>
+        <member name="M:CiWong.Work.Service.WorkBaseProvider.GetWorkStatisticalDetail(System.Collections.Generic.List{System.Int64},System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据作业Id获取作业统计记录的学生完成情况作业详情
+            </summary>
+            <param name="workIds">作业Id</param>
+            <param name="totalItem">总记录数</param>
+            <param name="pageIndex">页面数</param>
+            <param name="pageSize">页面大小</param>
+            <returns>学生的具体完成情况作业详情</returns>
+        </member>
+        <member name="M:CiWong.Work.Service.WorkBaseProvider.GetWorkStatisticalDetailByDate(System.DateTime,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据具体日期获取作业统计记录的学生完成情况作业详情
+            </summary>
+            <param name="filterDate">过滤的日期</param>
+            <param name="totalItem">总记录数</param>
+            <param name="pageIndex">页面数</param>
+            <param name="pageSize">页面大小</param>
+            <returns>学生的具体完成情况作业详情</returns>
+        </member>
         <member name="M:CiWong.Work.Service.WorkRecordProvider.RenameRecord(System.Int64,System.String,System.Int32)">
             <summary>
             重命名作业

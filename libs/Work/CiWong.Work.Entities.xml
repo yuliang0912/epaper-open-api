@@ -804,6 +804,126 @@
             布置来源终端(0:默认 1:安卓 2:IOS 3:电子报区域站点)
             </summary>
         </member>
+        <member name="T:CiWong.Work.Entities.WorkDetailModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkDetailModel.WorkId">
+            <summary>
+            作业ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkDetailModel.ReviceUserID">
+            <summary>
+            班级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkDetailModel.ReviceUserName">
+            <summary>
+            班级
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkDetailModel.StudentID">
+            <summary>
+            学生id
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkDetailModel.StudentName">
+            <summary>
+            学生姓名
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkDetailModel.ClientType">
+            <summary>
+            来源(0:默认 1:安卓 2:IOS 3:电子报区域站点)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkDetailModel.CompleteTime">
+            <summary>
+            作业完成时间
+            </summary>
+        </member>
+        <member name="T:CiWong.Work.Entities.WorkStatisticalModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.WorkId">
+            <summary>
+            作业ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.WorkName">
+            <summary>
+            作业名称
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.WorkType">
+            <summary>
+            作业类型
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.PublishUserID">
+            <summary>
+            布置人ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.PublishUserName">
+            <summary>
+            布置人姓名
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.AreaCode">
+            <summary>
+            地区代码
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.SchoolId">
+            <summary>
+            学校ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.ReviceUserID">
+            <summary>
+            班级ID
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.ReviceUserName">
+            <summary>
+            班级
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.TotalNum">
+            <summary>
+            布置人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.CompletedNum">
+            <summary>
+            提交人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.WeekCompletedNum">
+            <summary>
+            一周内完成人数
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.PublishDate">
+            <summary>
+            布置时间
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.SourceType">
+            <summary>
+            来源(0:默认 1:安卓 2:IOS 3:电子报区域站点)
+            </summary>
+        </member>
+        <member name="P:CiWong.Work.Entities.WorkStatisticalModel.SchoolName">
+            <summary>
+            学校名称
+            </summary>
+        </member>
         <member name="T:CiWong.Work.Entities.WorkStatistics">
             <summary>
             作业统计

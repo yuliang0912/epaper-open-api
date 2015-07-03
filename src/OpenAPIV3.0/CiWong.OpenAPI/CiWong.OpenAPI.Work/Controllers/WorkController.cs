@@ -2,6 +2,7 @@
 using CiWong.OpenAPI.Core;
 using CiWong.OpenAPI.Core.Extensions;
 using CiWong.OpenAPI.Work.Service;
+using CiWong.Resource.Preview.DataContracts;
 using CiWong.Resource.Preview.Service;
 using CiWong.Users;
 using CiWong.Work.Contract;
@@ -61,27 +62,27 @@ namespace CiWong.OpenAPI.Work.Controllers
 
 			if (!Enum.IsDefined(typeof(DictHelper.WorkTypeEnum), workType))
 			{
-				return new ApiArgumentException("参数workType不在指定的范围之内", 1);
+				return new ApiArgumentException(ErrorCodeEum.Work_4701, "参数workType不在指定的范围之内");
 			}
 			if (sonWorkType < 0 || sonWorkType >= 100)
 			{
-				return new ApiArgumentException("参数sonWorkType错误", 2);
+				return new ApiArgumentException(ErrorCodeEum.Work_4702, "参数sonWorkType不在指定的范围之内");
 			}
 			if (!Enum.IsDefined(typeof(DictHelper.CurriculumEnum), curriculum))
 			{
-				return new ApiArgumentException("参数curriculum不在指定的范围之内", 3);
+				return new ApiArgumentException(ErrorCodeEum.Work_4703, "参数curriculum不在指定的范围之内");
 			}
 			if (!Enum.IsDefined(typeof(PublishTypeEnum), (byte)publishType))
 			{
-				return new ApiArgumentException("参数publishType不在指定的范围之内", 4);
+				return new ApiArgumentException(ErrorCodeEum.Work_4704, "参数publishType不在指定的范围之内");
 			}
 			if (string.IsNullOrWhiteSpace(workName))
 			{
-				return new ApiArgumentException("参数workName不能为空", 5);
+				return new ApiArgumentException(ErrorCodeEum.Work_4705, "参数workName不能为空");
 			}
 			if (completeDate < DateTime.Now.Epoch())
 			{
-				return new ApiArgumentException("作业截止时间不能小于当前时间", 6);
+				return new ApiArgumentException(ErrorCodeEum.Work_4706, "作业截止时间不能小于当前时间");
 			}
 
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
@@ -93,7 +94,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 			}
 			catch (Exception e)
 			{
-				return new ApiArgumentException("receiveObject序列化失败,Message:" + e.ToString(), 7);
+				return new ApiArgumentException(ErrorCodeEum.Work_4707, "序列化失败,Message:" + e.ToString());
 			}
 			var userInfo = new UserManager().GetUserInfo(userId);
 
@@ -137,7 +138,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 
 			if (null == workBase)
 			{
-				return new ApiArgumentException("未找到指定的作业", 1);
+				return new ApiArgumentException(ErrorCodeEum.Work_4708, "未找到指定的作业");
 			}
 
 			return new
@@ -190,17 +191,13 @@ namespace CiWong.OpenAPI.Work.Controllers
 			{
 				sonWorkTypes.Add(sonWorkType);
 			}
-			else if (from == 1)
+			else if (from == 1 || (from == 2 && versionId >= 2))
 			{
 				sonWorkTypes = new List<int>() { 11, 17, 18, 19, 23 };
 			}
 			else if (from == 2 && versionId == 1)
 			{
 				sonWorkTypes = new List<int>() { 23 };
-			}
-			else if (from == 2 && versionId == 2)
-			{
-				sonWorkTypes = new List<int>() { 11, 17, 18, 19, 23 };
 			}
 			else if (from == 3)
 			{
@@ -209,6 +206,12 @@ namespace CiWong.OpenAPI.Work.Controllers
 			int totalItem = 0;
 
 			var list = _doWorkBase.GetDoWorkListForApi(new List<int>() { userId }, null, sonWorkTypes, DateTime.MinValue, DateTime.Now, workStatus, -1, ref totalItem, page, pageSize);
+
+			var recordIdList = list.Where(t => t.WorkType == DictHelper.WorkTypeEnum.电子书 || t.WorkType == DictHelper.WorkTypeEnum.电子报).Select(t => Convert.ToInt64(_workPublisher.redirectParmsArray(t.RedirectParm))).ToList();
+
+			var recordList = _workService.GetWorkResources(recordIdList).GroupBy(t => t.RecordId).ToDictionary(c => c.Key, c => c.ToList());
+
+			var userUnitWorks = _workService.GetUserUnitWorks(userId, recordIdList).Where(t => t.Status == 2 || t.Status == 3).ToDictionary(c => string.Concat(c.ContentId, "_", c.DoWorkId), c => c);
 
 			var workBaseList = _workBase.GetWorkBaseList(list.Select(t => t.WorkID).Distinct(), -1).ToDictionary(c => c.WorkID, c => c);
 
@@ -220,6 +223,8 @@ namespace CiWong.OpenAPI.Work.Controllers
 				PageList = list.Where(t => workBaseList.Keys.Contains(t.WorkID)).Select(t =>
 				{
 					var currWorkBase = workBaseList[t.WorkID];
+					var workPackageRecordId = Convert.ToInt64(_workPublisher.redirectParmsArray(t.RedirectParm));
+
 					return new
 					{
 						workId = t.WorkID,
@@ -246,7 +251,28 @@ namespace CiWong.OpenAPI.Work.Controllers
 						workScore = t.WorkScore,
 						effectiveDate = t.EffectiveDate,
 						isTimeout = t.EffectiveDate < DateTime.Now,
-						recordId = _workPublisher.redirectParmsArray(t.RedirectParm)
+						recordId = workPackageRecordId,
+						workResources = recordList.ContainsKey(workPackageRecordId) ? recordList[workPackageRecordId].Select(x =>
+						{
+							var unitWork = userUnitWorks.ContainsKey(string.Concat(x.ContentId, "_", t.DoWorkID)) ? userUnitWorks[string.Concat(x.ContentId, "_", t.DoWorkID)] : new UnitWorksContract();
+							return new
+							{
+								contentId = x.ContentId,
+								packageId = x.PackageId,
+								taskId = x.TaskId ?? string.Empty,
+								moduleId = x.ModuleId,
+								versionId = x.VersionId,
+								parentVersionId = GetRootVersionId(x.RelationPath),
+								sonModuleId = x.SonModuleId ?? string.Empty,
+								resourceName = x.ResourceName ?? string.Empty,
+								resourceType = x.ResourceType ?? string.Empty,
+								requirementContent = x.RequirementContent,
+								isFull = x.IsFull,
+								doId = unitWork.DoId,
+								actualScore = unitWork.ActualScore,
+								workStatus = unitWork.Status
+							};
+						}) : Enumerable.Empty<object>()
 					};
 				}).ToList()
 			};
@@ -338,6 +364,83 @@ namespace CiWong.OpenAPI.Work.Controllers
 						submitUserName = x.SubmitUserName,
 						workStatus = x.WorkStatus
 					}) : Enumerable.Empty<object>()
+				})
+			};
+		}
+
+		/// <summary>
+		/// 获取作业详细信息
+		/// </summary>
+		/// <param name="doworkId"></param>
+		/// <returns></returns>
+		[HttpGet, BasicAuthentication]
+		public dynamic do_work_info(long workId, int userId = 0)
+		{
+			userId = userId == 0 ? Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name) : userId;
+
+			var doWorkInfo = _doWorkBase.GetDoWorkBase(workId, userId);
+			var workBase = _workBase.GetWorkBase(workId);
+
+			if (null == doWorkInfo || null == workBase)
+			{
+				return new ApiArgumentException(ErrorCodeEum.Work_4708, "未找到指定的作业");
+			}
+
+			var workPackageRecordId = Convert.ToInt64(_workPublisher.redirectParmsArray(workBase.RedirectParm));
+
+			var recordIdList = workBase.WorkType == DictHelper.WorkTypeEnum.电子报 || workBase.WorkType == DictHelper.WorkTypeEnum.电子书 ? new List<long>() { workPackageRecordId } : Enumerable.Empty<long>();
+
+			var workPackageRecord = _workService.GetWorkResources(recordIdList);
+
+			var userUnitWorks = _workService.GetUserUnitWorks(userId, recordIdList).Where(t => t.Status == 2 || t.Status == 3).ToDictionary(c => string.Concat(c.ContentId, "_", c.DoWorkId), c => c);
+
+			return new
+			{
+				workId = doWorkInfo.WorkID,
+				doworkId = doWorkInfo.DoWorkID,
+				workName = doWorkInfo.WorkName,
+				workType = doWorkInfo.WorkType,
+				sonWorkType = ConvertSonWorkType((int)doWorkInfo.WorkType, doWorkInfo.SonWorkType),
+				publishUserId = workBase.PublishUserID,
+				publishUserName = workBase.PublishUserName ?? string.Empty,
+				sendDate = workBase.SendDate,
+				publishType = workBase.PublishType,
+				reviceId = workBase.ReviceUserID,
+				reviceName = workBase.ReviceUserName ?? string.Empty,
+				totalNum = workBase.TotalNum,
+				completedNum = workBase.CompletedNum,
+				markNum = workBase.MarkNum,
+				workDesc = workBase.WorkDesc ?? string.Empty,
+				submitUserId = doWorkInfo.SubmitUserID,
+				submitUserName = doWorkInfo.SubmitUserName ?? string.Empty,
+				submitDate = workBase.PublishDate,
+				workStatus = doWorkInfo.WorkStatus,
+				workLong = doWorkInfo.WorkLong,
+				actualScore = doWorkInfo.ActualScore,
+				workScore = doWorkInfo.WorkScore,
+				effectiveDate = doWorkInfo.EffectiveDate,
+				isTimeout = doWorkInfo.EffectiveDate < DateTime.Now,
+				recordId = workPackageRecordId,
+				workResources = workPackageRecord.Select(x =>
+				{
+					var unitWork = userUnitWorks.ContainsKey(string.Concat(x.ContentId, "_", doWorkInfo.DoWorkID)) ? userUnitWorks[string.Concat(x.ContentId, "_", doWorkInfo.DoWorkID)] : new UnitWorksContract();
+					return new
+					{
+						contentId = x.ContentId,
+						packageId = x.PackageId,
+						taskId = x.TaskId ?? string.Empty,
+						moduleId = x.ModuleId,
+						versionId = x.VersionId,
+						relationPath = x.RelationPath ?? string.Empty,
+						sonModuleId = x.SonModuleId ?? string.Empty,
+						resourceName = x.ResourceName ?? string.Empty,
+						resourceType = x.ResourceType ?? string.Empty,
+						requirementContent = x.RequirementContent,
+						isFull = x.IsFull,
+						doId = unitWork.DoId,
+						actualScore = unitWork.ActualScore,
+						workStatus = unitWork.Status
+					};
 				})
 			};
 		}
@@ -500,6 +603,20 @@ namespace CiWong.OpenAPI.Work.Controllers
 			{
 				return sonWorkType;
 			}
+		}
+
+		/// <summary>
+		/// 获取第一级资源版本ID
+		/// </summary>
+		/// <param name="relationPath"></param>
+		/// <returns></returns>
+		private string GetRootVersionId(string relationPath)
+		{
+			if (relationPath.IndexOf("/") > -1)
+			{
+				return relationPath.Split('/')[0];
+			}
+			return "0";
 		}
 	}
 }

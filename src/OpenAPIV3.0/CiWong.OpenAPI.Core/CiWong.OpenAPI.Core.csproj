@@ -51,10 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiResult.cs" />
+    <Compile Include="ErrorCodeEum.cs" />
     <Compile Include="Excepition\ApiException.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtensions.cs" />
     <Compile Include="Extensions\HttpResponseMessageHelper.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Filter\BasicAuthentication.cs" />
     <Compile Include="Filter\ApiExceptionAttribute.cs" />
     <Compile Include="Formatter\CustomJsonFormatter.cs" />

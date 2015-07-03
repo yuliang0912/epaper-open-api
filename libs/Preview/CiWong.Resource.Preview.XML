@@ -50,224 +50,6 @@
             定义缓存实体操作类
             </summary>
         </member>
-        <member name="M:CiWong.Resource.Preview.EnumHelper.GetDescription(System.Reflection.ICustomAttributeProvider)">
-            <summary>
-            获取Description特性的说明
-            </summary>
-            <param name="provider"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.EnumHelper.GetDescription(System.Enum)">
-            <summary>
-            获取指定枚举的描述内容
-            </summary>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.EnumHelper.ToEnum``1(System.String)">
-            <summary>
-            将一个枚举常数的名称转换成等效的枚举对象
-            </summary>
-            <typeparam name="TEnum"></typeparam>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.EnumHelper.ToEnum``1(System.Object)">
-            <summary>
-            将指定的32位整数转换为枚举成员
-            </summary>
-            <typeparam name="TEnum"></typeparam>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Extensions.Recursion``1(``0,System.Action{``0},System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
-            <summary>
-            递归
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Extensions.Recursion``1(``0,System.Action{``0,System.Int32},System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
-            <summary>
-            递归
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Extensions.Recursion``1(``0,``0,System.Action{``0,``0},System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
-            <summary>
-            递归
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.Extensions.Recursion``1(``0,``0,System.Int32,System.Action{``0,``0,System.Int32},System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
-            <summary>
-            递归
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="col">需要进行递归处理的对象</param>
-            <param name="parent">当前对象的上一层级对象</param>
-            <param name="index"></param>
-            <param name="handler">处理函数，第一个参数T：上一层级对象,第二个参数T：当前要处理的对象，第三个参数为当前对象在集合中的索引位置</param>
-            <param name="acquireNextCollection">获取递归下一层级</param>
-        </member>
-        <member name="T:CiWong.Resource.Preview.EncryptHelper">
-            <summary>
-            加密帮助类
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.EncryptHelper.SHA512(System.String)">
-            <summary>
-            sha512加密
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.EncryptHelper.MD5(System.String)">
-            <summary>
-            MD5加密	
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.EncryptHelper.HMACSHA1(System.String,System.String)">
-            <summary>
-            hmac1加密
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.GuidConvert.ToString16">
-            <summary>
-            根据GUID获取16位的唯一字符串
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.GuidConvert.ToLong">
-            <summary>
-            根据GUID获取19位的唯一数字序列
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.GuidConvert.ToUniqueId">
-            <summary>  
-            生成22位唯一的数字 并发可用  
-            </summary>  
-            <returns></returns>
-        </member>
-        <member name="T:CiWong.Resource.Preview.JSONHelper">
-            <summary>
-            JSON帮助类
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.JSONHelper.Encode``1(``0)">
-            <summary>
-            编码
-            </summary>
-            <typeparam name="T">类型</typeparam>
-            <param name="t">要转换的类型数据</param>
-            <returns>json字符串</returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.JSONHelper.Encode``1(``0,Newtonsoft.Json.Formatting)">
-            <summary>
-            编码
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="t"></param>
-            <param name="format"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.JSONHelper.Encode``1(``0,Newtonsoft.Json.JsonSerializerSettings)">
-            <summary>
-            编码
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="t"></param>
-            <param name="settings"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.JSONHelper.Decode``1(System.String)">
-            <summary>
-            解码
-            </summary>
-            <typeparam name="T">类型</typeparam>
-            <param name="json">json字符串</param>
-            <returns>类型数据</returns>
-        </member>
-        <member name="P:CiWong.Resource.Preview.JSONHelper.Settings">
-            <summary>
-            公共序列化配置
-            </summary>
-        </member>
-        <member name="T:CiWong.Resource.Preview.BigintConverter">
-            <summary>
-            Bigint类型转换处理,方便javascript识别,长整形自动转换成string
-            </summary>
-        </member>
-        <member name="F:CiWong.Resource.Preview.PhotoHelper.key">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.PhotoHelper.GetReadUserPhotoConfig">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.PhotoHelper.GetUserPhoto(System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="uin"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.PhotoHelper.GetUserPhoto(System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="uin"></param>
-            <param name="size"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.PhotoHelper.Gravatar(System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="uin"></param>
-            <param name="size"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.PhotoHelper.encrypt2(System.String)">
-            <summary>
-            md5Str=uid +""+sid 
-            </summary>
-            <param name="md5Str"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.PhotoHelper.md5One(System.Byte[],System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="retByte"></param>
-            <param name="md5Len"></param>
-            <returns></returns>
-        </member>
-        <member name="F:CiWong.Resource.Preview.PhotoHelper.HexCode">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:CiWong.Resource.Preview.PhotoHelper.byteArrayToHexString(System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="b"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CiWong.Resource.Preview.PhotoHelper.byteToHexString(System.Byte)">
-            <summary>
-            
-            </summary>
-            <param name="b"></param>
-            <returns></returns>
-        </member>
-        <member name="T:CiWong.Resource.Preview.Singleton`1">
-            <summary>
-            单例基类，集成自它的对象，都可以是单例对象。
-            要求必须有私有无参构造函数
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
         <member name="P:CiWong.Resource.Preview.Repositories.RepositoryBase.AdoProvide">
             <summary>
             数据驱动对象
@@ -381,6 +163,13 @@
             <param name="recordId"></param>
             <returns></returns>
         </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.GetWorkResources(System.Collections.Generic.IEnumerable{System.Int64})">
+            <summary>
+            根据打包记录id查询布置资源
+            </summary>
+            <param name="recordIds"></param>
+            <returns></returns>
+        </member>
         <member name="M:CiWong.Resource.Preview.Repositories.PublishRecordRepository.GetResourceParts(System.Int64)">
             <summary>
             根据资源内容id查询子资源
@@ -444,6 +233,14 @@
             获取用户单个单元完成详情
             </summary>
             <param name="doId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.GetUserUnitWorks(System.Int32,System.Collections.Generic.IEnumerable{System.Int64})">
+            <summary>
+            获取单元模块完成详情
+            </summary>
+            <param name="recordIds"></param>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:CiWong.Resource.Preview.Repositories.UnitWorksRepository.GetUserUnitWorks(System.Int64,System.Int64,System.Int32)">
@@ -687,6 +484,13 @@
             <param name="recordId"></param>
             <returns></returns>
         </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetWorkResources(System.Collections.Generic.IEnumerable{System.Int64})">
+            <summary>
+             根据打包ID获取资源集合
+            </summary>
+            <param name="recordIds"></param>
+            <returns></returns>
+        </member>
         <member name="M:CiWong.Resource.Preview.Service.WorkService.GetPublishRecord(System.Collections.Generic.IEnumerable{System.Int32},System.Collections.Generic.IEnumerable{System.Int32},System.Int64,System.String,System.Int32)">
             <summary>
             获取资源包创建记录
@@ -754,6 +558,14 @@
             </summary>
             <param name="recordId"></param>
             <param name="workId"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CiWong.Resource.Preview.Service.WorkService.GetUserUnitWorks(System.Int32,System.Collections.Generic.IEnumerable{System.Int64})">
+            <summary>
+            获取单元模块完成详情
+            </summary>
+            <param name="recordIds"></param>
             <param name="userId"></param>
             <returns></returns>
         </member>

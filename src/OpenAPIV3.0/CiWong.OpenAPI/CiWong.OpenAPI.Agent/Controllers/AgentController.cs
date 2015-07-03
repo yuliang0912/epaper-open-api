@@ -1,5 +1,6 @@
 ﻿using CiWong.Agent.ApiCore;
 using CiWong.OpenAPI.Core;
+using CiWong.Resource.BookRoom.Service;
 using CiWong.Users;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,12 @@ namespace CiWong.OpenAPI.Agent.Controllers
 	/// </summary>
 	public class AgentController : ApiController
 	{
+		private ProductInfoService productInfoService;
+		public AgentController(ProductInfoService _productInfoService)
+		{
+			this.productInfoService = _productInfoService;
+		}
+
 		/// <summary>
 		/// 为班级申请试用服务
 		/// </summary>
@@ -54,7 +61,7 @@ namespace CiWong.OpenAPI.Agent.Controllers
 			return new ApiResult()
 			{
 				Ret = (RetEum)result.ret,
-				ErrorCode = result.errcode,
+				ErrorCode = (ErrorCodeEum)result.errcode,
 				Message = result.msg
 			};
 		}
@@ -189,12 +196,21 @@ namespace CiWong.OpenAPI.Agent.Controllers
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		[HttpGet, HttpPost]
+		[HttpGet, HttpPost, BasicAuthentication]
 		public dynamic list_ciwong_shelf_book(int subjectId = 0, int periodId = 0, int gradeId = 0, string keyWords = "", int page = 1, int pageSize = 10)
 		{
 			int totalItem = 0;
 
 			var productList = PushProductProxy.GetCiWongBookList(ref totalItem, periodId, gradeId, subjectId, keyWords, page, pageSize);
+
+			var shelfBooks = new Dictionary<long, int>();
+
+			if (productList.Any())
+			{
+				var userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+				var productIds = string.Join(",", productList.Select(t => t.ProductId));
+				shelfBooks = productInfoService.GetExistsProductList(200002, userId, productIds).ToDictionary(c => Convert.ToInt64(c.ProductId), c => c.IsDisplay);
+			}
 
 			return new ApiPageList<object>()
 			{
@@ -209,6 +225,8 @@ namespace CiWong.OpenAPI.Agent.Controllers
 					cover = t.CoverImgUrl ?? string.Empty,
 					packageId = t.PackageId,
 					packageType = t.ProductType,
+					isPublish = shelfBooks.ContainsKey(t.ProductId) ? shelfBooks[t.ProductId] == 1 : false,
+					isAddShelf = shelfBooks.ContainsKey(t.ProductId),
 					teamId = t.TeamId,
 					teamName = t.TeamName,
 					period = t.ProductPeriod,

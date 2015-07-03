@@ -35,6 +35,12 @@
     <Reference Include="CiWong.Agent.ApiCore">
       <HintPath>..\..\..\..\libs\Store\CiWong.Agent.ApiCore.dll</HintPath>
     </Reference>
+    <Reference Include="CiWong.Resource.BookRoom">
+      <HintPath>..\..\..\..\libs\BookCase\CiWong.Resource.BookRoom.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Resource.BookRoom.DataContracts">
+      <HintPath>..\..\..\..\libs\BookCase\CiWong.Resource.BookRoom.DataContracts.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Tools.Package">
       <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Tools.Package.dll</HintPath>
     </Reference>

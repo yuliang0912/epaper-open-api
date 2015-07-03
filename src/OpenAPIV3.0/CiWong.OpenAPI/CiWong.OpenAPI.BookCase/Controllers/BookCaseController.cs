@@ -27,7 +27,7 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 		}
 
 		/// <summary>
-		/// 验证资源包中的资源使用权限(1:有 2:无 )
+		/// 验证资源包中的资源使用权限(1:购买书籍 2:无权使用 3:已买书籍但过期 4:免费资源 5:开通服务 6:开通服务但过期)
 		/// </summary>
 		/// <param name="packageId"></param>
 		/// <param name="versionId"></param>
@@ -35,6 +35,11 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 		[HttpGet, BasicAuthentication]
 		public int is_can(long packageId, long versionId = 0)
 		{
+			if (DateTime.Now < new DateTime(2015, 9, 1))
+			{
+				return 4;
+			}
+
 			//是否资源被设置成免费
 			if (versionId > 0)
 			{
@@ -101,7 +106,8 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 					packageId = t.PackageId,
 					productName = t.ProductName,
 					packageType = t.Type,
-					cover = t.Cover
+					cover = t.Cover,
+					isPublish = t.IsDisplay == 1
 				})
 			};
 		}
@@ -122,7 +128,7 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 
 			if (null == package)
 			{
-				return new ApiArgumentException("未找到指定的资源包", 1);
+				return new ApiArgumentException(ErrorCodeEum.Resource_5001, "未找到指定的资源包");
 			}
 
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
@@ -130,7 +136,7 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 
 			if (null == userInfo)
 			{
-				return new ApiArgumentException("错误的用户", 2);
+				return new ApiArgumentException(ErrorCodeEum.BookCase_4901, "未找到指定的用户");
 			}
 
 			#region 参数实体构建
@@ -143,14 +149,14 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 			productInfo.Type = package.GroupType;
 			productInfo.Author = package.TeamName;
 			productInfo.Cover = package.Cover;
-			productInfo.Summary = package.Description;
+			productInfo.Summary = package.Introduction;
 			productInfo.Price = Convert.ToDecimal(package.Price);
 			productInfo.CreateDate = package.CreateTime;
 			productInfo.AreaType = package.AreaType;
 			productInfo.ProvinceId = package.ProvinceId;
-			productInfo.ProvinceName = package.ProvincelName;
+			productInfo.ProvinceName = package.ProvincelName ?? string.Empty;
 			productInfo.CityId = package.CityId;
-			productInfo.CityName = package.CityName;
+			productInfo.CityName = package.CityName ?? string.Empty;
 			productInfo.PeriodId = package.PeriodId;
 			productInfo.GradeId = package.GradeId;
 			productInfo.SubjectId = package.SubjectId;
@@ -177,6 +183,11 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 
 			var result = productInfoService.Add(new List<ProductInfoContract>() { productInfo }, new List<UserproductContract>() { userProduct }, DateTime.Now, productInfo.IsDisplay);
 
+			if (!result.IsSucceed)
+			{
+				return new ApplicationException(result.Message);
+			}
+
 			return result.IsSucceed;
 		}
 
@@ -194,21 +205,21 @@ namespace CiWong.OpenAPI.BookCase.Controllers
 
 			if (!productInfoService.ExistsProduct(appId, productId.ToString(), userId))
 			{
-				return new ApiArgumentException("书柜中不存在指定的书籍", 1);
+				return new ApiArgumentException(ErrorCodeEum.BookCase_4902, "书柜中不存在指定的书籍");
 			}
 
 			var productInfo = productInfoService.GetEntity(appId, productId.ToString());
 
 			if (null == productInfo)
 			{
-				return new ApiArgumentException("未找到指定的书籍", 2);
+				return new ApiArgumentException(ErrorCodeEum.BookCase_4903, "未找到指定的书籍");
 			}
 
 			var package = packageService.GetPackageForApi(productInfo.PackageId);
 
 			if (package.AreaType == -1)
 			{
-				return new ApiArgumentException("当前书籍不允许添加到电子作业", 3);
+				return new ApiArgumentException(ErrorCodeEum.BookCase_4904, "当前书籍不允许添加到电子作业");
 			}
 
 			return userproductService.SetIsDisplay(userId, appId, productId.ToString(), isPublish == 1 ? 1 : 0);

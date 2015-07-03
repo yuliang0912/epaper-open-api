@@ -26,16 +26,6 @@ namespace CiWong.OpenAPI.ExpandWork.DTO
 		public long PackageId { get; set; }
 
 		/// <summary>
-		/// 资源名称
-		/// </summary>
-		public string PackageName { get; set; }
-
-		/// <summary>
-		/// 产品类型(1电子书,2课程,3电子报)
-		/// </summary>
-		public int PackageType { get; set; }
-
-		/// <summary>
 		/// 作业资源集合
 		/// </summary>
 		public IEnumerable<WorkResourceDTO> workResources { get; set; }

@@ -8,7 +8,7 @@ namespace CiWong.OpenAPI.Core
 	/// </summary>
 	public class ApiException : Exception
 	{
-		public ApiException(RetEum ret, int errCode, string message, HttpStatusCode status = HttpStatusCode.OK)
+		public ApiException(RetEum ret = RetEum.Success, ErrorCodeEum errCode = ErrorCodeEum.Success, string message = "success", HttpStatusCode status = HttpStatusCode.OK)
 		{
 			this.Ret = ret;
 			this.ErrCode = errCode;
@@ -24,7 +24,7 @@ namespace CiWong.OpenAPI.Core
 		/// <summary>
 		/// 错误码
 		/// </summary>
-		public int ErrCode { get; set; }
+		public ErrorCodeEum ErrCode { get; set; }
 
 		/// <summary>
 		/// 错误信息
@@ -42,38 +42,30 @@ namespace CiWong.OpenAPI.Core
 	/// </summary>
 	public class ApiArgumentException : ApiException
 	{
-		public ApiArgumentException(string message, int errCode = 1) : base(RetEum.ArgumentError, errCode, message) { }
+		public ApiArgumentException(ErrorCodeEum errCode, string message) : base(RetEum.Success, errCode, message) { }
 	}
 
-	/// <summary>
-	/// 空参数异常
-	/// </summary>
-	public class ApiArgumentNullException : ApiException
-	{
-		public ApiArgumentNullException(string message, int errCode = 2) : base(RetEum.ArgumentError, errCode, message) { }
-	}
+	///// <summary>
+	///// 空参数异常
+	///// </summary>
+	//public class ApiArgumentNullException : ApiException
+	//{
+	//	public ApiArgumentNullException(string message, int errCode = 2) : base(RetEum.Success, errCode, message) { }
+	//}
 
-	/// <summary>
-	/// 数据格式异常
-	/// </summary>
-	public class ApiFormatException : ApiException
-	{
-		public ApiFormatException(string message = "数据格式错误", int errCode = 1) : base(RetEum.ApplicationError, errCode, message) { }
-	}
+	///// <summary>
+	///// 数据格式异常
+	///// </summary>
+	//public class ApiArgumentFormatException : ApiException
+	//{
+	//	public ApiArgumentFormatException(string message = "数据格式错误", int errCode = 1) : base(RetEum.Success, errCode, message) { }
+	//}
 
-	/// <summary>
-	/// 数组/集合下标越界异常
-	/// </summary>
-	public class ApiIndexOutOfException : ApiException
-	{
-		public ApiIndexOutOfException(string message = "下标越界错误", int errCode = 1) : base(RetEum.ApplicationError, errCode, message) { }
-	}
-
-	/// <summary>
-	/// 鉴权失败
-	/// </summary>
-	public class ApiAuthenticationException : ApiException
-	{
-		public ApiAuthenticationException(string message = "鉴权失败", int errCode = 1) : base(RetEum.AuthenticationFailure, errCode, message) { }
-	}
+	///// <summary>
+	///// 数组/集合下标越界异常
+	///// </summary>
+	//public class ApiArgumentIndexOutOfException : ApiException
+	//{
+	//	public ApiArgumentIndexOutOfException(string message = "下标越界错误", int errCode = 1) : base(RetEum.Success, errCode, message) { }
+	//}
 }

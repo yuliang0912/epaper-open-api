@@ -347,6 +347,37 @@
             <param name="workStatus">作业状态( -1:全部未取消的 0:全部 1:待上交 2:正在完成 3:已提交 4.已取消 5:待发送 6:待批改)</param>
             <param name="curriculum">科目ID,小于1则忽略</param>
         </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetWorkStatisticals(System.Int32,System.Int32,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            获取作业统计记录基本信息
+            </summary>
+            <param name="year">查询的年份</param>
+            <param name="month">查询的月份</param>
+            <param name="totalItem">查询的总记录数</param>
+            <param name="pageIndex">查询的页面</param>
+            <param name="pageSize">查询的页面大小</param>
+            <returns>匹配的统计信息的记录</returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetWorkStatisticalDetail(System.Collections.Generic.List{System.Int64},System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据作业Id获取作业统计记录的学生完成情况作业详情
+            </summary>
+            <param name="workIds">作业Id</param>
+            <param name="totalItem">总记录数</param>
+            <param name="pageIndex">页面数</param>
+            <param name="pageSize">页面大小</param>
+            <returns>学生的具体完成情况作业详情</returns>
+        </member>
+        <member name="M:CiWong.Work.Contract.IWorkBase.GetWorkStatisticalDetailByDate(System.DateTime,System.Int32@,System.Int32,System.Int32)">
+            <summary>
+            根据具体日期获取作业统计记录的学生完成情况作业详情
+            </summary>
+            <param name="filterDate">过滤的日期</param>
+            <param name="totalItem">总记录数</param>
+            <param name="pageIndex">页面数</param>
+            <param name="pageSize">页面大小</param>
+            <returns>学生的具体完成情况作业详情</returns>
+        </member>
         <member name="M:CiWong.Work.Contract.IWorkBase.GetLastPublish(System.Int32,System.Collections.Generic.IEnumerable{System.Int32},System.Collections.Generic.IEnumerable{System.String},System.Int32)">
             <summary>
             获取最后布置的作业

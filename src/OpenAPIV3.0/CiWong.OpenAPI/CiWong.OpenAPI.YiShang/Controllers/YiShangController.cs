@@ -1,10 +1,6 @@
 ﻿using CiWong.OpenAPI.Core;
 using CiWong.YiShang.YiShang;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace CiWong.OpenAPI.YiShang.Controllers
@@ -36,10 +32,7 @@ namespace CiWong.OpenAPI.YiShang.Controllers
 				tearmId = 459986237;
 				categorytype = 2370;
 			}
-			else
-			{
-				throw new ApiArgumentException("type不在指定的范围之内");
-			}
+
 			var list = _productRepository.GetProductListToBookCase(productId, 1001, 1, page - 1, pageSize, true, tearmId, categorytype);
 
 			return new ApiPageList<object>()
@@ -53,6 +46,7 @@ namespace CiWong.OpenAPI.YiShang.Controllers
 					productName = t.ProductName ?? string.Empty,
 					cover = t.Cover ?? string.Empty,
 					packageId = t.PackageId,
+					packageType = t.PackageType,
 					appId = 200002
 				})
 			};

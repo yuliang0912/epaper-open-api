@@ -16,7 +16,7 @@ namespace CiWong.OpenAPI.Core.Filter
 				ApiException apiException = exception as ApiException;
 				if (null == apiException)
 				{
-					apiException = new ApiException(RetEum.ApplicationError, 1, exception.Message, HttpStatusCode.OK);
+					apiException = new ApiException(RetEum.ServerError, ErrorCodeEum.ServiceError, exception.Message, HttpStatusCode.OK);
 				}
 				actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(apiException.HttpStatus, apiException);
 			}

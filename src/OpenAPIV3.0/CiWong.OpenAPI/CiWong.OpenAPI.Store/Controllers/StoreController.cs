@@ -1,7 +1,11 @@
 ﻿using CiWong.Agent.ApiCore;
 using CiWong.OpenAPI.Core;
+using CiWong.Resource.BookRoom.Service;
 using CiWong.Tools.Package.Services;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web.Http;
 
 namespace CiWong.OpenAPI.Store.Controllers
@@ -9,9 +13,11 @@ namespace CiWong.OpenAPI.Store.Controllers
 	public class StoreController : ApiController
 	{
 		private PackageService packageService;
-		public StoreController(PackageService _packageService)
+		private ProductInfoService productInfoService;
+		public StoreController(PackageService _packageService, ProductInfoService _productInfoService)
 		{
 			this.packageService = _packageService;
+			this.productInfoService = _productInfoService;
 		}
 
 		/// <summary>
@@ -21,11 +27,6 @@ namespace CiWong.OpenAPI.Store.Controllers
 		[HttpGet]
 		public dynamic newspaper_books(long schoolId, int type, int productId = 0, int page = 1, int pageSize = 10)
 		{
-			if (type != 1)
-			{
-				return new ApiArgumentException("type不在指定的范围之内");
-			}
-
 			int totalItem = 0, pageCount = 0;
 
 			var list = PushProductProxy.GetPutawayProductList(page, pageSize, schoolId, out totalItem, out pageCount, productId, 380448713, 3);
@@ -173,7 +174,7 @@ namespace CiWong.OpenAPI.Store.Controllers
 
 			if (null == package)
 			{
-				return new ApiArgumentException("未找到指定的资源包", 1);
+				return new ApiArgumentException(ErrorCodeEum.Resource_5001, "未找到指定的资源包");
 			}
 
 			return new
@@ -185,6 +186,60 @@ namespace CiWong.OpenAPI.Store.Controllers
 				packageId = package.PackageId,
 				packageType = package.GroupType,
 			};
+		}
+
+		/// <summary>
+		/// 获取校园书店中的书籍
+		/// </summary>
+		/// <param name="schoolId">学校ID</param>
+		/// <param name="gradeId">年级ID</param>
+		/// <param name="subjectId">科目ID</param>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		[HttpGet, HttpPost, BasicAuthentication]
+		public dynamic list_product(long schoolId, int gradeId = 0, int subjectId = 0, int page = 1, int pageSize = 10)
+		{
+			var productResult = PushProductProxy.GetProductListBySchoolId(schoolId, gradeId: gradeId, subjectId: subjectId, pageIndex: page, pageSize: pageSize);
+
+			var shelfBooks = new Dictionary<long, int>();
+
+			if (productResult.DataList.Any())
+			{
+				var userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+				var productIds = string.Join(",", productResult.DataList.Select(t => t.ProductId));
+				shelfBooks = productInfoService.GetExistsProductList(200003, userId, productIds).ToDictionary(c => Convert.ToInt64(c.ProductId), c => c.IsDisplay);
+			}
+
+			return new ApiPageList<object>()
+			{
+				Page = page,
+				PageSize = pageSize,
+				TotalCount = (int)productResult.RecordCount,
+				PageList = productResult.DataList.Select(t => new
+				{
+					appId = t.ProductId == t.PackageId ? 200003 : 200002,
+					productId = t.ProductId.ToString(),
+					productName = t.ProductName ?? string.Empty,
+					cover = t.CoverImgUrl ?? string.Empty,
+					packageId = t.PackageId,
+					packageType = t.ProductType,
+					isPublish = shelfBooks.ContainsKey(t.ProductId) ? shelfBooks[t.ProductId] == 1 : false,
+					isAddShelf = shelfBooks.ContainsKey(t.ProductId),
+					price = t.Price
+				})
+			};
+		}
+
+		/// <summary>
+		/// 是否开通校园书店
+		/// </summary>
+		/// <param name="schoolId"></param>
+		/// <returns></returns>
+		[HttpGet, HttpPost]
+		public dynamic is_open_school_store(long schoolId)
+		{
+			return PushProductProxy.SchoolExist(schoolId);
 		}
 	}
 }		 

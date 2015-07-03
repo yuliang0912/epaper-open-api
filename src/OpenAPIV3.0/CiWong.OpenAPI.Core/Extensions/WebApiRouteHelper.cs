@@ -73,7 +73,7 @@ namespace CiWong.OpenAPI.Core
             if (fullNames.Count() == 0)
             {
 				throw new HttpResponseException(request.CreateErrorResponse(HttpStatusCode.OK,
-                        string.Format("No route providing a controller name was found to match request URI '{0}'", new object[] { request.RequestUri })));
+                    string.Format("No route providing a controller name was found to match request URI '{0}'", new object[] { request.RequestUri })));
             }
 
             if (this._apiControllerCache.Value.TryGetValue(fullNames.First(), out type))

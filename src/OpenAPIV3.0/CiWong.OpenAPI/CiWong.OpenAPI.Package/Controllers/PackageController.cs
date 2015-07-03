@@ -46,7 +46,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 
 			if (null == package)
 			{
-				return new ApiArgumentException("未找到指定的资源包", 1);
+				return new ApiArgumentException(ErrorCodeEum.Resource_5001, "未找到指定的资源包");
 			}
 
 			return new
@@ -75,13 +75,32 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 
 			if (!string.IsNullOrWhiteSpace(cid))
 			{
-				result = result.Where(t => t.ID == cid).ToList();
+				var resultFilter = result.Where(t => t.ID == cid).FirstOrDefault();
+
+				if (null == resultFilter)
+				{
+					return Enumerable.Empty<object>();
+				}
+
+				resultFilter.Recursion(item =>
+				{
+					item.Children = result.Where(c => c.ParentId != null && c.ParentId.Equals(item.ID)).OrderBy(c => c.DisplayOrder);
+				}, item => item.Children);
+
+				return new List<object>
+				{
+					new	
+					{
+						id = resultFilter.ID ?? string.Empty,
+						name = resultFilter.Name ?? string.Empty,
+						children = resultFilter.Children.Select(t => CatalogueFunc(t))
+					}
+				};
 			}
 			else if (isDesc)
 			{
 				result = result.OrderByDescending(t => t.DisplayOrder).ToList();
 			}
-
 
 			var catalogueTree = result.Where(item => item.Level.Equals(1));
 			foreach (var catalogue in catalogueTree)
@@ -114,7 +133,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 
 			if (null == packageCategoryContent || !packageCategoryContent.Any())
 			{
-				return new ApiException(RetEum.ApplicationError, 1, "未找到资源");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5004, "当前目录中未找到资源");
 			}
 
 			var moduleIdList = new List<int>();

@@ -19,26 +19,17 @@ namespace CiWong.OpenAPI.Core
 		{
 			var identity = ParseAuthorizationHeader(actionContext);
 
-			if (null == identity || !int.TryParse(identity.Name, out userId))
+			if (null == identity || !int.TryParse(identity.Name, out userId) || userId < 1)
 			{
 				actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, new ApiResult()
 				{
 					Ret = RetEum.AuthenticationFailure,
-					ErrorCode = 1,
+					ErrorCode = ErrorCodeEum.UserAuthenticationError,
 					Message = "用户鉴权失败"
 				});
 				return;
 			}
-			if (userId < 1)
-			{
-				actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, new ApiResult()
-				{
-					Ret = RetEum.AuthenticationFailure,
-					ErrorCode = 2,
-					Message = "用户鉴权失败"
-				});
-				return;
-			}
+
 			Thread.CurrentPrincipal = new GenericPrincipal(identity, null);
 			base.OnAuthorization(actionContext);
 		}

@@ -73,7 +73,7 @@ namespace CiWong.OpenAPI.Core
 							{
 								var exception = (HttpError)value;
 								string message = string.Join(",", exception.Select(t => string.Concat(t.Key, ":", t.Value)));
-								result = new ApiResult() { Ret = RetEum.HttpError, ErrorCode = 1, Message = message };
+								result = new ApiResult() { Ret = RetEum.ServerError, ErrorCode = ErrorCodeEum.HttpError, Message = message };
 							}
 							else
 							{

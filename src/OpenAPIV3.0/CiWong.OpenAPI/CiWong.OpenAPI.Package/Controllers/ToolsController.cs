@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Web.Http;
 using CiWong.OpenAPI.Core;
+using CiWong.OpenAPI.Core.Extensions;
 using CiWong.Tools.Workshop.DataContracts;
 using CiWong.Tools.Workshop.Services;
-using CiWong.Framework.Helper;
 
 namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 {
@@ -21,21 +21,20 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			var result = ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowRead, versionId);
 			if (!result.IsSucceed)
 			{
-				return new ApiException(RetEum.ApplicationError, 2, "内部代码异常");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5003, "资源接口内部异常错误");
 			}
 			var data = (SyncFollowReadContract)result.Data.FirstOrDefault();
 			if (data == null)
 			{
-				return new ApiArgumentException("参数versionId错误，未找到指定资源");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5002, "参数versionId错误，未找到指定资源");
 			}
-			return data.Parts.Where(t => t.ModuleId == ResourceModuleOptions.Word)
-				.SelectMany(t => t.List).Select(t => new
-				{
-					id = t.Id ?? 0,
-					versionId = t.VersionId ?? 0,
-					name = t.Name ?? string.Empty,
-					resourceModuleId = t.ModuleId ?? Guid.Empty
-				});
+			return data.Parts.Where(t => t.ModuleId == ResourceModuleOptions.Word).SelectMany(t => t.List).Select(t => new
+			{
+				id = t.Id ?? 0,
+				versionId = t.VersionId ?? 0,
+				name = t.Name ?? string.Empty,
+				resourceModuleId = t.ModuleId ?? Guid.Empty
+			});
 		}
 
 		/// <summary>
@@ -49,12 +48,12 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			var result = ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowRead, versionId);
 			if (!result.IsSucceed)
 			{
-				return new ApiException(RetEum.ApplicationError, 2, "内部代码异常");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5003, "资源接口内部异常错误");
 			}
 			var data = (SyncFollowReadContract)result.Data.FirstOrDefault();
 			if (data == null)
 			{
-				return new ApiArgumentException("参数versionId错误，未找到指定资源");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5002, "参数versionId错误，未找到指定资源");
 			}
 			var wordVersionList =
 				data.Parts.Where(t => t.ModuleId == ResourceModuleOptions.Word)
@@ -67,7 +66,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 
 			if (!wordList.IsSucceed)
 			{
-				return new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5003, "资源接口内部异常错误");
 			}
 			var words = wordList.Data.Where(t => t != null).OfType<WordContract>();
 			return words.Select(x => new
@@ -96,13 +95,13 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			var result = ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowReadText, versionId);
 			if (!result.IsSucceed)
 			{
-				return new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5003, "资源接口内部异常错误");
 			}
 			var data = (SyncFollowReadTextContract)result.Data.FirstOrDefault();
 
 			if (data == null)
 			{
-				return new ApiArgumentException("参数versionId错误，未找到指定资源");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5002, "参数versionId错误，未找到指定资源");
 			}
 
 			return data.Sections.SelectMany(t => t.Sentences).Select(x => new
@@ -125,7 +124,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 				moduleId = m.ModuleId ?? Guid.Empty,
 				trunk = new
 				{
-					body = m.Trunk != null ? (m.Trunk.Body ?? string.Empty).RemoveHtmlTag() : string.Empty,
+					body = m.Trunk != null ? (m.Trunk.Body ?? string.Empty).RemoveHtml() : string.Empty,
 					attachments = m.Trunk != null
 						? m.Trunk.Attachments.Select(p => new
 						{
@@ -143,7 +142,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 					isAnswer = o.IsAnswer ? 1 : 0,
 					value = o.Value.Select(u => new
 					{
-						body = (u.Body ?? string.Empty).RemoveHtmlTag(),
+						body = (u.Body ?? string.Empty).RemoveHtml(),
 						attachments = u.Attachments != null
 							? u.Attachments.Select(p => new
 							{
@@ -172,13 +171,13 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			var result = ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.ListeningAndSpeaking, versionId);
 			if (!result.IsSucceed)
 			{
-				return new ApiException(RetEum.ApplicationError, 1, "内部代码异常");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5003, "资源接口内部异常错误");
 			}
 
 			var x = result.Data.Where(t => t != null).OfType<ListeningAndSpeakingContract>().FirstOrDefault();
 			if (x == null)
 			{
-				return new ApiException(RetEum.ApplicationError, 1, "未找到资源");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5002, "参数versionId错误，未找到指定资源");
 			}
 			return new
 			{

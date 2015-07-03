@@ -44,6 +44,12 @@
     <Reference Include="CiWong.Relation.WCFProxy">
       <HintPath>..\..\..\..\libs\CiWong.Relation.WCFProxy.dll</HintPath>
     </Reference>
+    <Reference Include="CiWong.Resource.BookRoom">
+      <HintPath>..\..\..\..\libs\BookCase\CiWong.Resource.BookRoom.dll</HintPath>
+    </Reference>
+    <Reference Include="CiWong.Resource.BookRoom.DataContracts">
+      <HintPath>..\..\..\..\libs\BookCase\CiWong.Resource.BookRoom.DataContracts.dll</HintPath>
+    </Reference>
     <Reference Include="CiWong.Users">
       <HintPath>..\..\..\..\libs\CiWong.Users.dll</HintPath>
     </Reference>

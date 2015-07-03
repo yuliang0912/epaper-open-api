@@ -23,7 +23,7 @@ namespace CiWong.OpenAPI.Core
 		/// 接口内部状态码
 		/// </summary>
 		[JsonProperty(PropertyName = "errcode")]
-		public int ErrorCode { get; set; }
+		public ErrorCodeEum ErrorCode { get; set; }
 
 		/// <summary>
 		/// 简单信息描述

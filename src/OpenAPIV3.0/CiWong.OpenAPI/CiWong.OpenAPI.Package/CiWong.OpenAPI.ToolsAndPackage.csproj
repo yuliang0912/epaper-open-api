@@ -35,9 +35,6 @@
     <Reference Include="Autofac">
       <HintPath>..\..\..\..\libs\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="CiWong.Framework.Helper">
-      <HintPath>..\..\..\..\libs\CiWong.Framework.Helper.dll</HintPath>
-    </Reference>
     <Reference Include="CiWong.Helper">
       <HintPath>..\..\..\..\libs\ToolsAndPackage\CiWong.Helper.dll</HintPath>
     </Reference>
