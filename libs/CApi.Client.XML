@@ -44,7 +44,7 @@
             习信通知接口
             </summary>
         </member>
-        <member name="M:CApi.Client.NotifyClient.PublishWorkRequst(System.Int32,System.String,System.String,System.String,System.String,System.DateTime,System.DateTime,System.Int32[])">
+        <member name="M:CApi.Client.NotifyClient.PublishWorkRequst(System.Int32,System.String,System.Int32,System.String,System.String,System.String,System.DateTime,System.DateTime,System.Int32[])">
             <summary>
             发送作业通知
             </summary>
@@ -57,7 +57,7 @@
             <param name="submitDateTime">完成时间</param>
             <param name="receiveUser">接收者</param>
         </member>
-        <member name="M:CApi.Client.NotifyClient.PublishWorkRequst(System.Int32,System.String,System.String,System.String,System.String,System.DateTime,System.DateTime,System.Int32[],System.Int32,System.Int32,System.Int32,System.Int64)">
+        <member name="M:CApi.Client.NotifyClient.PublishWorkRequst(System.Int32,System.String,System.Int64,System.String,System.String,System.String,System.DateTime,System.DateTime,System.Int32[],System.Int32,System.Int32,System.Int32,System.Int64)">
             <summary>
             发送作业通知
             </summary>
@@ -72,6 +72,7 @@
             <param name="worktype">作业类型</param>
             <param name="subworktype">作业类型-子类型</param>
             <param name="sonSubWorkType">作业类型-孙子类型</param>
+            <param name="workId">作业ID</param>
             <param name="appid"></param>
         </member>
         <member name="M:CApi.Client.NotifyClient.AddFriendRequst(System.Int32,System.String,System.Int32,System.DateTime,System.Int32,System.Int64)">
