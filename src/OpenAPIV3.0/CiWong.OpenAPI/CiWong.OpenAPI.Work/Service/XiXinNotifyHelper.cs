@@ -51,8 +51,9 @@ namespace CiWong.OpenAPI.Work.Service
 				default:
 					break;
 			}
-			System.Threading.Tasks.Task.Factory.StartNew(() =>
-			 new NotifyClient().PublishWorkRequst(workBase.PublishUserID, workBase.PublishUserName, workBase.WorkID, workBase.WorkName, viewUrl, string.Format("http://w.ciwong.com/teacher/Redirect?workId={0}{1}", workBase.WorkID, workBase.SonWorkType == 23 ? "&jumpcode=zykc" : string.Empty), workBase.SendDate, workBase.EffectiveDate, userList.Select(t => t.Key).ToArray(), (int)workBase.WorkType, ConvertSonWorkType((int)workBase.WorkType, workBase.SonWorkType), 0, 3));
+			//System.Threading.Tasks.Task.Factory.StartNew(() =>
+			new NotifyClient().PublishWorkRequst(workBase.PublishUserID, workBase.PublishUserName, workBase.WorkID, workBase.WorkName, viewUrl, string.Format("http://w.ciwong.com/teacher/Redirect?workId={0}{1}", workBase.WorkID, workBase.SonWorkType == 23 ? "&jumpcode=zykc" : string.Empty), workBase.SendDate, workBase.EffectiveDate, userList.Select(t => t.Key).ToArray(), (int)workBase.WorkType, ConvertSonWorkType((int)workBase.WorkType, workBase.SonWorkType), 0, 3);
+			//);
 		}
 
         private static string redirectParmsArray(string redirectParm, int index)

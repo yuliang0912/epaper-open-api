@@ -72,7 +72,7 @@ namespace CiWong.OpenAPI.Core
 							else if (value is HttpError)
 							{
 								var exception = (HttpError)value;
-								string message = string.Join(",", exception.Select(t => string.Concat(t.Key, ":", t.Value)));
+								var message = string.Join(",", exception.Select(t => string.Concat(t.Key, ":", t.Value)));
 								result = new ApiResult() { Ret = RetEum.ServerError, ErrorCode = ErrorCodeEum.HttpError, Message = message };
 							}
 							else

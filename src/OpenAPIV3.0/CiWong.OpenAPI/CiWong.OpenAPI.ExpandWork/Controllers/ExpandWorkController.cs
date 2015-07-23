@@ -432,7 +432,7 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 			{
 				return new ApiArgumentException(ErrorCodeEum.ExpandWork_4816, "答案中不包含任何附件");
 			}
-			
+
 			var doWorkBase = _workBaseService.GetDoWorkBase(fileWorkAnswer.DoWorkId);
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
@@ -703,11 +703,12 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiArgumentException(ErrorCodeEum.ExpandWork_4820, "未找到指定的附件作业或者作业尚未完成");
 			}
 
-			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
-			if (fileWork.SubmitUserId != userId)
-			{
-				return new ApiArgumentException(ErrorCodeEum.ExpandWork_4821, "当前用户没有作业查看权限");
-			}
+			//作业快传老师和家长需要查看作业
+			//int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+			//if (fileWork.SubmitUserId != userId)
+			//{
+			//	return new ApiArgumentException(ErrorCodeEum.ExpandWork_4821, "当前用户没有作业查看权限");
+			//}
 
 			var workAnswer = _workService.GetAnswer(fileWork.DoId, 3, fileWork.RecordId);
 
@@ -991,36 +992,28 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				return new ApiArgumentException(ErrorCodeEum.ExpandWork_4811, "未找到指定的作业资源");
 			}
 
-			var resourceParts = new List<long>();
-			var wordList = new CiWong.Tools.Workshop.DataContracts.ReturnResult<IEnumerable<CiWong.Tools.Workshop.DataContracts.ResourceContract>>();
-
+			var wordList = new CiWong.Tools.Workshop.DataContracts.ReturnResult<IEnumerable<CiWong.Tools.Workshop.DataContracts.WordContract>>();
 			if (workResource.IsFull)
 			{
-				resourceParts = _workService.GetResourceParts(contentId).Select(t => t.VersionId).ToList();
+				var resourceParts = _workService.GetResourceParts(contentId).Select(t => t.VersionId).ToArray();
 
-				wordList = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Word, resourceParts.ToArray());
+				wordList = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds<CiWong.Tools.Workshop.DataContracts.WordContract>(resourceParts);
 			}
-			else
+			if (wordList.Data == null || !wordList.Data.Any())
 			{
-				var result = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowRead, workResource.VersionId);
+				var result = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionId<CiWong.Tools.Workshop.DataContracts.SyncFollowReadContract>(workResource.VersionId);
 
-				var data = (CiWong.Tools.Workshop.DataContracts.SyncFollowReadContract)result.Data.FirstOrDefault();
-				if (data == null)
+				if (result.Data == null)
 				{
 					return new ApiArgumentException(ErrorCodeEum.ExpandWork_4830, "参数versionId错误，未找到指定资源");
 				}
-				var wordVersionList =
-					data.Parts.Where(t => t.ModuleId == ResourceModuleOptions.Word)
-						.SelectMany(t => t.List).Select(t => t.VersionId)
-						.Where(t => t != null)
-						.OfType<long>();
+				var wordVersionList = result.Data.Parts.Where(t => t.ModuleId == ResourceModuleOptions.Word)
+					.SelectMany(t => t.List).Where(t => t.VersionId.HasValue).Select(t => t.VersionId.Value).ToArray();
 
-				wordList = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.Word, wordVersionList.ToArray());
+				wordList = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds<CiWong.Tools.Workshop.DataContracts.WordContract>(wordVersionList);
 			}
 
-			var words = wordList.Data.Where(t => t != null).OfType<CiWong.Tools.Workshop.DataContracts.WordContract>();
-
-			return words.Select(x => new
+			return wordList.Data.Select(x => new
 			{
 				wId = x.VersionId ?? 0,
 				words = x.Name ?? string.Empty,
@@ -1057,16 +1050,14 @@ namespace CiWong.OpenAPI.ExpandWork.Controllers
 				resourceParts = _workService.GetResourceParts(contentId).Where(t => t.ResourceType == ResourceModuleOptions.Phrase.ToString()).Select(t => t.VersionId).ToList();
 			}
 
-			var result = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionIds(ResourceModuleOptions.SyncFollowReadText, workResource.VersionId);
+			var result = CiWong.Tools.Workshop.Services.ResourceServices.Instance.GetByVersionId<CiWong.Tools.Workshop.DataContracts.SyncFollowReadTextContract>(workResource.VersionId);
 
-			var data = (CiWong.Tools.Workshop.DataContracts.SyncFollowReadTextContract)result.Data.FirstOrDefault();
-
-			if (data == null)
+			if (!result.IsSucceed || result.Data == null)
 			{
 				return new ApiArgumentException(ErrorCodeEum.ExpandWork_4830, "参数versionId错误，未找到指定资源");
 			}
 
-			var sentences = data.Sections.SelectMany(t => t.Sentences).ToList();
+			var sentences = result.Data.Sections.SelectMany(t => t.Sentences).ToList();
 
 			if (resourceParts.Any())
 			{

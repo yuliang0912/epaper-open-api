@@ -84,6 +84,10 @@ namespace CiWong.OpenAPI.Work.Controllers
 			{
 				return new ApiArgumentException(ErrorCodeEum.Work_4706, "作业截止时间不能小于当前时间");
 			}
+			if (workPackageRecordId < 1 && (workType == 101 || workType == 102 || workType == 103))
+			{
+				return new ApiArgumentException(ErrorCodeEum.Work_4711, "参数recordId不正确");
+			}
 
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
@@ -431,6 +435,7 @@ namespace CiWong.OpenAPI.Work.Controllers
 						taskId = x.TaskId ?? string.Empty,
 						moduleId = x.ModuleId,
 						versionId = x.VersionId,
+						parentVersionId = GetRootVersionId(x.RelationPath),
 						relationPath = x.RelationPath ?? string.Empty,
 						sonModuleId = x.SonModuleId ?? string.Empty,
 						resourceName = x.ResourceName ?? string.Empty,

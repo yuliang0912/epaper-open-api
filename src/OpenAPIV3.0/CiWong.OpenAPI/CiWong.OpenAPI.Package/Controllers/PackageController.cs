@@ -4,34 +4,21 @@ using System.Linq;
 using System.Web.Http;
 using CiWong.OpenAPI.Core;
 using CiWong.Tools.Package;
-using CiWong.Tools.Package.DataContracts;
 using CiWong.Tools.Package.Services;
-using CiWong.Tools.Workshop.DataContracts;
-using CiWong.Tools.Workshop.Services;
-using ResourceContract = CiWong.Tools.Package.DataContracts.ResourceContract;
+using CiWong.OpenAPI.ToolsAndPackage.Helper;
+using CiWong.Examination.API;
 
 namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 {
 	public class PackageController : ApiController
 	{
+		private IExaminationAPI examApi;
 		private PackageService packageService;
 		public static readonly List<int> newsPaperModuleSortArray = new List<int> { 7, 10, 15, 18, 9, 5, 8 };
-		public PackageController(PackageService _packageService)
+		public PackageController(PackageService _packageService, IExaminationAPI _examApi)
 		{
+			this.examApi = _examApi;
 			this.packageService = _packageService;
-		}
-
-		private object CatalogueFunc(PackageCatalogueContract m)
-		{
-			return new
-			{
-				id = m.ID ?? string.Empty,
-				name = m.Name ?? string.Empty,
-				children =
-					m.Children != null
-						? m.Children.Select(t => CatalogueFunc(t))
-						: Enumerable.Empty<PackageCatalogueContract>()
-			};
 		}
 
 		/// <summary>
@@ -93,7 +80,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 					{
 						id = resultFilter.ID ?? string.Empty,
 						name = resultFilter.Name ?? string.Empty,
-						children = resultFilter.Children.Select(t => CatalogueFunc(t))
+						children = resultFilter.Children.Select(t => ToolsHelper.CatalogueFunc(t))
 					}
 				};
 			}
@@ -115,9 +102,75 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			{
 				id = x.ID ?? string.Empty,
 				name = x.Name ?? string.Empty,
-				children = x.Children.Select(t => CatalogueFunc(t))
+				children = x.Children.Select(t => ToolsHelper.CatalogueFunc(t))
 			});
 		}
+
+		///// <summary>
+		///// 获取书籍章节内容
+		///// </summary>
+		///// <param name="packageId">资源包ID,必选</param>
+		///// <param name="cId">目录ID(最末级目录id),必选</param>
+		///// <param name="isFilter">目是否过滤同步讲练</param>
+		///// <returns></returns>
+		//[HttpGet]
+		//public dynamic book_resources(long packageId, string cId, string moduleIds = "", string versionIds = "", bool isFilter = true)
+		//{
+		//	var packageCategoryContent = packageService.GetTaskResultContentsForApi(packageId, cId, false);
+
+		//	if (null == packageCategoryContent || !packageCategoryContent.Any())
+		//	{
+		//		return new ApiArgumentException(ErrorCodeEum.Resource_5004, "当前目录中未找到资源");
+		//	}
+
+		//	var moduleIdList = new List<int>();
+		//	var versionIdList = new List<long>();
+		//	if (!string.IsNullOrWhiteSpace(moduleIds))
+		//	{
+		//		moduleIdList = moduleIds.Split(',').Select(t => Convert.ToInt32(t)).ToList();
+		//	}
+		//	if (!string.IsNullOrEmpty(versionIds))
+		//	{
+		//		versionIdList = versionIds.Split(',').Select(t => Convert.ToInt64(t)).ToList();
+		//	}
+		//	if (moduleIdList.Any())
+		//	{
+		//		packageCategoryContent = packageCategoryContent.Where(t => moduleIdList.Contains(t.ModuleId)).ToList();
+		//	}
+		//	if (versionIdList.Any())
+		//	{
+		//		packageCategoryContent = packageCategoryContent.Where(t => versionIdList.Contains(t.ResourceVersionId)).ToList();
+		//	}
+		//	if (isFilter)
+		//	{
+		//		packageCategoryContent = packageCategoryContent.Where(t => t.ModuleId != 9).ToList();
+		//	}
+
+		//	var taskResultContent = packageCategoryContent.
+		//							OrderBy(t => newsPaperModuleSortArray.IndexOf(t.ModuleId)).
+		//							GroupBy(t => t.ModuleId).
+		//							ToDictionary(c => c.Key, c => c.OrderBy(x => x.DisplayOrder).ToList());
+
+		//	var jsonData = taskResultContent.Select(t => new
+		//	{
+		//		moduleInfo = new
+		//		{
+		//			packageCatalogueId = cId ?? string.Empty,
+		//			moduleId = t.Key,
+		//			moduleName = t.Value.First().ModuleName ?? string.Empty
+		//		},
+		//		resourceList = ToolsHelper.ResourceList(t.Value).Select(m => new
+		//		{
+		//			parentVersionId = m.Id != null ? m.Id.Value : 0,
+		//			versionId = m.VersionId ?? 0,
+		//			name = m.Name ?? string.Empty,
+		//			resourceModuleId = m.ModuleId ?? Guid.Empty
+		//		})
+		//	});
+
+		//	return jsonData;
+		//}
+
 
 		/// <summary>
 		/// 获取书籍章节内容
@@ -129,11 +182,13 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		[HttpGet]
 		public dynamic book_resources(long packageId, string cId, string moduleIds = "", string versionIds = "", bool isFilter = true)
 		{
-			var packageCategoryContent = packageService.GetTaskResultContentsForApi(packageId, cId, false);
+			var taskResultCategories = packageService.GetTaskResultCategoriesForApi(packageId, cId);
+			var taskResultContents = packageService.GetTaskResultContentsForApi(packageId, cId, false).OrderBy(t => t.DisplayOrder).ToList();
 
-			if (null == packageCategoryContent || !packageCategoryContent.Any())
+			if (!taskResultContents.Any() || !taskResultCategories.Any())
 			{
-				return new ApiArgumentException(ErrorCodeEum.Resource_5004, "当前目录中未找到资源");
+				return Enumerable.Empty<object>();
+				//return new ApiArgumentException(ErrorCodeEum.Resource_5004, "当前目录中未找到资源");
 			}
 
 			var moduleIdList = new List<int>();
@@ -148,155 +203,28 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			}
 			if (moduleIdList.Any())
 			{
-				packageCategoryContent = packageCategoryContent.Where(t => moduleIdList.Contains(t.ModuleId)).ToList();
+				taskResultCategories = taskResultCategories.Where(t => moduleIdList.Contains(t.ModuleId)).ToList();
 			}
 			if (versionIdList.Any())
 			{
-				packageCategoryContent = packageCategoryContent.Where(t => versionIdList.Contains(t.ResourceVersionId)).ToList();
+				taskResultContents = taskResultContents.Where(t => versionIdList.Contains(t.ResourceVersionId)).ToList();
 			}
 			if (isFilter)
 			{
-				packageCategoryContent = packageCategoryContent.Where(t => t.ModuleId != 9).ToList();
+				taskResultCategories = taskResultCategories.Where(t => t.ModuleId != 9).ToList();
 			}
 
-			var taskResultContent = packageCategoryContent.
-									OrderBy(t => newsPaperModuleSortArray.IndexOf(t.ModuleId)).
-									ThenBy(t => t.DisplayOrder).
-									GroupBy(t => t.ModuleId).
-									ToDictionary(c => c.Key, c => c.ToList());
+			var taskResultContentDict = taskResultContents.GroupBy(c => c.CatalogueId).ToDictionary(c => c.Key, c => c.ToList());
 
-			Func<List<TaskResultContentContract>, List<ResourceContract>> getResourceList = (resuletContents) =>
-			{
-				var list = new List<ResourceContract>();
-
-				var resourceModuleId = new Guid(resuletContents.First().ResourceModuleId);
-
-				if (resourceModuleId.Equals(ResourceModuleOptions.SyncFollowRead)) //同步跟读
-				{
-					var syncFollowReadResult =
-						ResourceServices.Instance.GetByVersionIds<SyncFollowReadContract>(
-							resuletContents.Select(t => t.ResourceVersionId).ToArray());
-
-					if (null == syncFollowReadResult || !syncFollowReadResult.IsSucceed || !syncFollowReadResult.Data.Any())
-					{
-						return list;
-					}
-
-					foreach (var syncFollowRead in syncFollowReadResult.Data)
-					{
-						foreach (var part in syncFollowRead.Parts)
-						{
-							if (null == part.List || !part.List.Any())
-							{
-								continue;
-							}
-							if (part.ModuleId == ResourceModuleOptions.Word)
-							{
-								list.Add(new ResourceContract()
-								{
-									Id = syncFollowRead.VersionId,
-									VersionId = 0,
-									Name = string.Format("【{0}】 {1}", "课后单词表", syncFollowRead.Name),
-									ModuleId = part.ModuleId
-								});
-							}
-							else if (part.ModuleId == ResourceModuleOptions.SyncFollowReadText)
-							{
-								list.AddRange(part.List.Select(t => new ResourceContract()
-								{
-									Id = syncFollowRead.VersionId,
-									VersionId = t.VersionId,
-									Name = string.Format("【{0}】 {1}", t.Name, syncFollowRead.Name),
-									ModuleId = t.ModuleId
-								}));
-							}
-						}
-					}
-				}
-				else if (resourceModuleId.Equals(ResourceModuleOptions.News))//新闻
-				{
-					var newsResult =
-						ResourceServices.Instance.GetByVersionIds<NewsContract>(
-							resuletContents.Select(t => t.ResourceVersionId).ToArray());
-					if (null == newsResult || !newsResult.IsSucceed || !newsResult.Data.Any())
-					{
-						return list;
-					}
-					foreach (var item in newsResult.Data)
-					{
-						if (null == item.Parts || !item.Parts.Any())
-						{
-							continue;
-						}
-						foreach (var part in item.Parts)
-						{
-							if (null == part.List || !part.List.Any())
-							{
-								continue;
-							}
-							list.AddRange(part.List.Select(t => new ResourceContract()
-							{
-								Id = item.VersionId,
-								VersionId = t.VersionId,
-								Name = string.Format("【{0}】 {1}", part.Name, t.Name),
-								ModuleId = t.ModuleId
-							}));
-						}
-					}
-				}
-				else if (resourceModuleId.Equals(ResourceModuleOptions.SyncTrain))//同步讲练
-				{
-					var syncTrainResult =
-						ResourceServices.Instance.GetByVersionIds<CiWong.Tools.Workshop.DataContracts.SyncTrainContract>(
-							resuletContents.Select(t => t.ResourceVersionId).ToArray());
-					if (null == syncTrainResult || !syncTrainResult.IsSucceed || !syncTrainResult.Data.Any())
-					{
-						return list;
-					}
-					foreach (var item in syncTrainResult.Data)
-					{
-						if (null == item.Parts || !item.Parts.Any())
-						{
-							continue;
-						}
-						foreach (var part in item.Parts)
-						{
-							if (null == part.List || !part.List.Any())
-							{
-								continue;
-							}
-							list.AddRange(part.List.Select(t => new ResourceContract()
-							{
-								Id = item.VersionId,
-								VersionId = t.VersionId,
-								Name = string.Format("【{0}】 {1}", part.Name, t.Name),
-								ModuleId = t.ModuleId
-							}));
-						}
-					}
-				}
-				else //其他不查询子模块内容的
-				{
-					list = resuletContents.Select(t => new ResourceContract()
-					{
-						Id = 0,
-						VersionId = t.ResourceVersionId,
-						Name = t.ResourceName,
-						ModuleId = new Guid(t.ResourceModuleId)
-					}).ToList();
-				}
-				return list;
-			};
-
-			var jsonData = taskResultContent.Select(t => new
+			var jsonData = taskResultCategories.Where(t => taskResultContentDict.ContainsKey(t.Id)).Select(t => new
 			{
 				moduleInfo = new
 				{
 					packageCatalogueId = cId ?? string.Empty,
-					moduleId = t.Key,
-					moduleName = t.Value.First().ModuleName ?? string.Empty
+					moduleId = t.ModuleId,
+					moduleName = t.Name ?? string.Empty
 				},
-				resourceList = getResourceList(t.Value).Select(m => new
+				resourceList = ToolsHelper.ResourceList(taskResultContentDict[t.Id]).Select(m => new
 				{
 					parentVersionId = m.Id != null ? m.Id.Value : 0,
 					versionId = m.VersionId ?? 0,
@@ -306,6 +234,16 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			});
 
 			return jsonData;
+		}
+
+		[HttpGet]
+		public dynamic File(long packageId, string cid)
+		{
+			ToolsHelper.CreateResourceDirectory(packageId, cid);
+			//ToolsHelper.CreateCatalogue(packageService, packageId, cid);
+			ToolsHelper.CreateCatalogueResources(packageService, packageId, cid);
+
+			return 2;
 		}
 	}
 }
