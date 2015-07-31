@@ -240,7 +240,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		public dynamic File(long packageId, string cid)
 		{
 			ToolsHelper.CreateResourceDirectory(packageId, cid);
-			//ToolsHelper.CreateCatalogue(packageService, packageId, cid);
+			ToolsHelper.CreateMainInfo(packageService, packageId, cid);
 			ToolsHelper.CreateCatalogueResources(packageService, packageId, cid);
 
 			return 2;

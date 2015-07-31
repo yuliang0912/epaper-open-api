@@ -72,7 +72,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 		{
 			string filePath = path + "/" + fileName;
 
-			File.WriteAllText(filePath, fileContent, Encoding.UTF8);
+			File.WriteAllText(filePath, fileContent, new System.Text.UTF8Encoding(false));
 		}
 		#endregion
 
@@ -87,46 +87,45 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 			CreateDirectory(catalogueDirectory);
 			CreateDirectory(catalogueDirectory, "resource");
 			CreateDirectory(catalogueDirectory, "media");
-			CreateDirectory(catalogueDirectory, "analytical");
 		}
 
 		/// <summary>
-		/// 创建目录结构JSON
+		/// 创建主json说明
 		/// </summary>
-		public static void CreateCatalogue(PackageService packageService, long packageId, string cid)
+		/// <param name="packageService"></param>
+		/// <param name="packageId"></param>
+		/// <param name="cid"></param>
+		public static void CreateMainInfo(PackageService packageService, long packageId, string cid)
 		{
-			var result = packageService.GetCataloguesForApi(packageId, true);
+			var package = packageService.GetPackageForApi(packageId);
 
-			var resultFilter = result.Where(t => t.ID == cid).FirstOrDefault();
-
-			if (null == resultFilter)
+			if (null == package || package.GroupType == 2 || package.GroupType == 4)
 			{
-				throw new ApiArgumentException(ErrorCodeEum.Resource_5005, "未找到指定的目录");
+				throw new ApiArgumentException(ErrorCodeEum.Resource_5006, "未找到指定的资源包或者资源包格式不正确");
 			}
-
-			//resultFilter.Recursion(item =>
-			//{
-			//	item.Children = result.Where(c => c.ParentId != null && c.ParentId.Equals(item.ID)).OrderBy(c => c.DisplayOrder);
-			//}, item => item.Children);
-
-			//var catalogue = new
-			//{
-			//	id = resultFilter.ID ?? string.Empty,
-			//	name = resultFilter.Name ?? string.Empty,
-			//	children = resultFilter.Children.Select(t => CatalogueFunc(t))
-			//};
-
-			var catalogue = new
-			{
-				packageId = packageId,
-				cid = cid,
-				createTime = DateTime.Now,
-				createUserId = 155014
-			};
 
 			var catalogueDirectory = string.Concat(baseDirectory, "/catalogue_", packageId, "_", cid.Trim());
 
-			ToolsHelper.CreateFile(catalogueDirectory, "catalogue.json", JSONHelper.Encode<object>(catalogue));
+			string fileName = DownLoadFile(catalogueDirectory, package.Cover);
+
+			var mainInfo = new
+			{
+				packageId = package.PackageId,
+				packageName = package.BookName,
+				packageType = package.GroupType,
+				cover = package.Cover.Replace(package.Cover, "media/" + fileName),
+				price = package.Price,
+				subjectId = package.SubjectId,
+				periodId = package.PeriodId,
+				gradeId = package.GradeId,
+				teamId = package.TeamId,
+				teamName = package.TeamName,
+				currCatalogueId = cid,
+				jsonVersion = "1.0",
+				crateTime = DateTime.Now
+			};
+
+			ToolsHelper.CreateFile(catalogueDirectory, "main.json", JSONHelper.Encode<object>(mainInfo));
 		}
 
 		/// <summary>
@@ -147,39 +146,35 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 
 			var allResource = new List<ResourceContract>();
 
-			var jsonData = new
+			var jsonData = taskResultCategories.Where(t => taskResultContentDict.ContainsKey(t.Id)).Select(t =>
 			{
-				packageId = packageId,
-				cid = cid,
-				createTime = DateTime.Now,
-				createUserId = 155014,
-				resources = taskResultCategories.Where(t => taskResultContentDict.ContainsKey(t.Id)).Select(t =>
+				var resourceList = ToolsHelper.ResourceList(taskResultContentDict[t.Id]);
+				allResource.AddRange(resourceList);
+				return new
 				{
-					var resourceList = ToolsHelper.ResourceList(taskResultContentDict[t.Id]);
-					allResource.AddRange(resourceList);
-					return new
+					moduleInfo = new
 					{
-						moduleInfo = new
-						{
-							packageCatalogueId = cid ?? string.Empty,
-							moduleId = t.ModuleId,
-							moduleName = t.Name ?? string.Empty
-						},
-						resourceList = resourceList.Select(m => new
-						{
-							parentVersionId = m.Id != null ? m.Id.Value : 0,
-							versionId = m.VersionId ?? 0,
-							name = m.Name ?? string.Empty,
-							resourceModuleId = m.ModuleId ?? Guid.Empty,
-							analytical = GetAnalytical(m.ModuleId.Value)
-						})
-					};
-				})
-			};
+						packageCatalogueId = cid ?? string.Empty,
+						moduleId = t.ModuleId,
+						moduleName = t.Name ?? string.Empty
+					},
+					resourceList = resourceList.Select(m => new
+					{
+						parentVersionId = m.Id != null ? m.Id.Value : 0,
+						versionId = m.VersionId ?? 0,
+						name = m.Name ?? string.Empty,
+						resourceModuleId = m.ModuleId ?? Guid.Empty
+					})
+				};
+			});
 
 			var catalogueDirectory = string.Concat(baseDirectory, "/catalogue_", packageId, "_", cid.Trim());
+
 			ToolsHelper.CreateFile(catalogueDirectory, "catalogue.json", JSONHelper.Encode<object>(jsonData));
-			CreateResources(allResource, catalogueDirectory);
+
+			CreateResources(allResource, catalogueDirectory, packageId, cid);
+
+			ZipHelper.ZipFileDirectory(catalogueDirectory, baseDirectory + string.Format("/catalogue_{0}_{1}.zip", packageId, cid));
 		}
 
 		/// <summary>
@@ -187,7 +182,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 		/// </summary>
 		/// <param name="allResource"></param>
 		/// <param name="catalogueDirectory"></param>
-		public static void CreateResources(List<ResourceContract> allResource, string catalogueDirectory)
+		public static void CreateResources(List<ResourceContract> allResource, string catalogueDirectory, long packageId, string cid)
 		{
 			var jsonData = new object();
 			var resourceList = new Dictionary<string, string>();
@@ -220,7 +215,8 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 							sentFile = x.Sentences.Any() ? ConverAudioUrl(x.Sentences.First().AudioUrl) : string.Empty,
 							wordPic = x.PictureUrl ?? string.Empty
 						});
-						resourceList.Add(key, JSONHelper.Encode<object>(jsonData));
+						resourceList.Add(key, JSONHelper.Encode<object>(jsonData)); //课后单词表
+						resourceList.Add(string.Concat("3ac07125-31ac-11e5-a511-782bcb066f05", item.VersionId.Value, ".json"), resourceList[key]);//报听写
 						break;
 
 					case "992a5055-e9d0-453f-ab40-666b4d7030bb"://跟读-课文
@@ -270,14 +266,6 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 						resourceList.Add(key, JSONHelper.Encode<object>(jsonData));
 						resourceList.Add(string.Concat("e9430760-9f2e-4256-af76-3bd8980a9de4_", item.VersionId.Value, ".json"), JSONHelper.Encode<object>(newListeningAndSpeaking));
 						break;
-
-					case "1f693f76-02f5-4a40-861d-a8503df5183f": //试卷
-						var examApi = DependencyResolver.Current.GetService<IExaminationAPI>();
-						var examination = examApi.GetExaminationModel(item.VersionId.Value);
-						var newExamination = WikiQuesConvertHelper.ConvertExamination(examination);
-						resourceList.Add(key, JSONHelper.Encode<object>(newExamination));
-						break;
-
 					default:
 						break;
 				}
@@ -291,25 +279,9 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 				foreach (var url in urlList)
 				{
 					string fileName = ToolsHelper.DownLoadFile(catalogueDirectory, url);
-					content = content.Replace(url, "media/" + fileName);
+					content = content.Replace(url, string.Concat("../packages/catalogue_", packageId, "_", cid, "/media/" + fileName));
 				}
 				ToolsHelper.CreateFile(catalogueDirectory + "/resource", item.Key, content);
-			}
-
-			using (var pro = new Process())
-			{
-
-				pro.StartInfo.FileName = @"C:\Program Files\WinRAR\WinRAR.exe";//WinRAR所在路径  
-				pro.StartInfo.Arguments = string.Format("a {0} {1} -ep1 -r -afzip -s- -rr", catalogueDirectory, catalogueDirectory);
-				if (!pro.Start())
-				{
-					throw new Exception(pro.StartInfo.FileName + "启动失败");
-				}
-				var timespan = pro.TotalProcessorTime;
-				if (!pro.WaitForExit(600000))
-				{
-					pro.Kill();
-				}
 			}
 		}
 
@@ -518,11 +490,6 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 				}),
 				children = m.Children != null ? m.Children.Select(t => QuestionFunc(t)) : Enumerable.Empty<QuestionContract>()
 			};
-		}
-
-		public static string GetAnalytical(Guid resourceTypeId)
-		{
-			return "equipment";
 		}
 	}
 }
