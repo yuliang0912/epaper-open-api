@@ -29,7 +29,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 		{
 			get
 			{
-				return AppDomain.CurrentDomain.BaseDirectory + "/filePackage";
+				return AppDomain.CurrentDomain.BaseDirectory + "filePackage\\";
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 		/// </summary>
 		public static void CreateResourceDirectory(long packageId, string cid)
 		{
-			var catalogueDirectory = string.Concat(baseDirectory, "/catalogue_", packageId, "_", cid.Trim());
+			var catalogueDirectory = string.Concat(baseDirectory, "catalogue_", packageId, "_", cid.Trim());
 
 			CreateDirectory(baseDirectory);
 			CreateDirectory(catalogueDirectory);
@@ -101,19 +101,19 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 
 			if (null == package || package.GroupType == 2 || package.GroupType == 4)
 			{
-				throw new ApiArgumentException(ErrorCodeEum.Resource_5006, "未找到指定的资源包或者资源包格式不正确");
+				throw new ApiArgumentException(ErrorCodeEum.Resource_5004, "未找到指定的资源包或者资源包格式不正确");
 			}
 
-			var catalogueDirectory = string.Concat(baseDirectory, "/catalogue_", packageId, "_", cid.Trim());
+			var catalogueDirectory = string.Concat(baseDirectory, "catalogue_", packageId, "_", cid.Trim());
 
-			string fileName = DownLoadFile(catalogueDirectory, package.Cover);
+			string fileName = string.IsNullOrEmpty(package.Cover) ? "" : DownLoadFile(catalogueDirectory, package.Cover);
 
 			var mainInfo = new
 			{
 				packageId = package.PackageId,
 				packageName = package.BookName,
 				packageType = package.GroupType,
-				cover = package.Cover.Replace(package.Cover, "media/" + fileName),
+				cover = string.IsNullOrEmpty(package.Cover) ? "" : package.Cover.Replace(package.Cover, "media/" + fileName),
 				price = package.Price,
 				subjectId = package.SubjectId,
 				periodId = package.PeriodId,
@@ -131,8 +131,11 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 		/// <summary>
 		/// 创建目录中的资源
 		/// </summary>
-		public static void CreateCatalogueResources(PackageService packageService, long packageId, string cid)
+		public static void CreateCatalogueResources(PackageService packageService, long packageId, string cid, ref string zipedFilePath)
 		{
+			CreateResourceDirectory(packageId, cid);//创建资源目录
+			CreateMainInfo(packageService, packageId, cid);//创建主json说明
+
 			var taskResultCategories = packageService.GetTaskResultCategoriesForApi(packageId, cid);
 			var taskResultContents = packageService.GetTaskResultContentsForApi(packageId, cid, false).OrderBy(t => t.DisplayOrder).ToList();
 
@@ -168,13 +171,13 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 				};
 			});
 
-			var catalogueDirectory = string.Concat(baseDirectory, "/catalogue_", packageId, "_", cid.Trim());
+			var catalogueDirectory = string.Concat(baseDirectory, "catalogue_", packageId, "_", cid.Trim());
 
 			ToolsHelper.CreateFile(catalogueDirectory, "catalogue.json", JSONHelper.Encode<object>(jsonData));
 
 			CreateResources(allResource, catalogueDirectory, packageId, cid);
-
-			ZipHelper.ZipFileDirectory(catalogueDirectory, baseDirectory + string.Format("/catalogue_{0}_{1}.zip", packageId, cid));
+			zipedFilePath = baseDirectory + string.Format("catalogue_{0}_{1}.zip", packageId, cid);
+			ZipHelper.ZipFileDirectory(catalogueDirectory, zipedFilePath);
 		}
 
 		/// <summary>
@@ -191,6 +194,10 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 			foreach (var item in allResource)
 			{
 				string key = string.Concat(item.ModuleId.Value.ToString(), "_", item.VersionId.Value == 0 ? item.Id.Value : item.VersionId.Value, ".json");
+				if (resourceList.ContainsKey(key))
+				{
+					continue;
+				}
 				switch (item.ModuleId.Value.ToString())
 				{
 					case "05a3bf23-b65b-4d7f-956c-5db2b76b9c11": //时文-文章
@@ -216,7 +223,12 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 							wordPic = x.PictureUrl ?? string.Empty
 						});
 						resourceList.Add(key, JSONHelper.Encode<object>(jsonData)); //课后单词表
-						resourceList.Add(string.Concat("3ac07125-31ac-11e5-a511-782bcb066f05", item.VersionId.Value, ".json"), resourceList[key]);//报听写
+						string tmpKey1 = string.Concat("3ac07125-31ac-11e5-a511-782bcb066f05", item.VersionId.Value, ".json");
+						if (resourceList.ContainsKey(tmpKey1))
+						{
+							continue;
+						}
+						resourceList.Add(tmpKey1, resourceList[key]);//报听写
 						break;
 
 					case "992a5055-e9d0-453f-ab40-666b4d7030bb"://跟读-课文
@@ -264,7 +276,12 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 						};
 						var newListeningAndSpeaking = ListenConvertHepler.ConvertSpeak(listeningAndSpeaking);
 						resourceList.Add(key, JSONHelper.Encode<object>(jsonData));
-						resourceList.Add(string.Concat("e9430760-9f2e-4256-af76-3bd8980a9de4_", item.VersionId.Value, ".json"), JSONHelper.Encode<object>(newListeningAndSpeaking));
+						string tmpKey2 = string.Concat("e9430760-9f2e-4256-af76-3bd8980a9de4_", item.VersionId.Value, ".json");
+						if (resourceList.ContainsKey(tmpKey2))
+						{
+							continue;
+						}
+						resourceList.Add(tmpKey2, JSONHelper.Encode<object>(newListeningAndSpeaking));
 						break;
 					default:
 						break;
@@ -278,10 +295,13 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 				var urlList = StringExtensions.MatchsFileUrl(item.Value);
 				foreach (var url in urlList)
 				{
-					string fileName = ToolsHelper.DownLoadFile(catalogueDirectory, url);
-					content = content.Replace(url, string.Concat("../packages/catalogue_", packageId, "_", cid, "/media/" + fileName));
+					string fileName = string.IsNullOrEmpty(url) ? "" : ToolsHelper.DownLoadFile(catalogueDirectory, url);
+					content = string.IsNullOrEmpty(url) ? content : content.Replace(url, string.Concat("../packages/catalogue_", packageId, "_", cid, "/media/" + fileName));
 				}
-				ToolsHelper.CreateFile(catalogueDirectory + "/resource", item.Key, content);
+				if (!string.IsNullOrEmpty(item.Key))
+				{
+					ToolsHelper.CreateFile(catalogueDirectory + "/resource", item.Key, content);
+				}
 			}
 		}
 
@@ -383,10 +403,11 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 					}
 					foreach (var part in item.Parts)
 					{
-						if (null == part.List || !part.List.Any())
+						if (part.Id == "2" || null == part.List || !part.List.Any())
 						{
 							continue;
 						}
+
 						list.AddRange(part.List.Select(t => new ResourceContract()
 						{
 							Id = item.VersionId,
@@ -463,13 +484,13 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 				{
 					body = m.Trunk != null ? (m.Trunk.Body ?? string.Empty).RemoveHtml() : string.Empty,
 					attachments = m.Trunk != null ? m.Trunk.Attachments.Select(p => new
-						{
-							id = p.Id,
-							name = p.Name ?? string.Empty,
-							url = ConverAudioUrl(p.Url, p.FileType),
-							fileType = p.FileType,
-							position = (int)p.Position
-						}) : Enumerable.Empty<object>()
+					{
+						id = p.Id,
+						name = p.Name ?? string.Empty,
+						url = ConverAudioUrl(p.Url, p.FileType),
+						fileType = p.FileType,
+						position = (int)p.Position
+					}) : Enumerable.Empty<object>()
 				},
 				options = m.Options.Select(o => new
 				{
@@ -479,17 +500,45 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 					{
 						body = (u.Body ?? string.Empty).RemoveHtml(),
 						attachments = u.Attachments != null ? u.Attachments.Select(p => new
-							{
-								id = p.Id,
-								name = p.Name ?? string.Empty,
-								url = ConverAudioUrl(p.Url, p.FileType),
-								fileType = p.FileType,
-								position = (int)p.Position
-							}) : Enumerable.Empty<object>()
+						{
+							id = p.Id,
+							name = p.Name ?? string.Empty,
+							url = ConverAudioUrl(p.Url, p.FileType),
+							fileType = p.FileType,
+							position = (int)p.Position
+						}) : Enumerable.Empty<object>()
 					})
 				}),
 				children = m.Children != null ? m.Children.Select(t => QuestionFunc(t)) : Enumerable.Empty<QuestionContract>()
 			};
+		}
+
+		public static Tuple<long, long> GetVersionInfo(string versionStr)
+		{
+			if (string.IsNullOrWhiteSpace(versionStr))
+			{
+				throw new ApiArgumentException(ErrorCodeEum.Resource_5008, "二维码数据格式错误");
+			}
+
+			var versionList = versionStr.Split('_').Select(c => Convert.ToInt64(c));
+			if (versionList.Count() > 1)
+			{
+				return new Tuple<long, long>(versionList.Last(), versionList.First());
+			}
+			else
+			{
+				return new Tuple<long, long>(versionList.Last(), 0);
+			}
+		}
+
+		public static string GetModuleInfo(string moduleStr)
+		{
+			if (string.IsNullOrWhiteSpace(moduleStr))
+			{
+				throw new ApiArgumentException(ErrorCodeEum.Resource_5008, "二维码数据格式错误");
+			}
+
+			return moduleStr.Split('_').Last();
 		}
 	}
 }

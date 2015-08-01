@@ -108,7 +108,19 @@ namespace CiWong.OpenAPI.Core
 		Resource_5002 = 5002,
 		Resource_5003 = 5003,
 		Resource_5004 = 5004,
-		Resource_5005 = 5005
+		Resource_5005 = 5005,
+		/// <summary>
+		/// 未找到指定的资源包或者资源包格式不正确
+		/// </summary>
+		Resource_5006 = 5006,
+		/// <summary>
+		/// 未找到指定的二维码
+		/// </summary>
+		Resource_5007 = 5007,
+		/// <summary>
+		/// 二维码数据格式错误
+		/// </summary>
+		Resource_5008 = 5008
 		#endregion
 	}
 }

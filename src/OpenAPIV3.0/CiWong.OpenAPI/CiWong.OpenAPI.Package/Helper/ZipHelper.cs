@@ -118,7 +118,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 			{
 				using (ZipOutputStream s = new ZipOutputStream(zipFile))
 				{
-					string zipedFileName = Path.GetFileNameWithoutExtension(zipedFile);
+					string zipedFileName = Path.GetFileName(zipedFile);
 					ZipSetp(strDirectory, s, "", zipedFileName);
 					s.Flush();
 				}
@@ -135,7 +135,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 		{
 			if (strDirectory[strDirectory.Length - 1] != Path.DirectorySeparatorChar)
 			{
-				strDirectory += Path.DirectorySeparatorChar;
+				strDirectory += Path.AltDirectorySeparatorChar;
 			}
 			Crc32 crc = new Crc32();//循环冗余校验码
 			string[] filenames = Directory.GetFileSystemEntries(strDirectory).Where(p => zipedFileName == "" || !p.Contains(zipedFileName)).ToArray();

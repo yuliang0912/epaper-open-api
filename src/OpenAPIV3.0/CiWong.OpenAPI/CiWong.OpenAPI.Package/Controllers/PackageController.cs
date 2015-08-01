@@ -236,14 +236,62 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			return jsonData;
 		}
 
+
+		/// <summary>
+		/// 根据二维码key获取资源列表
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic qr_code_resource(string key)
+		{
+			var codeContent = new CodeService().GetCodeContents(key, string.Empty);
+
+			if (null == codeContent)
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5007, "未找到指定的二维码");
+			}
+
+			var package = packageService.GetPackageForApi(codeContent.PackageId);
+
+			if (null == package)
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5001, "二维码信息错误,未找到指定的资源包");
+			}
+
+			return new
+			{
+				key = key,
+				codeName = codeContent.Name,
+				packageId = codeContent.PackageId,
+				packageName = package.BookName,
+				resourceList = codeContent.Content.Select(x =>
+				{
+					var resourceVersionInfo = ToolsHelper.GetVersionInfo(x.ResourceVersionId);
+					return new
+					{
+						packageId = codeContent.PackageId,
+						cid = x.PackageCatalogueId,
+						versionId = resourceVersionInfo.Item1,
+						parentVersion = resourceVersionInfo.Item2,
+						resourceName = x.ResourceName,
+						resourceType = ToolsHelper.GetModuleInfo(x.ResourceModuleId),
+						moduleId = x.ModuleId
+					};
+				})
+			};
+		}
+
+
 		[HttpGet]
 		public dynamic File(long packageId, string cid)
 		{
+			string fileUrl = "";
 			ToolsHelper.CreateResourceDirectory(packageId, cid);
 			ToolsHelper.CreateMainInfo(packageService, packageId, cid);
-			ToolsHelper.CreateCatalogueResources(packageService, packageId, cid);
+			ToolsHelper.CreateCatalogueResources(packageService, packageId, cid, ref fileUrl);
 
-			return 2;
+			return fileUrl;
 		}
 	}
 }
