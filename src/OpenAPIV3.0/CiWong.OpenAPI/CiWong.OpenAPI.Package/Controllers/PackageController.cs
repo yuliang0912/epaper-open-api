@@ -60,6 +60,8 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		{
 			var result = packageService.GetCataloguesForApi(packageId, true);
 
+			var downLoadUrls = packageService.GetOfflinePackageInfo(packageId).ToDictionary(t => t.ResourceId, t => t.Url);
+
 			if (!string.IsNullOrWhiteSpace(cid))
 			{
 				var resultFilter = result.Where(t => t.ID == cid).FirstOrDefault();
@@ -74,13 +76,15 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 					item.Children = result.Where(c => c.ParentId != null && c.ParentId.Equals(item.ID)).OrderBy(c => c.DisplayOrder);
 				}, item => item.Children);
 
+
 				return new List<object>
 				{
 					new	
 					{
 						id = resultFilter.ID ?? string.Empty,
 						name = resultFilter.Name ?? string.Empty,
-						children = resultFilter.Children.Select(t => ToolsHelper.CatalogueFunc(t))
+						downLoadUrl = downLoadUrls.ContainsKey(resultFilter.ID) ? downLoadUrls[resultFilter.ID] : string.Empty,
+						children = resultFilter.Children.Select(t => ToolsHelper.CatalogueFunc(t,downLoadUrls))
 					}
 				};
 			}
@@ -102,7 +106,8 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			{
 				id = x.ID ?? string.Empty,
 				name = x.Name ?? string.Empty,
-				children = x.Children.Select(t => ToolsHelper.CatalogueFunc(t))
+				downLoadUrl = downLoadUrls.ContainsKey(x.ID) ? downLoadUrls[x.ID] : string.Empty,
+				children = x.Children.Select(t => ToolsHelper.CatalogueFunc(t, downLoadUrls))
 			});
 		}
 
@@ -224,7 +229,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 					moduleId = t.ModuleId,
 					moduleName = t.Name ?? string.Empty
 				},
-				resourceList = ToolsHelper.ResourceList(taskResultContentDict[t.Id]).Select(m => new
+				resourceList = ToolsHelper.ResourceList(taskResultContentDict[t.Id], t.ModuleId).Select(m => new
 				{
 					parentVersionId = m.Id != null ? m.Id.Value : 0,
 					versionId = m.VersionId ?? 0,
@@ -259,6 +264,8 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 				return new ApiArgumentException(ErrorCodeEum.Resource_5001, "二维码信息错误,未找到指定的资源包");
 			}
 
+			var downLoadUrls = packageService.GetOfflinePackageInfo(package.PackageId).ToDictionary(t => t.ResourceId, t => t.Url);
+
 			return new
 			{
 				key = key,
@@ -276,7 +283,8 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 						parentVersion = resourceVersionInfo.Item2,
 						resourceName = x.ResourceName,
 						resourceType = ToolsHelper.GetModuleInfo(x.ResourceModuleId),
-						moduleId = x.ModuleId
+						moduleId = x.ModuleId,
+						downLoadUrl = downLoadUrls.ContainsKey(x.PackageCatalogueId) ? downLoadUrls[x.PackageCatalogueId] : string.Empty
 					};
 				})
 			};

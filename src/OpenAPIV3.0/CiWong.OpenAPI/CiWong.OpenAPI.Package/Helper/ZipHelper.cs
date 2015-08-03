@@ -156,7 +156,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 						byte[] buffer = new byte[fs.Length];
 						fs.Read(buffer, 0, buffer.Length);
 
-						string fileName = parentPath + file.Substring(file.LastIndexOf("\\") + 1);
+						string fileName = file.Substring(file.LastIndexOf("\\") + 1);
 						ZipEntry entry = new ZipEntry(fileName);
 
 						entry.DateTime = DateTime.Now;

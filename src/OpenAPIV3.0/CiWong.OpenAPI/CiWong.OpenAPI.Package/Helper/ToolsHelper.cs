@@ -143,15 +143,26 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 			{
 				throw new ApiArgumentException(ErrorCodeEum.Resource_5004, "当前目录中未找到资源");
 			}
+			
+			var taskResultContentDict = taskResultContents.GroupBy(c => c.CatalogueId).ToDictionary(c => c.Key, c => c.ToList());
 
-			var taskResultContentDict = taskResultContents.Where(t => t.ModuleId != 9).GroupBy(c => c.CatalogueId).ToDictionary(c => c.Key, c => c.ToList());
-
+			var followRead = taskResultCategories.Where(t => t.ModuleId == 10).FirstOrDefault();
+			//如果存在同步跟读,则默认追加一份报听写模块
+			if (null != followRead)
+			{
+				taskResultCategories.Add(new TaskResultCategoryContract()
+				{
+					Id = followRead.Id,
+					ModuleId = 30,
+					Name = "报听写"
+				});
+			}
 
 			var allResource = new List<ResourceContract>();
 
 			var jsonData = taskResultCategories.Where(t => taskResultContentDict.ContainsKey(t.Id)).Select(t =>
 			{
-				var resourceList = ToolsHelper.ResourceList(taskResultContentDict[t.Id]);
+				var resourceList = ToolsHelper.ResourceList(taskResultContentDict[t.Id], t.ModuleId);
 				allResource.AddRange(resourceList);
 				return new
 				{
@@ -222,13 +233,8 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 							sentFile = x.Sentences.Any() ? ConverAudioUrl(x.Sentences.First().AudioUrl) : string.Empty,
 							wordPic = x.PictureUrl ?? string.Empty
 						});
-						resourceList.Add(key, JSONHelper.Encode<object>(jsonData)); //课后单词表
-						string tmpKey1 = string.Concat("3ac07125-31ac-11e5-a511-782bcb066f05", item.VersionId.Value, ".json");
-						if (resourceList.ContainsKey(tmpKey1))
-						{
-							continue;
-						}
-						resourceList.Add(tmpKey1, resourceList[key]);//报听写
+						resourceList.Add(key, JSONHelper.Encode<object>(jsonData)); //同步跟读
+						resourceList.Add(key.Replace(item.ModuleId.Value.ToString(), "3ac07125-31ac-11e5-a511-782bcb066f05"), resourceList[key]);//报听写
 						break;
 
 					case "992a5055-e9d0-453f-ab40-666b4d7030bb"://跟读-课文
@@ -275,13 +281,10 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 							})
 						};
 						var newListeningAndSpeaking = ListenConvertHepler.ConvertSpeak(listeningAndSpeaking);
+						//模考原始JSON
 						resourceList.Add(key, JSONHelper.Encode<object>(jsonData));
-						string tmpKey2 = string.Concat("e9430760-9f2e-4256-af76-3bd8980a9de4_", item.VersionId.Value, ".json");
-						if (resourceList.ContainsKey(tmpKey2))
-						{
-							continue;
-						}
-						resourceList.Add(tmpKey2, JSONHelper.Encode<object>(newListeningAndSpeaking));
+						//模考转换成试卷JSON
+						resourceList.Add(key.Replace(item.ModuleId.Value.ToString(), "e9430760-9f2e-4256-af76-3bd8980a9de4"), JSONHelper.Encode<object>(newListeningAndSpeaking));
 						break;
 					default:
 						break;
@@ -332,17 +335,18 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 			return fileName;
 		}
 
-		public static object CatalogueFunc(PackageCatalogueContract m)
+		public static object CatalogueFunc(PackageCatalogueContract m, Dictionary<string, string> downLoadUrls)
 		{
 			return new
 			{
 				id = m.ID ?? string.Empty,
 				name = m.Name ?? string.Empty,
-				children = m.Children != null ? m.Children.Select(t => CatalogueFunc(t)) : Enumerable.Empty<object>()
+				downLoadUrl = downLoadUrls.ContainsKey(m.ID) ? downLoadUrls[m.ID] : string.Empty,
+				children = m.Children != null ? m.Children.Select(t => CatalogueFunc(t, downLoadUrls)) : Enumerable.Empty<object>()
 			};
 		}
 
-		public static List<ResourceContract> ResourceList(List<TaskResultContentContract> resuletContents)
+		public static List<ResourceContract> ResourceList(List<TaskResultContentContract> resuletContents, int moduleId)
 		{
 			var list = new List<ResourceContract>();
 
@@ -365,7 +369,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 						{
 							continue;
 						}
-						if (part.ModuleId == ResourceModuleOptions.Word)
+						if (part.ModuleId == ResourceModuleOptions.Word && moduleId == 10)
 						{
 							list.Add(new ResourceContract()
 							{
@@ -375,7 +379,17 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 								ModuleId = part.ModuleId
 							});
 						}
-						else if (part.ModuleId == ResourceModuleOptions.SyncFollowReadText)
+						else if (part.ModuleId == ResourceModuleOptions.Word && moduleId == 30)
+						{
+							list.Add(new ResourceContract()
+							{
+								Id = syncFollowRead.VersionId,
+								VersionId = 0,
+								Name = string.Format("【{0}】 {1}", "报听写", syncFollowRead.Name),
+								ModuleId = new Guid("3ac07125-31ac-11e5-a511-782bcb066f05")
+							});
+						}
+						else if (part.ModuleId == ResourceModuleOptions.SyncFollowReadText && moduleId == 10)
 						{
 							list.AddRange(part.List.Select(t => new ResourceContract()
 							{
