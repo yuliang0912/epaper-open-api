@@ -61,5 +61,20 @@ namespace CiWong.OpenAPI.Core.Extensions
 
 			return list;
 		}
+
+		/// <summary>
+		/// 分割字符串
+		/// </summary>
+		/// <param name="str"></param>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		public static string CutString(this string str, int length)
+		{
+			if (string.IsNullOrEmpty(str) || str.Length < length)
+			{
+				return str;
+			}
+			return str.Substring(0, length);
+		}
 	}
 }

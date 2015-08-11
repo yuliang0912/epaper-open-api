@@ -139,6 +139,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 			}
 			Crc32 crc = new Crc32();//循环冗余校验码
 			string[] filenames = Directory.GetFileSystemEntries(strDirectory).Where(p => zipedFileName == "" || !p.Contains(zipedFileName)).ToArray();
+
 			foreach (string file in filenames)// 遍历所有的文件和目录
 			{
 				if (Directory.Exists(file))// 先当作目录处理如果存在这个目录就递归Copy该目录下面的文件
@@ -146,6 +147,8 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 					string pPath = parentPath;
 					pPath += file.Substring(file.LastIndexOf("\\") + 1);
 					pPath += "\\";
+					ZipEntry entry = new ZipEntry(pPath);
+					s.PutNextEntry(entry);
 					ZipSetp(file, s, pPath, "");
 				}
 				else // 否则直接压缩文件

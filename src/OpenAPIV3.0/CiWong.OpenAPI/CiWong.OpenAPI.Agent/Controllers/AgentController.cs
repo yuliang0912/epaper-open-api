@@ -1,5 +1,6 @@
 ﻿using CiWong.Agent.ApiCore;
 using CiWong.OpenAPI.Core;
+using CiWong.OpenAPI.Core.Extensions;
 using CiWong.Resource.BookRoom.Service;
 using CiWong.Users;
 using System;
@@ -181,7 +182,8 @@ namespace CiWong.OpenAPI.Agent.Controllers
 					cityId = t.CityId,
 					cityName = t.CityName,//市级
 					period = t.ProductPeriod,
-					grade = t.ProductGrade
+					grade = t.ProductGrade,
+					bookIntro = t.Introduction.RemoveHtml().CutString(300)
 				})
 			};
 		}

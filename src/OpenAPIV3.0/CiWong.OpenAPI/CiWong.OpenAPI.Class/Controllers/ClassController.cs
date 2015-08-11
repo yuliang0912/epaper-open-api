@@ -45,9 +45,14 @@ namespace CiWong.OpenAPI.Class.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		public dynamic class_list(int userId)
+		public dynamic class_list(int userId, int top = 0)
 		{
 			var classList = ClassRelationProxy.GetRoomClass(userId);
+
+			if (top > 0)
+			{
+				classList = classList.Take(top).ToList();
+			}
 
 			return classList.Select(x => new
 			{

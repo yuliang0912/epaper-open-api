@@ -143,6 +143,47 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
             return questionContract;
         }
 
+		public static IEnumerable<QuestionContract> GetXiaotiList(CiWong.Examination.Mapping.Entities.Examination ExamineeModel)
+		{
+			var questionlist = new List<QuestionContract>();
+			var questionEntityList = WikiQuesConvertHelper.ConvertExamination(ExamineeModel);
+			foreach (var item in questionEntityList.Parts)
+			{
+				if (item.Children != null && item.Children.Count() > 0)
+				{
+					GetQuestionList(item.Children, questionlist);
+				}
+			}
+
+			var answerList = new List<QuestionContract>();
+
+			for (int i = 0; i < questionlist.Count; i++)
+			{
+				questionlist[i].Sid = i + 1;
+				answerList.Add(questionlist[i]);
+			}
+			return answerList;
+		}
+
+		/// <summary>
+		/// 遍历获取结果集   根据试卷信息获取试题列表
+		/// </summary>
+		/// <param name="question">试题集合</param> 
+		private static void GetQuestionList(IEnumerable<QuestionContract> question, List<QuestionContract> questionlist)
+		{
+			foreach (var item in question)
+			{
+				if (item.Children != null && item.Children.Count() > 0)
+				{
+					GetQuestionList(item.Children, questionlist);
+				}
+				else
+				{
+					questionlist.Add(item);
+				}
+			}
+		}
+
         /// <summary>
         /// 题目选项转换
         /// </summary>

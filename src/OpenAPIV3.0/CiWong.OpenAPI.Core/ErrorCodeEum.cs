@@ -120,7 +120,19 @@ namespace CiWong.OpenAPI.Core
 		/// <summary>
 		/// 二维码数据格式错误
 		/// </summary>
-		Resource_5008 = 5008
+		Resource_5008 = 5008,
+		/// <summary>
+		/// 二维码尚未填充资源
+		/// </summary>
+		Resource_5009 = 5009,
+		/// <summary>
+		/// 当前二维码尚未生成离线包
+		/// </summary>
+		Resource_5010 = 5010,
+		/// <summary>
+		/// 当前目录不存在
+		/// </summary>
+		Resource_5011 = 5011
 		#endregion
 	}
 }

@@ -7,6 +7,7 @@ using CiWong.Tools.Package;
 using CiWong.Tools.Package.Services;
 using CiWong.OpenAPI.ToolsAndPackage.Helper;
 using CiWong.Examination.API;
+using CiWong.OpenAPI.Core.Extensions;
 
 namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 {
@@ -15,6 +16,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		private IExaminationAPI examApi;
 		private PackageService packageService;
 		public static readonly List<int> newsPaperModuleSortArray = new List<int> { 7, 10, 15, 18, 9, 5, 8 };
+
 		public PackageController(PackageService _packageService, IExaminationAPI _examApi)
 		{
 			this.examApi = _examApi;
@@ -111,72 +113,6 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			});
 		}
 
-		///// <summary>
-		///// 获取书籍章节内容
-		///// </summary>
-		///// <param name="packageId">资源包ID,必选</param>
-		///// <param name="cId">目录ID(最末级目录id),必选</param>
-		///// <param name="isFilter">目是否过滤同步讲练</param>
-		///// <returns></returns>
-		//[HttpGet]
-		//public dynamic book_resources(long packageId, string cId, string moduleIds = "", string versionIds = "", bool isFilter = true)
-		//{
-		//	var packageCategoryContent = packageService.GetTaskResultContentsForApi(packageId, cId, false);
-
-		//	if (null == packageCategoryContent || !packageCategoryContent.Any())
-		//	{
-		//		return new ApiArgumentException(ErrorCodeEum.Resource_5004, "当前目录中未找到资源");
-		//	}
-
-		//	var moduleIdList = new List<int>();
-		//	var versionIdList = new List<long>();
-		//	if (!string.IsNullOrWhiteSpace(moduleIds))
-		//	{
-		//		moduleIdList = moduleIds.Split(',').Select(t => Convert.ToInt32(t)).ToList();
-		//	}
-		//	if (!string.IsNullOrEmpty(versionIds))
-		//	{
-		//		versionIdList = versionIds.Split(',').Select(t => Convert.ToInt64(t)).ToList();
-		//	}
-		//	if (moduleIdList.Any())
-		//	{
-		//		packageCategoryContent = packageCategoryContent.Where(t => moduleIdList.Contains(t.ModuleId)).ToList();
-		//	}
-		//	if (versionIdList.Any())
-		//	{
-		//		packageCategoryContent = packageCategoryContent.Where(t => versionIdList.Contains(t.ResourceVersionId)).ToList();
-		//	}
-		//	if (isFilter)
-		//	{
-		//		packageCategoryContent = packageCategoryContent.Where(t => t.ModuleId != 9).ToList();
-		//	}
-
-		//	var taskResultContent = packageCategoryContent.
-		//							OrderBy(t => newsPaperModuleSortArray.IndexOf(t.ModuleId)).
-		//							GroupBy(t => t.ModuleId).
-		//							ToDictionary(c => c.Key, c => c.OrderBy(x => x.DisplayOrder).ToList());
-
-		//	var jsonData = taskResultContent.Select(t => new
-		//	{
-		//		moduleInfo = new
-		//		{
-		//			packageCatalogueId = cId ?? string.Empty,
-		//			moduleId = t.Key,
-		//			moduleName = t.Value.First().ModuleName ?? string.Empty
-		//		},
-		//		resourceList = ToolsHelper.ResourceList(t.Value).Select(m => new
-		//		{
-		//			parentVersionId = m.Id != null ? m.Id.Value : 0,
-		//			versionId = m.VersionId ?? 0,
-		//			name = m.Name ?? string.Empty,
-		//			resourceModuleId = m.ModuleId ?? Guid.Empty
-		//		})
-		//	});
-
-		//	return jsonData;
-		//}
-
-
 		/// <summary>
 		/// 获取书籍章节内容
 		/// </summary>
@@ -187,13 +123,11 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		[HttpGet]
 		public dynamic book_resources(long packageId, string cId, string moduleIds = "", string versionIds = "", bool isFilter = true)
 		{
-			var taskResultCategories = packageService.GetTaskResultCategoriesForApi(packageId, cId);
-			var taskResultContents = packageService.GetTaskResultContentsForApi(packageId, cId, false).OrderBy(t => t.DisplayOrder).ToList();
+			var packageCategoryContent = packageService.GetTaskResultContentsForApi(packageId, cId, false);
 
-			if (!taskResultContents.Any() || !taskResultCategories.Any())
+			if (null == packageCategoryContent || !packageCategoryContent.Any())
 			{
-				return Enumerable.Empty<object>();
-				//return new ApiArgumentException(ErrorCodeEum.Resource_5004, "当前目录中未找到资源");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5004, "当前目录中未找到资源");
 			}
 
 			var moduleIdList = new List<int>();
@@ -208,18 +142,139 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			}
 			if (moduleIdList.Any())
 			{
-				taskResultCategories = taskResultCategories.Where(t => moduleIdList.Contains(t.ModuleId)).ToList();
+				packageCategoryContent = packageCategoryContent.Where(t => moduleIdList.Contains(t.ModuleId)).ToList();
 			}
 			if (versionIdList.Any())
 			{
-				taskResultContents = taskResultContents.Where(t => versionIdList.Contains(t.ResourceVersionId)).ToList();
+				packageCategoryContent = packageCategoryContent.Where(t => versionIdList.Contains(t.ResourceVersionId)).ToList();
 			}
 			if (isFilter)
 			{
-				taskResultCategories = taskResultCategories.Where(t => t.ModuleId != 9).ToList();
+				packageCategoryContent = packageCategoryContent.Where(t => t.ModuleId != 9).ToList();
+			}
+
+			var taskResultContent = packageCategoryContent.
+									OrderBy(t => newsPaperModuleSortArray.IndexOf(t.ModuleId)).
+									GroupBy(t => t.ModuleId).
+									ToDictionary(c => c.Key, c => c.OrderBy(x => x.DisplayOrder).ToList());
+
+			var jsonData = taskResultContent.Select(t => new
+			{
+				moduleInfo = new
+				{
+					packageCatalogueId = cId ?? string.Empty,
+					moduleId = t.Key,
+					moduleName = t.Value.First().ModuleName ?? string.Empty
+				},
+				resourceList = ToolsHelper.ResourceList(t.Value, t.Key).Select(m => new
+				{
+					parentVersionId = m.Id != null ? m.Id.Value : 0,
+					versionId = m.VersionId ?? 0,
+					name = m.Name ?? string.Empty,
+					resourceModuleId = m.ModuleId ?? Guid.Empty
+				})
+			});
+
+			return jsonData;
+		}
+
+
+		///// <summary>
+		///// 获取书籍章节内容
+		///// </summary>
+		///// <param name="packageId">资源包ID,必选</param>
+		///// <param name="cId">目录ID(最末级目录id),必选</param>
+		///// <param name="isFilter">目是否过滤同步讲练</param>
+		///// <returns></returns>
+		//[HttpGet]
+		//public dynamic book_resources(long packageId, string cId, string moduleIds = "", string versionIds = "", bool isFilter = true)
+		//{
+		//	var taskResultCategories = packageService.GetTaskResultCategoriesForApi(packageId, cId);
+		//	var taskResultContents = packageService.GetTaskResultContentsForApi(packageId, cId, false).OrderBy(t => t.DisplayOrder).ToList();
+
+		//	if (!taskResultContents.Any() || !taskResultCategories.Any())
+		//	{
+		//		return Enumerable.Empty<object>();
+		//		//return new ApiArgumentException(ErrorCodeEum.Resource_5004, "当前目录中未找到资源");
+		//	}
+
+		//	var moduleIdList = new List<int>();
+		//	var versionIdList = new List<long>();
+		//	if (!string.IsNullOrWhiteSpace(moduleIds))
+		//	{
+		//		moduleIdList = moduleIds.Split(',').Select(t => Convert.ToInt32(t)).ToList();
+		//	}
+		//	if (!string.IsNullOrEmpty(versionIds))
+		//	{
+		//		versionIdList = versionIds.Split(',').Select(t => Convert.ToInt64(t)).ToList();
+		//	}
+		//	if (moduleIdList.Any())
+		//	{
+		//		taskResultCategories = taskResultCategories.Where(t => moduleIdList.Contains(t.ModuleId)).ToList();
+		//	}
+		//	if (versionIdList.Any())
+		//	{
+		//		taskResultContents = taskResultContents.Where(t => versionIdList.Contains(t.ResourceVersionId)).ToList();
+		//	}
+		//	if (isFilter)
+		//	{
+		//		taskResultCategories = taskResultCategories.Where(t => t.ModuleId != 9).ToList();
+		//	}
+
+		//	var taskResultContentDict = taskResultContents.GroupBy(c => c.CatalogueId).ToDictionary(c => c.Key, c => c.ToList());
+
+		//	var jsonData = taskResultCategories.Where(t => taskResultContentDict.ContainsKey(t.Id)).Select(t => new
+		//	{
+		//		moduleInfo = new
+		//		{
+		//			packageCatalogueId = cId ?? string.Empty,
+		//			moduleId = t.ModuleId,
+		//			moduleName = t.Name ?? string.Empty
+		//		},
+		//		resourceList = ToolsHelper.ResourceList(taskResultContentDict[t.Id], t.ModuleId).Select(m => new
+		//		{
+		//			parentVersionId = m.Id != null ? m.Id.Value : 0,
+		//			versionId = m.VersionId ?? 0,
+		//			name = m.Name ?? string.Empty,
+		//			resourceModuleId = m.ModuleId ?? Guid.Empty
+		//		})
+		//	});
+
+		//	return jsonData;
+		//}
+
+
+		/// <summary>
+		/// 获取书籍章节内容V2
+		/// </summary>
+		/// <param name="packageId">资源包ID,必选</param>
+		/// <param name="cId">目录ID(最末级目录id),必选</param>
+		/// <param name="isFilter">目是否过滤同步讲练</param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic book_resources_v2(long packageId, string cId)
+		{
+			var taskResultCategories = packageService.GetTaskResultCategoriesForApi(packageId, cId);
+			var taskResultContents = packageService.GetTaskResultContentsForApi(packageId, cId, false).OrderBy(t => t.DisplayOrder).ToList();
+
+			if (!taskResultContents.Any() || !taskResultCategories.Any())
+			{
+				return Enumerable.Empty<object>();
 			}
 
 			var taskResultContentDict = taskResultContents.GroupBy(c => c.CatalogueId).ToDictionary(c => c.Key, c => c.ToList());
+
+			var followRead = taskResultCategories.Where(t => t.ModuleId == 10).FirstOrDefault();
+			//如果存在同步跟读,则默认追加一份报听写模块
+			if (null != followRead)
+			{
+				taskResultCategories.Add(new CiWong.Tools.Package.DataContracts.TaskResultCategoryContract()
+				{
+					Id = followRead.Id,
+					ModuleId = 30,
+					Name = "报听写"
+				});
+			}
 
 			var jsonData = taskResultCategories.Where(t => taskResultContentDict.ContainsKey(t.Id)).Select(t => new
 			{
@@ -233,24 +288,59 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 				{
 					parentVersionId = m.Id != null ? m.Id.Value : 0,
 					versionId = m.VersionId ?? 0,
-					name = m.Name ?? string.Empty,
-					resourceModuleId = m.ModuleId ?? Guid.Empty
+					resourceName = m.Name ?? string.Empty,
+					resourceType = m.ModuleId ?? Guid.Empty
 				})
 			});
 
 			return jsonData;
 		}
 
-
 		/// <summary>
-		/// 根据二维码key获取资源列表
+		/// 获取目录的下载信息
 		/// </summary>
-		/// <param name="key"></param>
+		/// <param name="packageId"></param>
+		/// <param name="cId"></param>
 		/// <returns></returns>
 		[HttpGet]
-		public dynamic qr_code_resource(string key)
+		public dynamic catalogue_info(long packageId, string cId)
 		{
-			var codeContent = new CodeService().GetCodeContents(key, string.Empty);
+			var catalogue = packageService.GetCataloguesForApi(packageId, false).FirstOrDefault(x => x.ID == cId);
+
+			if (null == catalogue)
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5011, "当前目录不存在");
+			}
+
+			var package = packageService.GetPackageForApi(packageId);
+
+			if (null == package)
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5001, "未找到指定的资源包");
+			}
+
+			var downLoadUrl = packageService.GetOfflinePackageInfo(packageId, cId).FirstOrDefault();
+
+			return new
+			{
+				packageId = packageId,
+				packageName = package.BookName,
+				packageCover = package.Cover,
+				cId = cId,
+				cName = catalogue.Name,
+				downLoadUrl = null == downLoadUrl ? string.Empty : downLoadUrl.Url
+			};
+		}
+
+		/// <summary>
+		/// 根据二维码获取离线资源包基础信息[已通过路由配置短地址]
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic qr_download_package_info(string id)
+		{
+			var codeContent = new CodeService().GetCodeContents(id, string.Empty);
 
 			if (null == codeContent)
 			{
@@ -264,42 +354,100 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 				return new ApiArgumentException(ErrorCodeEum.Resource_5001, "二维码信息错误,未找到指定的资源包");
 			}
 
-			var downLoadUrls = packageService.GetOfflinePackageInfo(package.PackageId).ToDictionary(t => t.ResourceId, t => t.Url);
+			if (!codeContent.Content.Any())
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5009, "二维码尚未填充资源");
+			}
+
+			var cId = codeContent.Content.First().PackageCatalogueId;
+
+			var downLoadUrl = packageService.GetOfflinePackageInfo(codeContent.PackageId, cId).FirstOrDefault();
+			
+			if (null == downLoadUrl || string.IsNullOrWhiteSpace(downLoadUrl.Url))
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5010, "当前二维码尚未生成离线资源包,key=" + id);
+			}
+
+			var catalogue = packageService.GetCataloguesForApi(codeContent.PackageId, false).FirstOrDefault(x => x.ID == cId);
+
+			if (null == catalogue)
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5011, "当前目录不存在");
+			}
 
 			return new
 			{
-				key = key,
+				url = "http://192.168.1.63:8868/qr/" + codeContent.Id,
 				codeName = codeContent.Name,
 				packageId = codeContent.PackageId,
 				packageName = package.BookName,
-				resourceList = codeContent.Content.Select(x =>
-				{
-					var resourceVersionInfo = ToolsHelper.GetVersionInfo(x.ResourceVersionId);
-					return new
-					{
-						packageId = codeContent.PackageId,
-						cid = x.PackageCatalogueId,
-						versionId = resourceVersionInfo.Item1,
-						parentVersion = resourceVersionInfo.Item2,
-						resourceName = x.ResourceName,
-						resourceType = ToolsHelper.GetModuleInfo(x.ResourceModuleId),
-						moduleId = x.ModuleId,
-						downLoadUrl = downLoadUrls.ContainsKey(x.PackageCatalogueId) ? downLoadUrls[x.PackageCatalogueId] : string.Empty
-					};
-				})
+				packageCover = package.Cover,
+				cId = cId,
+				cName = catalogue.Name,
+				downLoadUrl = downLoadUrl.Url
 			};
 		}
-
 
 		[HttpGet]
 		public dynamic File(long packageId, string cid)
 		{
 			string fileUrl = "";
-			ToolsHelper.CreateResourceDirectory(packageId, cid);
-			ToolsHelper.CreateMainInfo(packageService, packageId, cid);
-			ToolsHelper.CreateCatalogueResources(packageService, packageId, cid, ref fileUrl);
+			string currDirectory = string.Concat("catalogue_", packageId, "_", cid.Trim());
+
+			ToolsHelper.CreateResourceDirectory(packageId, cid, currDirectory);
+			ToolsHelper.CreateMainInfo(packageService, packageId, cid, currDirectory);
+			ToolsHelper.CreateQrCodeInfo(new CodeService(), packageId, cid, currDirectory);
+			ToolsHelper.CreateCatalogueResources(packageService, packageId, cid,currDirectory, ref fileUrl);
 
 			return fileUrl;
 		}
+
+		///// <summary>
+		///// 根据二维码key获取资源列表
+		///// </summary>
+		///// <param name="key"></param>
+		///// <returns></returns>
+		//[HttpGet]
+		//public dynamic qr_code_resource(string key)
+		//{
+		//	var codeContent = new CodeService().GetCodeContents(key, string.Empty);
+
+		//	if (null == codeContent)
+		//	{
+		//		return new ApiArgumentException(ErrorCodeEum.Resource_5007, "未找到指定的二维码");
+		//	}
+
+		//	var package = packageService.GetPackageForApi(codeContent.PackageId);
+
+		//	if (null == package)
+		//	{
+		//		return new ApiArgumentException(ErrorCodeEum.Resource_5001, "二维码信息错误,未找到指定的资源包");
+		//	}
+
+		//	var downLoadUrls = packageService.GetOfflinePackageInfo(package.PackageId).ToDictionary(t => t.ResourceId, t => t.Url);
+
+		//	return new
+		//	{
+		//		url = "http://192.168.1.63:8868/qr/" + codeContent.Id,
+		//		codeName = codeContent.Name,
+		//		packageId = codeContent.PackageId,
+		//		cId = codeContent.Content.First().PackageCatalogueId,
+		//		type = 9,
+		//		createTime = DateTime.Now,
+		//		resourceList = codeContent.Content.Select(x =>
+		//		{
+		//			var resourceVersionInfo = ToolsHelper.GetVersionInfo(x.ResourceVersionId);
+		//			return new
+		//			{
+		//				versionId = resourceVersionInfo.Item1,
+		//				parentVersion = resourceVersionInfo.Item2,
+		//				resourceName = x.ResourceName,
+		//				resourceType = ToolsHelper.GetModuleInfo(x.ResourceModuleId),
+		//				moduleId = Convert.ToInt32(x.ModuleId),
+		//				downLoadUrl = downLoadUrls.ContainsKey(x.PackageCatalogueId) ? downLoadUrls[x.PackageCatalogueId] : string.Empty
+		//			};
+		//		})
+		//	};
+		//}
 	}
 }
