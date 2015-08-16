@@ -35,14 +35,17 @@
     <Reference Include="CiWong.Agent.ApiCore">
       <HintPath>..\..\..\..\libs\Store\CiWong.Agent.ApiCore.dll</HintPath>
     </Reference>
-    <Reference Include="CiWong.Relation.Mapping">
-      <HintPath>..\..\..\..\libs\CiWong.Relation.Mapping.dll</HintPath>
+    <Reference Include="CiWong.Relation.Mapping, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.Mapping.dll</HintPath>
     </Reference>
-    <Reference Include="CiWong.Relation.WCFContract">
-      <HintPath>..\..\..\..\libs\CiWong.Relation.WCFContract.dll</HintPath>
+    <Reference Include="CiWong.Relation.WCFContract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.WCFContract.dll</HintPath>
     </Reference>
-    <Reference Include="CiWong.Relation.WCFProxy">
-      <HintPath>..\..\..\..\libs\CiWong.Relation.WCFProxy.dll</HintPath>
+    <Reference Include="CiWong.Relation.WCFProxy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.WCFProxy.dll</HintPath>
     </Reference>
     <Reference Include="CiWong.Resource.BookRoom">
       <HintPath>..\..\..\..\libs\BookCase\CiWong.Resource.BookRoom.dll</HintPath>

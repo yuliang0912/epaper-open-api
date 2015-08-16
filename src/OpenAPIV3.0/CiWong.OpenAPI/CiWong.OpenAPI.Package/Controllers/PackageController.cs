@@ -62,7 +62,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		{
 			var result = packageService.GetCataloguesForApi(packageId, true);
 
-			var downLoadUrls = packageService.GetOfflinePackageInfo(packageId).ToDictionary(t => t.ResourceId, t => t.Url);
+			var downLoadUrls = packageService.GetOfflinePackageInfo(packageId).ToDictionary(t => t.ResourceId, t => t.Url ?? string.Empty);
 
 			if (!string.IsNullOrWhiteSpace(cid))
 			{
@@ -338,6 +338,70 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpGet]
+		public dynamic qr_resource_info(string url)
+		{ 
+			if (!url.StartsWith("http://ew.ciwong.com/qr/"))
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5012, "当前URL信息系统不支持");
+			}
+
+			string id = url.Replace("http://ew.ciwong.com/qr/", string.Empty);
+
+			var codeContent = new CodeService().GetCodeContents(id, string.Empty);
+
+			if (null == codeContent)
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5007, "未找到指定的二维码");
+			}
+
+			var package = packageService.GetPackageForApi(codeContent.PackageId);
+
+			if (null == package)
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5001, "二维码信息错误,未找到指定的资源包");
+			}
+
+			if (!codeContent.Content.Any())
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5009, "二维码尚未填充资源");
+			}
+
+			var cId = codeContent.Content.First().PackageCatalogueId;
+
+			var downLoadUrl = packageService.GetOfflinePackageInfo(codeContent.PackageId, cId).FirstOrDefault();
+
+			if (null == downLoadUrl || string.IsNullOrWhiteSpace(downLoadUrl.Url))
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5010, "当前二维码尚未生成离线资源包,key=" + id);
+			}
+
+			var catalogue = packageService.GetCataloguesForApi(codeContent.PackageId, false).FirstOrDefault(x => x.ID == cId);
+
+			if (null == catalogue)
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5011, "当前目录不存在");
+			}
+
+			return new
+			{
+				url = url,
+				codeName = codeContent.Name,
+				packageId = codeContent.PackageId,
+				packageName = package.BookName,
+				packageCover = package.Cover,
+				cId = cId,
+				cName = catalogue.Name,
+				downLoadUrl = downLoadUrl.Url
+			};
+		}
+
+
+		/// <summary>
+		/// 根据二维码获取离线资源包基础信息[已通过路由配置短地址]
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpGet]
 		public dynamic qr_download_package_info(string id)
 		{
 			var codeContent = new CodeService().GetCodeContents(id, string.Empty);
@@ -377,7 +441,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 
 			return new
 			{
-				url = "http://192.168.1.63:8868/qr/" + codeContent.Id,
+				url = "http://ew.ciwong.com/qr/" + codeContent.Id,
 				codeName = codeContent.Name,
 				packageId = codeContent.PackageId,
 				packageName = package.BookName,
@@ -401,53 +465,5 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 
 			return fileUrl;
 		}
-
-		///// <summary>
-		///// 根据二维码key获取资源列表
-		///// </summary>
-		///// <param name="key"></param>
-		///// <returns></returns>
-		//[HttpGet]
-		//public dynamic qr_code_resource(string key)
-		//{
-		//	var codeContent = new CodeService().GetCodeContents(key, string.Empty);
-
-		//	if (null == codeContent)
-		//	{
-		//		return new ApiArgumentException(ErrorCodeEum.Resource_5007, "未找到指定的二维码");
-		//	}
-
-		//	var package = packageService.GetPackageForApi(codeContent.PackageId);
-
-		//	if (null == package)
-		//	{
-		//		return new ApiArgumentException(ErrorCodeEum.Resource_5001, "二维码信息错误,未找到指定的资源包");
-		//	}
-
-		//	var downLoadUrls = packageService.GetOfflinePackageInfo(package.PackageId).ToDictionary(t => t.ResourceId, t => t.Url);
-
-		//	return new
-		//	{
-		//		url = "http://192.168.1.63:8868/qr/" + codeContent.Id,
-		//		codeName = codeContent.Name,
-		//		packageId = codeContent.PackageId,
-		//		cId = codeContent.Content.First().PackageCatalogueId,
-		//		type = 9,
-		//		createTime = DateTime.Now,
-		//		resourceList = codeContent.Content.Select(x =>
-		//		{
-		//			var resourceVersionInfo = ToolsHelper.GetVersionInfo(x.ResourceVersionId);
-		//			return new
-		//			{
-		//				versionId = resourceVersionInfo.Item1,
-		//				parentVersion = resourceVersionInfo.Item2,
-		//				resourceName = x.ResourceName,
-		//				resourceType = ToolsHelper.GetModuleInfo(x.ResourceModuleId),
-		//				moduleId = Convert.ToInt32(x.ModuleId),
-		//				downLoadUrl = downLoadUrls.ContainsKey(x.PackageCatalogueId) ? downLoadUrls[x.PackageCatalogueId] : string.Empty
-		//			};
-		//		})
-		//	};
-		//}
 	}
 }

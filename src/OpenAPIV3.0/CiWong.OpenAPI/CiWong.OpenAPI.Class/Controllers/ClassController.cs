@@ -1,4 +1,5 @@
 ﻿using CiWong.Relation.WCFProxy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -59,6 +60,23 @@ namespace CiWong.OpenAPI.Class.Controllers
 				classId = x.ClassID,
 				className = x.ClassName,
 				studentNum = ClassRelationProxy.GetClassMemberCountByClassId(x.ClassID, 1)
+			});
+		}
+
+		/// <summary>
+		/// 获取班级列表
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic teach_class_list(int userId, int top = 10)
+		{
+			var classList = ClassRelationProxy.GetTeacherClassByUserId(userId, top);
+
+			return classList.Select(x => new
+			{
+				classId = x.ID,
+				className = x.ClassEntity.ClassAliasName,
+				studentNum = ClassRelationProxy.GetClassMemberCountByClassId(x.ID, 1)
 			});
 		}
 

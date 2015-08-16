@@ -132,7 +132,11 @@ namespace CiWong.OpenAPI.Core
 		/// <summary>
 		/// 当前目录不存在
 		/// </summary>
-		Resource_5011 = 5011
+		Resource_5011 = 5011,
+		/// <summary>
+		/// 当前URL信息系统不支持
+		/// </summary>
+		Resource_5012 = 5012
 		#endregion
 	}
 }

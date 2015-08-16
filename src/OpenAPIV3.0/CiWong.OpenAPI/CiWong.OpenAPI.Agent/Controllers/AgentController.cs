@@ -28,29 +28,6 @@ namespace CiWong.OpenAPI.Agent.Controllers
 		/// <param name="classIds"></param>
 		/// <param name="serviceType">服务类型,阳光英语:25</param>
 		/// <returns></returns>
-		//[BasicAuthentication, HttpPost]
-		//public dynamic apply_services(string classIds, int serviceType)
-		//{
-		//	var classList = classIds.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries).Select(t => Convert.ToInt64(t)).ToList();
-
-		//	int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
-		//	var userInfo = new UserManager().GetUserInfo(userId);
-
-		//	return AppServiceProxy.ApplyUseService(userId, userInfo.RealName, classList, serviceType).Select(t => new
-		//	{
-		//		classId = t.Key,
-		//		isSuccess = t.Value.ret == 0,
-		//		ret = t.Value.ret,
-		//		msg = t.Value.msg
-		//	});
-		//}
-
-		/// <summary>
-		/// 为班级申请试用服务
-		/// </summary>
-		/// <param name="classIds"></param>
-		/// <param name="serviceType">服务类型,阳光英语:25</param>
-		/// <returns></returns>
 		[BasicAuthentication, HttpGet]
 		public dynamic apply_service(long classId, int serviceType)
 		{
@@ -161,6 +138,68 @@ namespace CiWong.OpenAPI.Agent.Controllers
 
 			var list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, provId, cityId, keyWords);
 
+			if (totalItem == 0 && page == 1 && string.IsNullOrEmpty(keyWords))
+			{
+				list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, -1, -1, keyWords);
+			}
+
+			return new ApiPageList<object>()
+			{
+				Page = page,
+				PageSize = pageSize,
+				TotalCount = totalItem,
+				PageList = list.Select(t => new
+				{
+					appId = t.ProductId == t.PackageId ? 200003 : 200002,
+					productId = t.ProductId.ToString(),
+					productName = t.ProductName ?? string.Empty,
+					cover = t.CoverImgUrl ?? string.Empty,
+					packageId = t.PackageId,
+					packageType = t.ProductType,
+					bookType = t.BookType, //书籍分类,1教材同步 2课外拓展
+					teamId = t.TeamId,
+					teamName = t.TeamName,
+					provId = t.ProvId,
+					provName = t.ProvName,//省级
+					cityId = t.CityId,
+					cityName = t.CityName,//市级
+					period = t.ProductPeriod,
+					grade = t.ProductGrade,
+					bookIntro = t.Introduction.RemoveHtml().CutString(300)
+				})
+			};
+		}
+
+
+		/// <summary>
+		/// 获取服务书籍
+		/// </summary>
+		/// <param name="serviceId">25:阳光英语电子报 26:乐享英语</param>
+		/// <param name="bookType">书籍分类,1教材同步 2课外拓展 -1为所有</param>
+		/// <param name="keyWords">关键字搜索</param>
+		/// <returns>阳光英语电子报服务书籍库(省市ID同时为0,则查询全国)</returns>
+		[BasicAuthentication, HttpGet]
+		public dynamic my_service_products(int serviceId, int bookType = -1, string keyWords = "", int page = 1, int pageSize = 10)
+		{
+			int provId = -1, cityId = -1, totalItem = 0;
+
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+
+			var school = CiWong.Relation.WCFProxy.ClassRelationProxy.GetRoomSchoolByUserList(new List<int>() { userId }).FirstOrDefault();
+
+			if (null != school && !string.IsNullOrEmpty(school.SchoolArea))
+			{
+				provId = school.SchoolArea.Length >= 2 ? Convert.ToInt32(school.SchoolArea.Substring(0, 2)) : -1;
+				cityId = school.SchoolArea.Length >= 4 ? Convert.ToInt32(school.SchoolArea.Substring(0, 4)) : -1;
+			}
+
+			var list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, provId, cityId, keyWords);
+
+			if (totalItem == 0 && page == 1 && string.IsNullOrEmpty(keyWords))
+			{
+				list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, -1, -1, keyWords);
+			}
+
 			return new ApiPageList<object>()
 			{
 				Page = page,
@@ -235,6 +274,31 @@ namespace CiWong.OpenAPI.Agent.Controllers
 					grade = t.ProductGrade
 				})
 			};
+		}
+
+		/// <summary>
+		/// 用户自定义设置品牌
+		/// </summary>
+		/// <param name="serviceType"></param>
+		/// <returns></returns>
+		[BasicAuthentication, HttpGet]
+		public bool set_subscribe_service(int serviceType)
+		{
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+
+			return AppServiceProxy.ServiceTypeUserRelation(userId, serviceType);
+		}
+
+		/// <summary>
+		/// 获取自己选择的服务品牌
+		/// </summary>
+		/// <returns></returns>
+		[BasicAuthentication, HttpGet]
+		public int get_subscribe_service()
+		{
+			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
+
+			return AppServiceProxy.GetUserServiceType(userId);
 		}
 	}
 }

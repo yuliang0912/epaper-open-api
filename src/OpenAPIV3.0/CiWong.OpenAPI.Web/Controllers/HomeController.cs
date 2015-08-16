@@ -4,8 +4,8 @@ namespace CiWong.OpenAPI.Web.Controllers
 {
 	public class HomeController : ApiController
 	{
-		[HttpGet,HttpPost]
-		public string Index()
+		[HttpGet, HttpPost]
+		public dynamic Index()
 		{
 			return "hello";
 		}

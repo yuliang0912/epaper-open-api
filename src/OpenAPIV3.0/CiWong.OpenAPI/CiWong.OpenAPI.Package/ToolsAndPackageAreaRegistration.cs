@@ -21,7 +21,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage
 			   name: "package.default",
 			   routeTemplate: "package/{controller}/{action}",
 			   defaults: new { controller = "package", action = "index" },
-			   constraints: new { controller = "(package)" },
+			   constraints: new { controller = "(package|qrCode)" },
 			   namespaces: new string[] { "CiWong.OpenAPI.ToolsAndPackage.Controllers" }
 		   );
 

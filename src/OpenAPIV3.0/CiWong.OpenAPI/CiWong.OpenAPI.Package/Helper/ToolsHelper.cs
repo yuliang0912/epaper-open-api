@@ -20,8 +20,6 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 {
 	public static class ToolsHelper
 	{
-		public static readonly List<int> newsPaperModuleSortArray = new List<int> { 7, 10, 15, 18, 9, 5, 8 };
-
 		/// <summary>
 		/// 基础目录
 		/// </summary>
@@ -144,19 +142,19 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 			var jsonData = list.Select(m => new
 			{
 				url = "http://ew.ciwong.com/qr/" + m.Id,
-				codeName = m.Name,
+				codeName = m.Name ?? string.Empty,
 				packageId = packageId,
 				cId = cid,
 				type = 9,
 				createTime = DateTime.Now,
-				resourceList = m.Content.Select(x =>
+				resourceList = QrResourceConvert(m.Content.ToList()).Select(x =>
 				{
 					var resourceVersionInfo = ToolsHelper.GetVersionInfo(x.ResourceVersionId);
 
 					return new
 					{
 						versionId = resourceVersionInfo.Item1,
-						parentVersion = resourceVersionInfo.Item2,
+						parentVersionId = resourceVersionInfo.Item2,
 						resourceName = x.ResourceName,
 						resourceType = ToolsHelper.GetModuleInfo(x.ResourceModuleId),
 						moduleId = Convert.ToInt32(x.ModuleId),
@@ -187,14 +185,17 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 
 			var followRead = taskResultCategories.Where(t => t.ModuleId == 10).FirstOrDefault();
 			//如果存在同步跟读,则默认追加一份报听写模块
-			if (null != followRead)
+			if (null != followRead && taskResultContentDict.ContainsKey(followRead.Id))
 			{
-				taskResultCategories.Add(new TaskResultCategoryContract()
+				if (ToolsHelper.ResourceList(taskResultContentDict[followRead.Id], 30).Any())
 				{
-					Id = followRead.Id,
-					ModuleId = 30,
-					Name = "报听写"
-				});
+					taskResultCategories.Add(new TaskResultCategoryContract()
+					{
+						Id = followRead.Id,
+						ModuleId = 30,
+						Name = "报听写"
+					});
+				}
 			}
 
 			var allResource = new List<ResourceContract>();
@@ -352,6 +353,10 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 							{
 								questionList.Add(question);
 							}
+						}
+						if (!questionList.Any()) //单元测试没有听力文件,则不生成JSON文件
+						{
+							break;
 						}
 						jsonData = questionList.Select(x => new
 						{
@@ -681,6 +686,52 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 				fileName = string.Concat(path, fileName);
 			}
 			return fileName;
+		}
+
+		private static List<ResourcePartContract> QrResourceConvert(List<ResourcePartContract> contents)
+		{
+			var followReads = contents.Where(t => t.ModuleId == "10" && t.ResourceVersionId.IndexOf("_") == -1).ToList();
+
+			contents.RemoveAll(t => t.ModuleId == "10" && t.ResourceVersionId.IndexOf("_") == -1);
+
+			var syncFollowReadResult = ResourceServices.Instance.GetByVersionIds<SyncFollowReadContract>(followReads.Select(t => Convert.ToInt64(t.ResourceVersionId)).ToArray());
+
+			if (null == syncFollowReadResult || !syncFollowReadResult.IsSucceed || !syncFollowReadResult.Data.Any())
+			{
+				return contents;
+			}
+
+			foreach (var syncFollowRead in syncFollowReadResult.Data)
+			{
+				foreach (var part in syncFollowRead.Parts)
+				{
+					if (null == part.List || !part.List.Any())
+					{
+						continue;
+					}
+					if (part.ModuleId == ResourceModuleOptions.Word)
+					{
+						contents.Add(new ResourcePartContract()
+						{
+							ModuleId = "10",
+							ResourceName = string.Format("【{0}】 {1}", "课后单词表", syncFollowRead.Name),
+							ResourceModuleId = part.ModuleId.ToString(),
+							ResourceVersionId = syncFollowRead.VersionId + "_0"
+						});
+					}
+					else if (part.ModuleId == ResourceModuleOptions.SyncFollowReadText)
+					{
+						contents.AddRange(part.List.Select(t => new ResourcePartContract()
+						{
+							ModuleId = "10",
+							ResourceName = string.Format("【{0}】 {1}", t.Name, syncFollowRead.Name),
+							ResourceModuleId = part.ModuleId.ToString(),
+							ResourceVersionId = syncFollowRead.VersionId + "_" + t.VersionId
+						}));
+					}
+				}
+			}
+			return contents;
 		}
 	}
 }

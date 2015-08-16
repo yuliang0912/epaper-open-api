@@ -41,13 +41,16 @@
     <Reference Include="CiWong.Framework.Helper">
       <HintPath>..\..\..\..\libs\CiWong.Framework.Helper.dll</HintPath>
     </Reference>
-    <Reference Include="CiWong.Relation.Mapping">
+    <Reference Include="CiWong.Relation.Mapping, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.Mapping.dll</HintPath>
     </Reference>
-    <Reference Include="CiWong.Relation.WCFContract">
+    <Reference Include="CiWong.Relation.WCFContract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.WCFContract.dll</HintPath>
     </Reference>
-    <Reference Include="CiWong.Relation.WCFProxy">
+    <Reference Include="CiWong.Relation.WCFProxy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\libs\ClassRelation\CiWong.Relation.WCFProxy.dll</HintPath>
     </Reference>
     <Reference Include="CiWong.Resource.Preview">
