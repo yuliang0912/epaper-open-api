@@ -8,6 +8,7 @@ using CiWong.Tools.Package.Services;
 using CiWong.OpenAPI.ToolsAndPackage.Helper;
 using CiWong.Examination.API;
 using CiWong.OpenAPI.Core.Extensions;
+using CiWong.Agent.ApiCore;
 
 namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 {
@@ -333,16 +334,16 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 		}
 
 		/// <summary>
-		/// 根据二维码获取离线资源包基础信息[已通过路由配置短地址]
+		/// 根据二维码获取离线资源包基础信息
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpGet]
 		public dynamic qr_resource_info(string url)
-		{ 
+		{
 			if (!url.StartsWith("http://ew.ciwong.com/qr/"))
 			{
-				return new ApiArgumentException(ErrorCodeEum.Resource_5012, "当前URL信息系统不支持");
+				return new ApiArgumentException(ErrorCodeEum.Resource_5012, "当前URL信息不支持");
 			}
 
 			string id = url.Replace("http://ew.ciwong.com/qr/", string.Empty);
@@ -395,63 +396,68 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			};
 		}
 
-
 		/// <summary>
-		/// 根据二维码获取离线资源包基础信息[已通过路由配置短地址]
+		/// 根据二维码获取对应的电子报品牌
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="url"></param>
 		/// <returns></returns>
 		[HttpGet]
-		public dynamic qr_download_package_info(string id)
+		public dynamic qr_epaper_service(string url)
 		{
-			var codeContent = new CodeService().GetCodeContents(id, string.Empty);
+			var serviceType = 0;
+			string serviceName = string.Empty, logoUrl = string.Empty, serviceDesc = string.Empty;
 
-			if (null == codeContent)
+			url = (url ?? string.Empty).ToLower();
+
+			if (url.Equals("http://ew.ciwong.com/content/html/sunshine.html"))
 			{
-				return new ApiArgumentException(ErrorCodeEum.Resource_5007, "未找到指定的二维码");
+				serviceType = 25;
+				serviceName = "阳光英语";
+			}
+			else if (url.Equals("http://ew.ciwong.com/content/html/learn.html"))
+			{
+				serviceType = 27;
+				serviceName = "学英语";
+			}
+			else if (url.StartsWith("http://ew.ciwong.com/qr/"))
+			{
+				var id = url.Replace("http://ew.ciwong.com/qr/", string.Empty);
+				var codeContent = new CodeService().GetCodeContents(id, string.Empty) ?? new Tools.Package.DataContracts.CodeContract();
+				var service = AppServiceProxy.GetServiceList(codeContent.PackageId).FirstOrDefault() ?? new Agent.ApiCore.Entities.ServiceInfoModel();
+				serviceType = service.ID;
+				serviceName = service.Name;
+			}
+			else
+			{
+				return new ApiArgumentException(ErrorCodeEum.Resource_5012, "URL不在识别范围");
 			}
 
-			var package = packageService.GetPackageForApi(codeContent.PackageId);
-
-			if (null == package)
+			if (serviceType == 25)
 			{
-				return new ApiArgumentException(ErrorCodeEum.Resource_5001, "二维码信息错误,未找到指定的资源包");
+				logoUrl = "http://rimg2.ciwong.net/cwf/6v68/tools/images/15826/014/155014/b320059d83f028753a1ad9a2d2d54d96.png";
+				serviceDesc = "中小学生全新的英语学习方式，提高英语学习效能和兴趣。";
 			}
-
-			if (!codeContent.Content.Any())
+			else if (serviceType == 27)
 			{
-				return new ApiArgumentException(ErrorCodeEum.Resource_5009, "二维码尚未填充资源");
-			}
-
-			var cId = codeContent.Content.First().PackageCatalogueId;
-
-			var downLoadUrl = packageService.GetOfflinePackageInfo(codeContent.PackageId, cId).FirstOrDefault();
-			
-			if (null == downLoadUrl || string.IsNullOrWhiteSpace(downLoadUrl.Url))
-			{
-				return new ApiArgumentException(ErrorCodeEum.Resource_5010, "当前二维码尚未生成离线资源包,key=" + id);
-			}
-
-			var catalogue = packageService.GetCataloguesForApi(codeContent.PackageId, false).FirstOrDefault(x => x.ID == cId);
-
-			if (null == catalogue)
-			{
-				return new ApiArgumentException(ErrorCodeEum.Resource_5011, "当前目录不存在");
+				logoUrl = "http://rimg2.ciwong.net/cwf/6v68/tools/images/15826/014/155014/e6a1aa3112734c6e13578779a3b97cd5.png";
+				serviceDesc = "中小学生全新的英语学习方式，提高英语学习效能和兴趣。";
 			}
 
 			return new
 			{
-				url = "http://ew.ciwong.com/qr/" + codeContent.Id,
-				codeName = codeContent.Name,
-				packageId = codeContent.PackageId,
-				packageName = package.BookName,
-				packageCover = package.Cover,
-				cId = cId,
-				cName = catalogue.Name,
-				downLoadUrl = downLoadUrl.Url
+				serviceType = serviceType,
+				serviceName = serviceName ?? string.Empty,
+				logoUrl = logoUrl ?? string.Empty,
+				serviceDesc = serviceDesc ?? string.Empty
 			};
 		}
 
+		/// <summary>
+		/// 生成离线压缩包[测试接口]
+		/// </summary>
+		/// <param name="packageId"></param>
+		/// <param name="cid"></param>
+		/// <returns></returns>
 		[HttpGet]
 		public dynamic File(long packageId, string cid)
 		{
@@ -461,7 +467,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 			ToolsHelper.CreateResourceDirectory(packageId, cid, currDirectory);
 			ToolsHelper.CreateMainInfo(packageService, packageId, cid, currDirectory);
 			ToolsHelper.CreateQrCodeInfo(new CodeService(), packageId, cid, currDirectory);
-			ToolsHelper.CreateCatalogueResources(packageService, packageId, cid,currDirectory, ref fileUrl);
+			ToolsHelper.CreateCatalogueResources(packageService, packageId, cid, currDirectory, ref fileUrl);
 
 			return fileUrl;
 		}

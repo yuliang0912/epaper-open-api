@@ -282,7 +282,7 @@ namespace CiWong.OpenAPI.Agent.Controllers
 		/// <param name="serviceType"></param>
 		/// <returns></returns>
 		[BasicAuthentication, HttpGet]
-		public bool set_subscribe_service(int serviceType)
+		public dynamic set_subscribe_service(int serviceType)
 		{
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
@@ -294,11 +294,37 @@ namespace CiWong.OpenAPI.Agent.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[BasicAuthentication, HttpGet]
-		public int get_subscribe_service()
+		public dynamic get_subscribe_service()
 		{
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
-			return AppServiceProxy.GetUserServiceType(userId);
+			var userService = AppServiceProxy.GetUserServiceTypeModel(userId) ?? new CiWong.Agent.ApiCore.Entities.ServiceInfoModel();
+
+			return new
+			{
+				serviceType = userService.ID,
+				serviceName = userService.Name ?? string.Empty
+			};
+		}
+
+		/// <summary>
+		/// 获取全媒体电子报服务列表
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic list_epaper_service()
+		{
+			var epaperServices = new List<Tuple<int, string, string>>();
+
+			epaperServices.Add(new Tuple<int, string, string>(25, "阳光英语", "http://rimg2.ciwong.net/cwf/6v68/tools/images/15826/014/155014/b320059d83f028753a1ad9a2d2d54d96.png"));
+			epaperServices.Add(new Tuple<int, string, string>(27, "学英语", "http://rimg2.ciwong.net/cwf/6v68/tools/images/15826/014/155014/e6a1aa3112734c6e13578779a3b97cd5.png"));
+
+			return epaperServices.Select(x => new
+			{
+				serviceType = x.Item1,
+				serviceName = x.Item2,
+				logoUrl = x.Item3
+			});
 		}
 	}
 }

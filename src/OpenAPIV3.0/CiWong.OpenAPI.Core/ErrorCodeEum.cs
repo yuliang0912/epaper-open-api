@@ -136,7 +136,12 @@ namespace CiWong.OpenAPI.Core
 		/// <summary>
 		/// 当前URL信息系统不支持
 		/// </summary>
-		Resource_5012 = 5012
+		Resource_5012 = 5012,
+		#endregion
+
+		#region 资源相关接口错误码定义与占位,具体错误详情,直接查找引用即可
+		Agent = 52,
+		Agent_5201 = 5201
 		#endregion
 	}
 }

@@ -55,12 +55,6 @@ namespace CiWong.OpenAPI.Web.App_Start
 			System.Web.Routing.RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			GlobalConfiguration.Configuration.Routes.MapHttpRoute(
-				name: "GetQrPackage",
-				routeTemplate: "qr/{id}",
-				defaults: new { controller = "package", action = "qr_download_package_info" }
-			);
-
-			GlobalConfiguration.Configuration.Routes.MapHttpRoute(
 				name: "DefaultApi",
 				routeTemplate: "{controller}/{action}",
 				defaults: new { controller = "Home", action = "Index" }

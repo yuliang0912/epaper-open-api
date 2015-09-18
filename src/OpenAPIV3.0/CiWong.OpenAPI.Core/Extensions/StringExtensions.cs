@@ -47,7 +47,9 @@ namespace CiWong.OpenAPI.Core.Extensions
 		{
 			var list = new List<string>();
 
-			Regex re = new Regex(@"http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?", RegexOptions.Compiled);
+			//Regex re = new Regex(@"(http://)([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})(:[0-9]{1,4})*(/[a-zA-Z0-9\&%_\./-~-]*)?", RegexOptions.Compiled);
+
+			Regex re = new Regex(@"(http://)([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})(:[0-9]{1,4})*(/[a-zA-Z0-9\&%_\./-]*)?", RegexOptions.Compiled);
 
 			MatchCollection mc = re.Matches(content);
 

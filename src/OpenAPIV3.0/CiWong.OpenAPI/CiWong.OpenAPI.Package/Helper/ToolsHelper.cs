@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using ResourceContract = CiWong.Tools.Package.DataContracts.ResourceContract;
 
@@ -256,8 +257,20 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 				switch (item.ModuleId.Value.ToString())
 				{
 					case "05a3bf23-b65b-4d7f-956c-5db2b76b9c11": //时文-文章
-						var model = ResourceServices.Instance.GetByVersionId<ArticleContract>(item.VersionId.Value);
-						resourceList.Add(key, JSONHelper.Encode<object>(model.Data));
+						var model = ResourceServices.Instance.GetByVersionId<ArticleContract>(item.VersionId.Value).Data;
+						var articleString = JSONHelper.Encode<object>(model);
+						var video = model.Parts.Where(t => t.Id == "video").FirstOrDefault();
+						if (video != null && video.List.Any())
+						{
+							var videoModel = ResourceServices.Instance.GetById<VideoContract>(video.List.First().Id.Value).Data;
+							if (videoModel != null && !string.IsNullOrWhiteSpace(videoModel.HttpMp4Url))
+							{
+								articleString = Regex.Replace(articleString, "\"(http_mp4_url)\":\"(.*?)\"", "\"http_mp4_url\":\"" + videoModel.HttpMp4Url + "\"");
+								articleString = Regex.Replace(articleString, "\"(http_mp4_url)\":null", "\"http_mp4_url\":\"" + videoModel.HttpMp4Url + "\"");
+							}
+							articleString = Regex.Replace(articleString, "\"(http_flv_url|sub_title_url|url)\":\"(.*?)\",", "");
+						}
+						resourceList.Add(key, articleString);
 						break;
 
 					case "a7527f97-14e6-44ef-bf73-3039033f128e"://跟读-课后单词表
@@ -343,34 +356,29 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 
 					case "1f693f76-02f5-4a40-861d-a8503df5183f": //试卷
 						var examApi = DependencyResolver.Current.GetService<IExaminationAPI>();
-						var examination = examApi.GetExaminationModel(item.VersionId.Value);//634828917904191909
-						var subQuestionList = WikiQuesConvertHelper.GetXiaotiList(examination);
-						var questionList = new List<CiWong.Resource.Preview.DataContracts.QuestionContract>();
+						var examination = examApi.GetExaminationModel(item.VersionId.Value);
+						var quesFiles = examination.ExaminationVersions.Select(t => t.Question).SelectMany(x => x.Attachments)
+									.Where(t => t.Type == CiWong.Framework.Helper.AttachmentType.Problem && t.fileType == Framework.Helper.FileType.Audio)
+									.GroupBy(t => t.Id).ToDictionary(t => t.Key, t => t.ToList());
 
-						foreach (var question in subQuestionList)
-						{
-							if (question.Attachments.Any(x => x.FileType == 2))
-							{
-								questionList.Add(question);
-							}
-						}
-						if (!questionList.Any()) //单元测试没有听力文件,则不生成JSON文件
+						if (!quesFiles.Any())
 						{
 							break;
 						}
-						jsonData = questionList.Select(x => new
+
+						int i = 1;
+						jsonData = quesFiles.Select(x => new
 						{
-							sid = x.Sid,
-							versionId = x.VersionId,
-							attachments = x.Attachments.Where(m => m.FileType == 2).Select(n => new
+							sid = i++,
+							versionId = x.Key,
+							attachments = x.Value.Select(n => new
 							{
-								fileUrl = n.FileUrl,
-								fileType = n.FileType
+								fileUrl = n.URL,
+								fileType = n.fileType
 							})
 						});
 						resourceList.Add(key, JSONHelper.Encode<object>(jsonData));
 						break;
-
 					default:
 						break;
 				}
@@ -473,7 +481,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 							{
 								Id = syncFollowRead.VersionId ?? 0,
 								VersionId = 0,
-								Name = string.Format("【{0}】 {1}", "课后单词表", syncFollowRead.Name),
+								Name = string.Format("{0}-{1}", "课后单词表", syncFollowRead.Name),
 								ModuleId = part.ModuleId
 							});
 						}
@@ -483,7 +491,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 							{
 								Id = syncFollowRead.VersionId ?? 0,
 								VersionId = 0,
-								Name = string.Format("【{0}】 {1}", "报听写", syncFollowRead.Name),
+								Name = syncFollowRead.Name,
 								ModuleId = new Guid("3ac07125-31ac-11e5-a511-782bcb066f05")
 							});
 						}
@@ -493,11 +501,11 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 							{
 								Id = syncFollowRead.VersionId ?? 0,
 								VersionId = t.VersionId ?? 0,
-								Name = string.Format("【{0}】 {1}", t.Name, syncFollowRead.Name),
+								Name = string.Format("{0}-{1}", t.Name, syncFollowRead.Name),
 								ModuleId = t.ModuleId
 							}));
 						}
-					}
+					}              
 				}
 			}
 			else if (resourceModuleId.Equals(ResourceModuleOptions.News))//新闻
@@ -515,7 +523,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 					}
 					foreach (var part in item.Parts)
 					{
-						if (part.Id == "2" || null == part.List || !part.List.Any())
+						if (null == part.List || !part.List.Any()) //part.Id == "2" 视频新闻先放开
 						{
 							continue;
 						}
@@ -524,7 +532,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 						{
 							Id = item.VersionId ?? 0,
 							VersionId = t.VersionId ?? 0,
-							Name = string.Format("【{0}】 {1}", part.Name, t.Name),
+							Name = string.Format("{0}-{1}", part.Name, t.Name),
 							ModuleId = t.ModuleId
 						}));
 					}
@@ -553,7 +561,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 						{
 							Id = item.VersionId ?? 0,
 							VersionId = t.VersionId ?? 0,
-							Name = string.Format("【{0}】 {1}", part.Name, t.Name),
+							Name = string.Format("{0}-{1}", part.Name, t.Name),
 							ModuleId = t.ModuleId
 						}));
 					}
@@ -714,7 +722,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 						contents.Add(new ResourcePartContract()
 						{
 							ModuleId = "10",
-							ResourceName = string.Format("【{0}】 {1}", "课后单词表", syncFollowRead.Name),
+							ResourceName = string.Format("{0}-{1}", "课后单词表", syncFollowRead.Name),
 							ResourceModuleId = part.ModuleId.ToString(),
 							ResourceVersionId = syncFollowRead.VersionId + "_0"
 						});
@@ -724,7 +732,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 						contents.AddRange(part.List.Select(t => new ResourcePartContract()
 						{
 							ModuleId = "10",
-							ResourceName = string.Format("【{0}】 {1}", t.Name, syncFollowRead.Name),
+							ResourceName = string.Format("{0}-{1}", t.Name, syncFollowRead.Name),
 							ResourceModuleId = part.ModuleId.ToString(),
 							ResourceVersionId = syncFollowRead.VersionId + "_" + t.VersionId
 						}));

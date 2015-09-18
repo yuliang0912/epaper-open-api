@@ -75,7 +75,7 @@ namespace CiWong.OpenAPI.Class.Controllers
 			return classList.Select(x => new
 			{
 				classId = x.ID,
-				className = x.ClassEntity.ClassAliasName,
+				className = x.GroupClassName,
 				studentNum = ClassRelationProxy.GetClassMemberCountByClassId(x.ID, 1)
 			});
 		}
