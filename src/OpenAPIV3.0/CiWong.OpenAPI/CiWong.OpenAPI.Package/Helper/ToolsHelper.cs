@@ -1,18 +1,15 @@
 ﻿using CiWong.Examination.API;
 using CiWong.OpenAPI.Core;
 using CiWong.OpenAPI.Core.Extensions;
-using CiWong.Tools.Package;
 using CiWong.Tools.Package.DataContracts;
 using CiWong.Tools.Package.Services;
 using CiWong.Tools.Workshop.DataContracts;
 using CiWong.Tools.Workshop.Services;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using ResourceContract = CiWong.Tools.Package.DataContracts.ResourceContract;
