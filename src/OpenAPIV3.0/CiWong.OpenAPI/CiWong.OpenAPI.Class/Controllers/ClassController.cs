@@ -96,6 +96,18 @@ namespace CiWong.OpenAPI.Class.Controllers
 			});
 		}
 
+		/// <summary>
+		/// 获取班级成员
+		/// </summary>
+		/// <param name="classId"></param>
+		/// <param name="role"></param>
+		/// <returns></returns>
+		[HttpGet]
+		public dynamic class_student_members_userIds(long classId)
+		{
+			return ClassRelationProxy.GetClassStudentMember(classId).Select(t => t.RoomUserID);
+		}
+
 		[HttpGet, HttpPost]
 		public List<long> list_school_id(int userId)
 		{

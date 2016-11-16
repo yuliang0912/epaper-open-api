@@ -70,7 +70,7 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 				wId = x.VersionId ?? 0,
 				words = x.Name ?? string.Empty,
 				wordFile = ToolsHelper.ConverAudioUrl(x.AudioUrl),
-				wordType = x.IsExpand.HasValue ? x.IsExpand.Value : false,
+				wordType = x.IsExpand.HasValue && x.IsExpand.Value,
 				symbol = x.Symbol ?? string.Empty,
 				syllable = x.Syllable ?? string.Empty,
 				pretations = x.Pretations ?? string.Empty,
@@ -143,9 +143,16 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 						questionNumber = t.TemplateSettings.QuestionNumber,
 						listeningAndSpeakingRule = new
 						{
-							audioViews = t.TemplateSettings.ListeningAndSpeakingRule != null ? t.TemplateSettings.ListeningAndSpeakingRule.AudioViews : 0,
-							lookTime = t.TemplateSettings.ListeningAndSpeakingRule != null ? t.TemplateSettings.ListeningAndSpeakingRule.LookTime : 0,
-							answerTime = t.TemplateSettings.ListeningAndSpeakingRule != null ? t.TemplateSettings.ListeningAndSpeakingRule.AnswerTime : 0
+							audioViews = t.TemplateSettings.ListeningAndSpeakingRule.AudioViews,
+							lookTime = t.TemplateSettings.ListeningAndSpeakingRule.LookTime,
+							answerTime = t.TemplateSettings.ListeningAndSpeakingRule.AnswerTime,
+							readyTime = t.TemplateSettings.ListeningAndSpeakingRule.ReadyTime,
+							//大题音频播放次数.
+							rootAudioViews = t.TemplateSettings.ListeningAndSpeakingRule.RootAudioViews,
+							//大题看题时间
+							rootLookTime = t.TemplateSettings.ListeningAndSpeakingRule.RootLookTime,
+							//大题准备时间
+							rootReadyTime = t.TemplateSettings.ListeningAndSpeakingRule.RootReadyTime
 						}
 					},
 					scores = t.Scores.Select(m => new
@@ -153,8 +160,8 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Controllers
 						questionVersionId = m.QuestionVersionId,
 						score = m.Score
 					}),
-					questions = t.Questions.Select(m => ToolsHelper.QuestionFunc(m))
-				})
+					questions = t.Questions.Select(ToolsHelper.QuestionFunc)
+				})	
 			};
 		}
 	}

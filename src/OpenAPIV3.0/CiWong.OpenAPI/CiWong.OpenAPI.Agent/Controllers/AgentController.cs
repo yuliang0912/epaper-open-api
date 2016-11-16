@@ -128,19 +128,27 @@ namespace CiWong.OpenAPI.Agent.Controllers
 		{
 			int provId = -1, cityId = -1, totalItem = 0;
 
-			var school = CiWong.Relation.WCFProxy.ClassRelationProxy.GetRoomSchool(schoolId);
+			var list = new List<CiWong.Agent.ApiCore.Entities.PushProductInfo>();
 
-			if (null != school && !string.IsNullOrEmpty(school.SchoolArea))
+			if (schoolId > 0)
 			{
-				provId = school.SchoolArea.Length >= 2 ? Convert.ToInt32(school.SchoolArea.Substring(0, 2)) : -1;
-				cityId = school.SchoolArea.Length >= 4 ? Convert.ToInt32(school.SchoolArea.Substring(0, 4)) : -1;
-			}
+				list = PushProductProxy.GetSchoolPushAppServiceList(out totalItem, schoolId, page, pageSize, serviceId, bookType, keyWords);
+				if (totalItem == 0 && page == 1 && string.IsNullOrEmpty(keyWords))
+				{
+					var school = CiWong.Relation.WCFProxy.ClassRelationProxy.GetRoomSchool(schoolId);
 
-			var list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, provId, cityId, keyWords);
+					if (null != school && !string.IsNullOrEmpty(school.SchoolArea))
+					{
+						provId = school.SchoolArea.Length >= 2 ? Convert.ToInt32(school.SchoolArea.Substring(0, 2)) : -1;
+						cityId = school.SchoolArea.Length >= 4 ? Convert.ToInt32(school.SchoolArea.Substring(0, 4)) : -1;
+						list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, provId, cityId, keyWords);
+					}
+				}
+			}
 
 			if (totalItem == 0 && page == 1 && string.IsNullOrEmpty(keyWords))
 			{
-				list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, -1, -1, keyWords);
+				list = PushProductProxy.GetAppServiceBookList(out totalItem, page, pageSize, serviceId, bookType, keyWords);
 			}
 
 			return new ApiPageList<object>()
@@ -165,7 +173,8 @@ namespace CiWong.OpenAPI.Agent.Controllers
 					cityName = t.CityName,//市级
 					period = t.ProductPeriod,
 					grade = t.ProductGrade,
-					bookIntro = t.Introduction.RemoveHtml().CutString(300)
+					bookIntro = t.Introduction.RemoveHtml().CutString(300),
+					subjectId = t.ProductSubject
 				})
 			};
 		}
@@ -185,19 +194,28 @@ namespace CiWong.OpenAPI.Agent.Controllers
 
 			int userId = Convert.ToInt32(Thread.CurrentPrincipal.Identity.Name);
 
+			var list = new List<CiWong.Agent.ApiCore.Entities.PushProductInfo>();
+
 			var school = CiWong.Relation.WCFProxy.ClassRelationProxy.GetRoomSchoolByUserList(new List<int>() { userId }).FirstOrDefault();
 
-			if (null != school && !string.IsNullOrEmpty(school.SchoolArea))
+			if (null != school)
 			{
-				provId = school.SchoolArea.Length >= 2 ? Convert.ToInt32(school.SchoolArea.Substring(0, 2)) : -1;
-				cityId = school.SchoolArea.Length >= 4 ? Convert.ToInt32(school.SchoolArea.Substring(0, 4)) : -1;
+				list = PushProductProxy.GetSchoolPushAppServiceList(out totalItem, school.SchoolID, page, pageSize, serviceId, bookType, keyWords);
 			}
-
-			var list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, provId, cityId, keyWords);
 
 			if (totalItem == 0 && page == 1 && string.IsNullOrEmpty(keyWords))
 			{
-				list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, -1, -1, keyWords);
+				if (null != school && !string.IsNullOrEmpty(school.SchoolArea))
+				{
+					provId = school.SchoolArea.Length >= 2 ? Convert.ToInt32(school.SchoolArea.Substring(0, 2)) : -1;
+					cityId = school.SchoolArea.Length >= 4 ? Convert.ToInt32(school.SchoolArea.Substring(0, 4)) : -1;
+					list = PushProductProxy.GetApplicationServiceList(out totalItem, page, pageSize, serviceId, bookType, provId, cityId, keyWords);
+				}
+			}
+
+			if (totalItem == 0 && page == 1 && string.IsNullOrEmpty(keyWords))
+			{
+				list = PushProductProxy.GetAppServiceBookList(out totalItem, page, pageSize, serviceId, bookType, keyWords);
 			}
 
 			return new ApiPageList<object>()
@@ -222,7 +240,9 @@ namespace CiWong.OpenAPI.Agent.Controllers
 					cityName = t.CityName,//市级
 					period = t.ProductPeriod,
 					grade = t.ProductGrade,
-					bookIntro = t.Introduction.RemoveHtml().CutString(300)
+					bookIntro = t.Introduction.RemoveHtml().CutString(300),
+					currSchoolId = school == null ? 0 : school.SchoolID,
+					subjectId = t.ProductSubject
 				})
 			};
 		}
@@ -300,10 +320,25 @@ namespace CiWong.OpenAPI.Agent.Controllers
 
 			var userService = AppServiceProxy.GetUserServiceTypeModel(userId) ?? new CiWong.Agent.ApiCore.Entities.ServiceInfoModel();
 
+			var serviceList = GetService().ToDictionary(c => c.Item1, c => c);
+
+			if (!serviceList.ContainsKey(userService.ID))
+			{
+				return new
+				{
+					serviceType = 0,
+					serviceName = string.Empty,
+					logoUrl = string.Empty,
+					serviceDesc = string.Empty,
+				};
+			}
+
 			return new
 			{
 				serviceType = userService.ID,
-				serviceName = userService.Name ?? string.Empty
+				serviceName = serviceList[userService.ID].Item2,
+				logoUrl = serviceList[userService.ID].Item3,
+				serviceDesc = serviceList[userService.ID].Item4,
 			};
 		}
 
@@ -314,12 +349,7 @@ namespace CiWong.OpenAPI.Agent.Controllers
 		[HttpGet]
 		public dynamic list_epaper_service()
 		{
-			var epaperServices = new List<Tuple<int, string, string, string>>();
-
-			epaperServices.Add(new Tuple<int, string, string, string>(25, "阳光英语", "http://rimg2.ciwong.net/cwf/6v68/tools/images/15826/014/155014/b320059d83f028753a1ad9a2d2d54d96.png", "中小学生全新的英语学习方式，提高英语学习效能和兴趣。"));
-			epaperServices.Add(new Tuple<int, string, string, string>(27, "学英语", "http://rimg2.ciwong.net/cwf/6v68/tools/images/15826/014/155014/e6a1aa3112734c6e13578779a3b97cd5.png", "中小学生全新的英语学习方式，提高英语学习效能和兴趣。"));
-
-			return epaperServices.Select(x => new
+			return GetService().Select(x => new
 			{
 				serviceType = x.Item1,
 				serviceName = x.Item2,
@@ -327,6 +357,24 @@ namespace CiWong.OpenAPI.Agent.Controllers
 				serviceDesc = x.Item4
 			});
 		}
+
+
+		private List<Tuple<int, string, string, string>> GetService()
+		{
+			var epaperServices = new List<Tuple<int, string, string, string>>();
+
+			epaperServices.Add(new Tuple<int, string, string, string>(25, "阳光英语", "http://rimg2.ciwong.net/cwf/6v68/tools/images/15826/014/155014/b320059d83f028753a1ad9a2d2d54d96.png", "中小学生全新的英语学习方式，提高英语学习效能和兴趣。"));
+			epaperServices.Add(new Tuple<int, string, string, string>(27, "学英语", "http://rimg2.ciwong.net/cwf/6v68/tools/images/15826/014/155014/e6a1aa3112734c6e13578779a3b97cd5.png", "中小学生全新的英语学习方式，提高英语学习效能和兴趣。"));
+			epaperServices.Add(new Tuple<int, string, string, string>(49, "学生英语", "http://rimg2.ciwong.net/cwf/6v68/tools/images/151010/014/155014/3b33a1e64af801eff098b7141d53000a.png", "中小学生全新的英语学习方式，提高英语学习效能和兴趣。"));
+			epaperServices.Add(new Tuple<int, string, string, string>(52, "学英语听说", "http://rimg2.ciwong.net/cwf/6v68/tools/images/151125/014/155014/638113fc602ce2003a1e905825c1d38b.png", "中小学生全新的英语学习方式，提高英语学习效能和兴趣。"));
+			epaperServices.Add(new Tuple<int, string, string, string>(53, "阳光听说", "http://rimg2.ciwong.net/cwf/6v68/tools/images/151125/014/155014/d0c49fcc0d0d14f4c7d0289abaae8357.png", "中小学生全新的英语学习方式，提高英语学习效能和兴趣。"));
+			epaperServices.Add(new Tuple<int, string, string, string>(50, "海天教辅", "http://rimg2.ciwong.net/cwf/6v68/tools/images/151110/014/155014/5b92fc5e74f8cc5167153175199b4c8b.png", "中小学生全新的英语学习方式，提高英语学习效能和兴趣。"));
+
+			return epaperServices;
+		}
 	}
 }
+
+
+
 

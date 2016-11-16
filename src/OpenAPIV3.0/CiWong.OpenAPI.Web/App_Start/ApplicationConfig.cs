@@ -31,11 +31,11 @@ namespace CiWong.OpenAPI.Web.App_Start
 			builder.RegisterControllers(Assembly.GetExecutingAssembly());//注册mvc容器的实现
 
 			#region autoFac注入
-			builder.RegisterModule<CiWong.OpenAPI.BookCase.BookCaseModule>();
-			builder.RegisterModule<CiWong.OpenAPI.ExpandWork.ResourceModule>();
-			builder.RegisterModule<CiWong.OpenAPI.YiShang.YiShangModule>();
-			builder.RegisterModule<CiWong.OpenAPI.Work.WorkModule>();
-			builder.RegisterModule<CiWong.OpenAPI.ToolsAndPackage.ToolsAndPackageModule>();
+			builder.RegisterModule<BookCase.BookCaseModule>();
+			builder.RegisterModule<ExpandWork.ResourceModule>();
+			builder.RegisterModule<YiShang.YiShangModule>();
+			builder.RegisterModule<Work.WorkModule>();
+			builder.RegisterModule<ToolsAndPackage.ToolsAndPackageModule>();
 			#endregion
 
 			Assembly[] asm = PluginManager.GetAllAssembly("CiWong.OpenAPI.*.dll").ToArray();

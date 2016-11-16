@@ -329,9 +329,17 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 									questionNumber = t.TemplateSettings.QuestionNumber,
 									listeningAndSpeakingRule = new
 									{
-										audioViews = t.TemplateSettings.ListeningAndSpeakingRule != null ? t.TemplateSettings.ListeningAndSpeakingRule.AudioViews : 0,
-										lookTime = t.TemplateSettings.ListeningAndSpeakingRule != null ? t.TemplateSettings.ListeningAndSpeakingRule.LookTime : 0,
-										answerTime = t.TemplateSettings.ListeningAndSpeakingRule != null ? t.TemplateSettings.ListeningAndSpeakingRule.AnswerTime : 0
+										audioViews = t.TemplateSettings.ListeningAndSpeakingRule.AudioViews,
+										lookTime = t.TemplateSettings.ListeningAndSpeakingRule.LookTime,
+										answerTime = t.TemplateSettings.ListeningAndSpeakingRule.AnswerTime,
+										//小题准备时间
+										readyTime = t.TemplateSettings.ListeningAndSpeakingRule.ReadyTime,
+										//大题音频播放次数
+										rootAudioViews = t.TemplateSettings.ListeningAndSpeakingRule.RootAudioViews,
+										//大题看题时间
+										rootLookTime = t.TemplateSettings.ListeningAndSpeakingRule.RootLookTime,
+										//大题准备时间
+										rootReadyTime = t.TemplateSettings.ListeningAndSpeakingRule.RootReadyTime
 									}
 								},
 								scores = t.Scores.Select(m => new
@@ -438,13 +446,13 @@ namespace CiWong.OpenAPI.ToolsAndPackage.Helper
 			return fileName;
 		}
 
-		public static object CatalogueFunc(PackageCatalogueContract m, Dictionary<string, string> downLoadUrls)
+		public static object CatalogueFunc(PackageCatalogueContract m, Dictionary<string, MinOfflinePackageCatalogueContract> downLoadUrls)
 		{
 			return new
 			{
 				id = m.ID ?? string.Empty,
 				name = m.Name ?? string.Empty,
-				downLoadUrl = downLoadUrls.ContainsKey(m.ID) ? downLoadUrls[m.ID] : string.Empty,
+				downLoadUrl = downLoadUrls.ContainsKey(m.ID) ? downLoadUrls[m.ID].Url : string.Empty,
 				children = m.Children != null ? m.Children.Select(t => CatalogueFunc(t, downLoadUrls)) : Enumerable.Empty<object>()
 			};
 		}
